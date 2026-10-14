@@ -387,7 +387,7 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
             <div class="text-neonCyan tracking-widest text-sm font-bold animate-pulse" data-i18n="loading">جاري التحميل...</div>
         </div>
     </div>
-    <!-- Independent preloader failsafe: never leave the page stuck on "جاري التحميل" -->
+    <!-- Emergency preloader failsafe: forcibly remove the loading screen -->
     <script>
       (function () {
         var loader = document.getElementById('preloader');
@@ -396,13 +396,17 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
         function dismissLoader() {
           if (dismissed) return;
           dismissed = true;
-          loader.style.opacity = '0';
-          loader.style.visibility = 'hidden';
-          loader.style.pointerEvents = 'none';
+          loader.style.setProperty('display', 'none', 'important');
+          loader.style.setProperty('visibility', 'hidden', 'important');
+          loader.style.setProperty('opacity', '0', 'important');
+          loader.style.setProperty('pointer-events', 'none', 'important');
           loader.setAttribute('aria-hidden', 'true');
+          if (loader.parentNode) loader.parentNode.removeChild(loader);
         }
-        window.addEventListener('load', function () { window.setTimeout(dismissLoader, 350); }, { once: true });
-        window.setTimeout(dismissLoader, 2800);
+        // Do not depend on window.load, external libraries, or other scripts.
+        window.setTimeout(dismissLoader, 1200);
+        if (document.readyState === 'complete') dismissLoader();
+        else window.addEventListener('load', dismissLoader, { once: true });
       })();
     </script>
 
