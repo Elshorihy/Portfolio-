@@ -587,7 +587,7 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
           const projectGrid=$('project-grid');
           let portfolioProjects=[];
           const escapeHTML=(value)=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-          const safeWebURL=(value)=>{try{const u=new URL(String(value||''));return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return ''}};const safeImageURL=(value)=>{const s=String(value||'');if(/^data:image\\/(jpeg|png|webp|gif);base64,[a-z0-9+/=]+$/i.test(s)&&s.length<=1800000)return s;return safeWebURL(s)};
+          const safeWebURL=(value)=>{try{const u=new URL(String(value||''));return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return ''}};const safeImageURL=(value)=>{const s=String(value||'');if(/^data:image\/(jpeg|png|webp|gif);base64,[a-z0-9+/=]+$/i.test(s)&&s.length<=1800000)return s;return safeWebURL(s)};
           const categoryNames={all:'الكل','3d':'3D',store:'متجر',game:'ألعاب',web:'مواقع',other:'متنوع'};
           const categoryIcons={'3d':'fa-cube',store:'fa-shopping-bag',game:'fa-gamepad',web:'fa-globe',other:'fa-code'};
           function renderProjects(){
