@@ -387,6 +387,24 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
             <div class="text-neonCyan tracking-widest text-sm font-bold animate-pulse" data-i18n="loading">جاري التحميل...</div>
         </div>
     </div>
+    <!-- Independent preloader failsafe: never leave the page stuck on "جاري التحميل" -->
+    <script>
+      (function () {
+        var loader = document.getElementById('preloader');
+        if (!loader) return;
+        var dismissed = false;
+        function dismissLoader() {
+          if (dismissed) return;
+          dismissed = true;
+          loader.style.opacity = '0';
+          loader.style.visibility = 'hidden';
+          loader.style.pointerEvents = 'none';
+          loader.setAttribute('aria-hidden', 'true');
+        }
+        window.addEventListener('load', function () { window.setTimeout(dismissLoader, 350); }, { once: true });
+        window.setTimeout(dismissLoader, 2800);
+      })();
+    </script>
 
     <!-- Custom Cursor -->
     <div class="cursor-dot" id="cursor-dot"></div>
