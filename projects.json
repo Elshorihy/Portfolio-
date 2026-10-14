@@ -1,0 +1,46 @@
+{
+  "projects": [
+    {
+      "id": "p1",
+      "name": "لعبة الكشري 3D",
+      "description": "تجربة تفاعلية ثلاثية الأبعاد لمحاكاة تحضير طبق الكشري المصري بكامل الإضافات.",
+      "category": "3d",
+      "url": "",
+      "image": "",
+      "technologies": [
+        "Three.js",
+        "JavaScript"
+      ],
+      "visible": true,
+      "details": "تجربة تفاعلية ثلاثية الأبعاد مستوحاة من تحضير الكشري المصري."
+    },
+    {
+      "id": "p2",
+      "name": "Elshori7y Store",
+      "description": "متجر إلكتروني متكامل بتصميم عصري وأداء سريع، يشمل سلة مشتريات ولوحة تحكم.",
+      "category": "store",
+      "url": "",
+      "image": "",
+      "technologies": [
+        "Next.js",
+        "Tailwind CSS"
+      ],
+      "visible": true,
+      "details": "واجهة متجر إلكتروني ضمن الأعمال المعروضة."
+    },
+    {
+      "id": "p3",
+      "name": "لعبة حمزة",
+      "description": "لعبة أكشن ثنائية الأبعاد (Stickman) تعمل مباشرة على المتصفح بفيزياء حركة ممتعة.",
+      "category": "game",
+      "url": "",
+      "image": "",
+      "technologies": [
+        "HTML5 Canvas",
+        "JavaScript"
+      ],
+      "visible": true,
+      "details": "فكرة لعبة Stickman ثنائية الأبعاد للمتصفح."
+    }
+  ]
+}
