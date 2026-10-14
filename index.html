@@ -349,6 +349,36 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
       }
       body.light-mode #project-grid .project-card{background:linear-gradient(155deg,#fff,#edf5fc)!important}
       body.light-mode #project-grid .project-card>div:nth-child(2){background:linear-gradient(180deg,#fff,#f0f6fc)}
+    
+
+/* HERO SOLAR SYSTEM — Hamza at the center, projects in orbit */
+#home{min-height:100svh}
+.hero-universe{position:relative;isolation:isolate}
+.hero-solar-system{position:relative;width:min(90vw,680px);height:min(90vw,680px);max-height:680px;min-height:340px;margin:-.3rem auto 0;display:grid;place-items:center;isolation:isolate}
+.solar-halo{position:absolute;width:45%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(0,242,254,.2),rgba(124,58,237,.12) 42%,transparent 72%);filter:blur(18px);animation:solarBreath 4s ease-in-out infinite}
+.solar-sun{position:absolute;width:clamp(112px,22vw,190px);aspect-ratio:1;border-radius:50%;padding:5px;background:linear-gradient(135deg,#00f2fe,#a855f7,#4facfe);box-shadow:0 0 22px #00f2fe66,0 0 65px #4facfe3d,0 0 120px #a855f72b;z-index:5;animation:solarFloat 5s ease-in-out infinite}
+.solar-profile-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center top;border-radius:50%;border:3px solid #07101e;position:relative;z-index:1}
+.solar-sun-label{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);font:800 9px/1 ui-monospace,monospace;letter-spacing:.25em;color:#dffcff;background:#07101eeF;border:1px solid #00f2fe77;border-radius:99px;padding:5px 9px;white-space:nowrap}
+.solar-orbit{position:absolute;left:50%;top:50%;border:1px solid rgba(0,242,254,.23);border-radius:50%;transform:translate(-50%,-50%) rotate(-22deg);pointer-events:none}
+.solar-orbit-one{width:48%;height:22%;border-color:#00f2fe65;transform:translate(-50%,-50%) rotate(-32deg)}
+.solar-orbit-two{width:72%;height:43%;border-color:#a855f74d;transform:translate(-50%,-50%) rotate(29deg)}
+.solar-orbit-three{width:96%;height:64%;border-color:#4facfe38;transform:translate(-50%,-50%) rotate(-17deg)}
+.solar-planets{position:absolute;inset:0;z-index:7}
+.solar-planet{position:absolute;left:50%;top:50%;width:clamp(48px,9vw,76px);height:clamp(48px,9vw,76px);margin:calc(clamp(48px,9vw,76px)/-2) 0 0 calc(clamp(48px,9vw,76px)/-2);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#dffcff;background:radial-gradient(circle at 30% 25%,#263d59,#091322 62%,#02050b);border:1px solid var(--planet-color,#00f2fe);box-shadow:0 0 13px color-mix(in srgb,var(--planet-color,#00f2fe) 50%,transparent),inset -7px -7px 15px #0009;animation:planetFloat 4s ease-in-out infinite;transition:box-shadow .25s,filter .25s;overflow:visible}
+.solar-planet::before{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid color-mix(in srgb,var(--planet-color,#00f2fe) 38%,transparent);transform:rotate(-28deg) scaleY(.55);pointer-events:none}
+.solar-planet img{width:100%;height:100%;object-fit:cover;border-radius:50%;position:absolute;inset:0;z-index:1;opacity:.92}
+.solar-planet i{font-size:clamp(17px,3vw,27px);position:relative;z-index:2;text-shadow:0 0 12px var(--planet-color,#00f2fe)}
+.solar-planet .solar-planet-name{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);font-size:clamp(9px,1.7vw,11px);font-weight:800;white-space:nowrap;background:#060b16eF;border:1px solid #ffffff22;border-radius:99px;padding:3px 8px;color:#e2e8f0;max-width:120px;overflow:hidden;text-overflow:ellipsis;backdrop-filter:blur(8px)}
+.solar-planet:hover,.solar-planet:focus-visible{z-index:20;filter:brightness(1.35);box-shadow:0 0 25px var(--planet-color,#00f2fe),0 0 55px color-mix(in srgb,var(--planet-color,#00f2fe) 40%,transparent);outline:none}
+.solar-planet:nth-child(3n){animation-delay:-1.4s}.solar-planet:nth-child(3n + 1){animation-delay:-2.5s}
+.solar-loading{position:absolute;top:calc(50% + 100px);left:50%;transform:translateX(-50%);font-size:11px;color:#94a3b8;white-space:nowrap}
+.solar-caption{font-size:11px;letter-spacing:.08em;color:#94a3b8;display:flex;align-items:center;gap:8px}
+.solar-caption-dot{width:6px;height:6px;border-radius:50%;background:#00f2fe;box-shadow:0 0 10px #00f2fe}
+@keyframes solarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes solarBreath{0%,100%{transform:scale(.94);opacity:.7}50%{transform:scale(1.08);opacity:1}}
+@keyframes planetFloat{0%,100%{filter:brightness(.94)}50%{filter:brightness(1.13)}}
+@media(max-width:520px){.hero-solar-system{width:94vw;height:94vw;min-height:0;margin:-.5rem auto 0}.solar-orbit-one{width:53%;height:27%}.solar-orbit-two{width:78%;height:49%}.solar-orbit-three{width:98%;height:67%}.solar-planet{width:48px;height:48px;margin:-24px 0 0 -24px}.solar-planet .solar-planet-name{font-size:9px;max-width:86px;padding:2px 6px}.solar-caption{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.solar-halo,.solar-sun,.solar-planet{animation:none!important}}
     </style>
 
 </head>
@@ -897,37 +927,7 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
           $('contactForm')?.addEventListener('submit',e=>{e.preventDefault();const name=$('senderName').value.trim(),email=$('senderEmail').value.trim(),message=$('senderMessage').value.trim();if(!name||!email||!message)return;const subject=encodeURIComponent('رسالة من بورتفوليو حمزة');const body=encodeURIComponent('الاسم: '+name+'\nالبريد: '+email+'\n\nالرسالة:\n'+message);$('contactHint').textContent='هنفتح تطبيق البريد لإكمال الإرسال.';location.href='mailto:?subject='+subject+'&body='+body;});
           
           // Print-friendly CV generated from verified visible details, not fabricated credentials.
-          $('cv-print')?.addEventListener('click',()=>{const w=window.open('','_blank');if(!w){alert('اسمح بفتح النافذة المنبثقة لطباعة السيرة الذاتية.');return;}w.document.write('<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>السيرة الذاتية - حمزة</title><style>body{font-family:Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 24px;color:#172033;line-height:1.9}h1{font-size:32px;border-bottom:3px solid #0891b2;padding-bottom:10px}h2{color:#0e7490;margin-top:24px}.muted{color:#64748b}@media print{button{display:none}} 
-/* HERO SOLAR SYSTEM — Hamza at the center, projects in orbit */
-#home{min-height:100svh}
-.hero-universe{position:relative;isolation:isolate}
-.hero-solar-system{position:relative;width:min(90vw,680px);height:min(90vw,680px);max-height:680px;min-height:340px;margin:-.3rem auto 0;display:grid;place-items:center;isolation:isolate}
-.solar-halo{position:absolute;width:45%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(0,242,254,.2),rgba(124,58,237,.12) 42%,transparent 72%);filter:blur(18px);animation:solarBreath 4s ease-in-out infinite}
-.solar-sun{position:absolute;width:clamp(112px,22vw,190px);aspect-ratio:1;border-radius:50%;padding:5px;background:linear-gradient(135deg,#00f2fe,#a855f7,#4facfe);box-shadow:0 0 22px #00f2fe66,0 0 65px #4facfe3d,0 0 120px #a855f72b;z-index:5;animation:solarFloat 5s ease-in-out infinite}
-.solar-profile-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center top;border-radius:50%;border:3px solid #07101e;position:relative;z-index:1}
-.solar-sun-label{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);font:800 9px/1 ui-monospace,monospace;letter-spacing:.25em;color:#dffcff;background:#07101eeF;border:1px solid #00f2fe77;border-radius:99px;padding:5px 9px;white-space:nowrap}
-.solar-orbit{position:absolute;left:50%;top:50%;border:1px solid rgba(0,242,254,.23);border-radius:50%;transform:translate(-50%,-50%) rotate(-22deg);pointer-events:none}
-.solar-orbit-one{width:48%;height:22%;border-color:#00f2fe65;transform:translate(-50%,-50%) rotate(-32deg)}
-.solar-orbit-two{width:72%;height:43%;border-color:#a855f74d;transform:translate(-50%,-50%) rotate(29deg)}
-.solar-orbit-three{width:96%;height:64%;border-color:#4facfe38;transform:translate(-50%,-50%) rotate(-17deg)}
-.solar-planets{position:absolute;inset:0;z-index:7}
-.solar-planet{position:absolute;left:50%;top:50%;width:clamp(48px,9vw,76px);height:clamp(48px,9vw,76px);margin:calc(clamp(48px,9vw,76px)/-2) 0 0 calc(clamp(48px,9vw,76px)/-2);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#dffcff;background:radial-gradient(circle at 30% 25%,#263d59,#091322 62%,#02050b);border:1px solid var(--planet-color,#00f2fe);box-shadow:0 0 13px color-mix(in srgb,var(--planet-color,#00f2fe) 50%,transparent),inset -7px -7px 15px #0009;animation:planetFloat 4s ease-in-out infinite;transition:box-shadow .25s,filter .25s;overflow:visible}
-.solar-planet::before{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid color-mix(in srgb,var(--planet-color,#00f2fe) 38%,transparent);transform:rotate(-28deg) scaleY(.55);pointer-events:none}
-.solar-planet img{width:100%;height:100%;object-fit:cover;border-radius:50%;position:absolute;inset:0;z-index:1;opacity:.92}
-.solar-planet i{font-size:clamp(17px,3vw,27px);position:relative;z-index:2;text-shadow:0 0 12px var(--planet-color,#00f2fe)}
-.solar-planet .solar-planet-name{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);font-size:clamp(9px,1.7vw,11px);font-weight:800;white-space:nowrap;background:#060b16eF;border:1px solid #ffffff22;border-radius:99px;padding:3px 8px;color:#e2e8f0;max-width:120px;overflow:hidden;text-overflow:ellipsis;backdrop-filter:blur(8px)}
-.solar-planet:hover,.solar-planet:focus-visible{z-index:20;filter:brightness(1.35);box-shadow:0 0 25px var(--planet-color,#00f2fe),0 0 55px color-mix(in srgb,var(--planet-color,#00f2fe) 40%,transparent);outline:none}
-.solar-planet:nth-child(3n){animation-delay:-1.4s}.solar-planet:nth-child(3n + 1){animation-delay:-2.5s}
-.solar-loading{position:absolute;top:calc(50% + 100px);left:50%;transform:translateX(-50%);font-size:11px;color:#94a3b8;white-space:nowrap}
-.solar-caption{font-size:11px;letter-spacing:.08em;color:#94a3b8;display:flex;align-items:center;gap:8px}
-.solar-caption-dot{width:6px;height:6px;border-radius:50%;background:#00f2fe;box-shadow:0 0 10px #00f2fe}
-@keyframes solarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-@keyframes solarBreath{0%,100%{transform:scale(.94);opacity:.7}50%{transform:scale(1.08);opacity:1}}
-@keyframes planetFloat{0%,100%{filter:brightness(.94)}50%{filter:brightness(1.13)}}
-@media(max-width:520px){.hero-solar-system{width:94vw;height:94vw;min-height:0;margin:-.5rem auto 0}.solar-orbit-one{width:53%;height:27%}.solar-orbit-two{width:78%;height:49%}.solar-orbit-three{width:98%;height:67%}.solar-planet{width:48px;height:48px;margin:-24px 0 0 -24px}.solar-planet .solar-planet-name{font-size:9px;max-width:86px;padding:2px 6px}.solar-caption{font-size:9px}}
-@media(prefers-reduced-motion:reduce){.solar-halo,.solar-sun,.solar-planet{animation:none!important}}
-</style><h1>حمزة — مطور ويب</h1><p class="muted">سيرة ذاتية مختصرة مولّدة من معلومات البورتفوليو الحالي</p><h2>نبذة</h2><p>مهتم ببناء واجهات ويب وتجارب تفاعلية، وتطوير المشاريع بالتعلّم والتجربة العملية.</p><h2>التقنيات المعروضة</h2><p>React، Next.js، Node.js، JavaScript، Three.js، HTML، CSS، GitHub، Vercel.</p><h2>مشاريع معروضة</h2><ul><li>لعبة الكشري 3D — Three.js وJavaScript</li><li>Elshori7y Store — Next.js وTailwind CSS</li><li>لعبة حمزة — HTML5 Canvas وJavaScript</li></ul><h2>التواصل</h2><p>استخدم روابط التواصل في البورتفوليو للحصول على وسائل الاتصال المتاحة.</p><p class="muted">لم تُضف بيانات تعليم أو خبرة أو شهادات غير مؤكدة.</p><button onclick="window.print()">طباعة / حفظ PDF</button></html>');w.document.close();setTimeout(()=>w.print(),350);});
-          
+          $('cv-print')?.addEventListener('click',()=>{const w=window.open('','_blank');if(!w){alert('اسمح بفتح النافذة المنبثقة لطباعة السيرة الذاتية.');return;}const cvHtml='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>السيرة الذاتية - حمزة</title><style>body{font-family:Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 24px;color:#172033;line-height:1.9}h1{font-size:32px;border-bottom:3px solid #0891b2;padding-bottom:10px}h2{color:#0e7490;margin-top:24px}.muted{color:#64748b}@media print{button{display:none}}</style></head><body><h1>حمزة — مطور ويب</h1><p class="muted">سيرة ذاتية مختصرة مولّدة من معلومات البورتفوليو الحالي</p><h2>نبذة</h2><p>مهتم ببناء واجهات ويب وتجارب تفاعلية، وتطوير المشاريع بالتعلّم والتجربة العملية.</p><h2>التقنيات المعروضة</h2><p>React، Next.js، Node.js، JavaScript، Three.js، HTML، CSS، GitHub، Vercel.</p><h2>مشاريع معروضة</h2><ul><li>لعبة الكشري 3D — Three.js وJavaScript</li><li>Elshori7y Store — Next.js وTailwind CSS</li><li>لعبة حمزة — HTML5 Canvas وJavaScript</li></ul><h2>التواصل</h2><p>استخدم روابط التواصل في البورتفوليو للحصول على وسائل الاتصال المتاحة.</p><p class="muted">لم تُضف بيانات تعليم أو خبرة أو شهادات غير مؤكدة.</p><button onclick="window.print()">طباعة / حفظ PDF</button></body></html>';w.document.open();w.document.write(cvHtml);w.document.close();setTimeout(()=>w.print(),350);});
           // Easter egg: type the Konami sequence on a keyboard, or use the key button.
           let sequence=[];const secret=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
           function revealSecret(){const box=document.createElement('div');box.style.cssText='position:fixed;inset:0;z-index:10003;background:#030712f2;display:grid;place-items:center;text-align:center;padding:24px';box.innerHTML='<div style="max-width:560px;border:1px solid #00f2fe;border-radius:24px;padding:30px;background:#0b1120;box-shadow:0 0 50px #00f2fe22"><div style="font-size:48px">🕹️</div><h2 style="font-size:28px;font-weight:800;color:#00f2fe;margin:12px 0">Secret unlocked!</h2><p style="color:#cbd5e1;line-height:1.9">أنت اكتشفت المنطقة السرية 👾<br>أحلى حاجة في البرمجة إن دايمًا فيه حاجة جديدة تكتشفها.</p><button style="margin-top:18px;border:1px solid #334155;border-radius:999px;padding:9px 20px;color:white" id="secret-close">الرجوع للموقع</button></div>';document.body.appendChild(box);box.querySelector('#secret-close').onclick=()=>box.remove();}
