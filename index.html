@@ -575,7 +575,22 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
     <div id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-card"><div class="flex items-center justify-between gap-3"><h3 id="modal-title" class="text-2xl font-bold text-white">تفاصيل المشروع</h3><button id="modal-close" class="text-2xl text-slate-400" aria-label="إغلاق">×</button></div><p id="modal-body" class="text-slate-300 leading-8 mt-4"></p><button id="modal-ok" class="pill-btn mt-5">تمام</button></div></div>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-24 px-6 relative">
+    
+<section id="reviews" class="py-20 px-4 relative">
+ <div class="max-w-5xl mx-auto">
+  <div class="text-center mb-10" data-aos="fade-up"><p class="text-cyan-400 font-bold tracking-widest text-sm mb-3">YOUR FEEDBACK</p><h2 class="text-3xl md:text-4xl font-extrabold mb-4">رأيك <span class="text-gradient">يفرق معايا</span> ⭐</h2><p class="text-slate-400 max-w-xl mx-auto">قيّم تجربتك مع الموقع واكتب اقتراحك. كل التقييمات بتتراجع قبل ما تظهر للناس.</p></div>
+  <div class="grid md:grid-cols-2 gap-6">
+   <form id="public-review-form" class="glass-panel rounded-3xl p-6 md:p-7">
+    <label for="review-name" class="block text-sm text-slate-300 mb-2">اسمك</label><input id="review-name" required minlength="2" maxlength="60" autocomplete="name" class="w-full rounded-xl bg-slate-950/70 border border-slate-700 p-3 mb-4 text-white outline-none focus:border-cyan-400" placeholder="اكتب اسمك">
+    <label for="review-rating" class="block text-sm text-slate-300 mb-2">تقييمك للموقع</label><select id="review-rating" required class="w-full rounded-xl bg-slate-950/70 border border-slate-700 p-3 mb-4 text-white"><option value="5">⭐⭐⭐⭐⭐ — ممتاز جدًا</option><option value="4">⭐⭐⭐⭐ — ممتاز</option><option value="3">⭐⭐⭐ — كويس</option><option value="2">⭐⭐ — محتاج تحسين</option><option value="1">⭐ — مش عاجبني</option></select>
+    <label for="review-comment" class="block text-sm text-slate-300 mb-2">رأيك أو اقتراحك</label><textarea id="review-comment" required minlength="5" maxlength="700" rows="4" class="w-full rounded-xl bg-slate-950/70 border border-slate-700 p-3 mb-4 text-white outline-none focus:border-cyan-400" placeholder="إيه اللي عجبك أو تحب يتطور؟"></textarea>
+    <button id="review-submit" class="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-extrabold p-3 hover:opacity-90" type="submit">إرسال التقييم</button><p id="review-feedback-status" class="text-sm mt-3 text-center text-cyan-300" aria-live="polite"></p>
+   </form>
+   <div class="glass-panel rounded-3xl p-6 md:p-7"><div class="flex items-center justify-between gap-3 mb-5"><h3 class="text-xl font-extrabold">آراء الزوار</h3><span id="reviews-count" class="text-xs text-slate-400">التقييمات المنشورة</span></div><div id="public-reviews-list" class="space-y-4"><p class="text-slate-400 text-sm">جاري تحميل التقييمات…</p></div></div>
+  </div>
+ </div>
+</section>
+\n<section id="contact" class="py-24 px-6 relative">
         <div class="max-w-4xl mx-auto text-center">
             <div data-aos="fade-up">
                 <h2 class="text-3xl md:text-5xl font-bold text-white mb-6" data-i18n="contactTitle">لنتحدث عن <span class="text-gradient">مشروعك القادم</span></h2>
@@ -898,6 +913,29 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
           $('easter-toggle')?.addEventListener('click',revealSecret);addEventListener('keydown',e=>{sequence.push(e.key);sequence=sequence.slice(-secret.length);if(sequence.every((v,i)=>v===secret[i]))revealSecret();if(e.key==='Escape'){closeModal();if(devPanel)devPanel.hidden=true;if($('assistant-panel'))$('assistant-panel').hidden=true;}});
         })();
 
-    </script>
+    
+        // Visitor reviews: submitted entries stay pending until manually approved in admin.
+        (function(){
+          const api='https://portfolio-admin-api.sheenomatp.workers.dev';
+          const form=document.getElementById('public-review-form');
+          if(!form)return;
+          const status=document.getElementById('review-feedback-status');
+          const list=document.getElementById('public-reviews-list');
+          const count=document.getElementById('reviews-count');
+          const escReview=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+          async function loadReviews(){
+            try{const r=await fetch(api+'/reviews',{cache:'no-store'});const d=await r.json();if(!r.ok)throw Error(d.error||'تعذر تحميل التقييمات');
+              const items=Array.isArray(d.reviews)?d.reviews:[];
+              count.textContent=items.length+' تقييم منشور';
+              list.innerHTML=items.length?items.map(x=>'<article class="rounded-2xl border border-slate-700/70 bg-slate-950/40 p-4"><div class="flex items-center justify-between gap-3 mb-2"><strong class="text-white">'+escReview(x.name)+'</strong><span class="text-amber-300 text-sm" aria-label="تقييم '+Number(x.rating)+' من 5">'+'★'.repeat(Math.max(1,Math.min(5,Number(x.rating)||1)))+'<span class="text-slate-700">'+'★'.repeat(5-Math.max(1,Math.min(5,Number(x.rating)||1)))+'</span></span></div><p class="text-slate-300 text-sm leading-7 break-words">'+escReview(x.comment)+'</p></article>').join(''):'<p class="text-slate-400 text-sm leading-7">لسه مفيش تقييمات منشورة. كن أول واحد يشارك رأيه ⭐</p>';
+            }catch(e){list.innerHTML='<p class="text-slate-400 text-sm">التقييمات هتظهر هنا لما الخدمة تكون متاحة.</p>'}
+          }
+          form.addEventListener('submit',async e=>{
+            e.preventDefault();const btn=document.getElementById('review-submit');btn.disabled=true;btn.textContent='جاري الإرسال…';status.textContent='';
+            try{const r=await fetch(api+'/reviews',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:document.getElementById('review-name').value.trim(),rating:Number(document.getElementById('review-rating').value),comment:document.getElementById('review-comment').value.trim()})});const d=await r.json();if(!r.ok)throw Error(d.error||'حصلت مشكلة أثناء الإرسال');form.reset();status.textContent=d.message||'وصل رأيك، وهيظهر بعد مراجعته.';status.className='text-sm mt-3 text-center text-emerald-300';}catch(err){status.textContent=err.message;status.className='text-sm mt-3 text-center text-rose-300';}finally{btn.disabled=false;btn.textContent='إرسال التقييم'}
+          });
+          loadReviews();
+        })();
+</script>
 </body>
 </html>
