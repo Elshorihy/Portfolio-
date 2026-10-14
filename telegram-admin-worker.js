@@ -336,6 +336,14 @@ async function handleMessage(env, msg) {
     if (!payload) return sendText(env, chatId, addProjectHelp());
     return addProjectFromText(env, chatId, payload);
   }
+
+  // Accept common Arabic aliases so the admin doesn't need to remember the slash command.
+  if (/^(?:إضافة|اضافة|ضيف|أضف)\s+مشروع(?:\s|$|[:：-])/i.test(text)) {
+    const payload = text.replace(/^(?:إضافة|اضافة|ضيف|أضف)\s+مشروع\s*[:：-]?\s*/i, "").trim();
+    if (!payload) return sendText(env, chatId, addProjectHelp());
+    return addProjectFromText(env, chatId, payload);
+  }
+  if (/^(?:المشاريع|مشاريعي|عرض المشاريع)$/i.test(text)) return listProjects(env, chatId);
   if (/^\/editproject\s+/i.test(text)) return editProjectFromText(env, chatId, text.replace(/^\/editproject\s+/i, ""));
   if (/^\/toggleproject\s+/i.test(text)) return toggleProjectById(env, chatId, text.replace(/^\/toggleproject\s+/i, "").trim());
   if (/^\/deleteproject\s+/i.test(text)) return deleteProjectFromText(env, chatId, text.replace(/^\/deleteproject\s+/i, "").trim());
