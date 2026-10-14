@@ -116,20 +116,22 @@
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
     
-/* Continuous premium animation for the fixed navbar logo */
+/* Premium neon-reactor animation for the navbar logo — logo stays in place */
 @keyframes logoAura {
-  0%,100% { box-shadow: 0 0 10px rgba(0,242,254,.28), 0 0 22px rgba(79,172,254,.12); }
-  50% { box-shadow: 0 0 19px rgba(0,242,254,.72), 0 0 38px rgba(79,172,254,.34); }
+  0%,100% { box-shadow: 0 0 0 1px rgba(0,242,254,.22), 0 0 12px rgba(0,242,254,.28), 0 0 26px rgba(124,58,237,.16); }
+  50% { box-shadow: 0 0 0 1px rgba(168,85,247,.55), 0 0 22px rgba(0,242,254,.52), 0 0 42px rgba(124,58,237,.32); }
 }
 @keyframes logoOrbit { to { transform: rotate(360deg); } }
 @keyframes logoBreath {
-  0%,100% { transform: scale(1); filter: saturate(1) brightness(1); }
-  50% { transform: scale(1.045); filter: saturate(1.22) brightness(1.12) drop-shadow(0 0 5px rgba(0,242,254,.48)); }
+  0%,100% { transform: scale(1); filter: saturate(1.08) brightness(1); }
+  50% { transform: scale(1.035); filter: saturate(1.35) brightness(1.15) drop-shadow(0 0 7px rgba(0,242,254,.55)); }
 }
+@keyframes logoSparkOrbit { to { transform: rotate(360deg); } }
 nav a[href="#home"] > div.relative {
   isolation: isolate;
   background: transparent !important;
-  animation: logoAura 3s ease-in-out infinite;
+  border-radius: 50%;
+  animation: logoAura 2.8s ease-in-out infinite;
 }
 nav a[href="#home"] > div.relative::before {
   content: "";
@@ -137,25 +139,40 @@ nav a[href="#home"] > div.relative::before {
   inset: -4px;
   border-radius: 50%;
   padding: 2px;
-  background: conic-gradient(from 0deg, #00f2fe, #a855f7, #4facfe, #00f2fe);
+  background: conic-gradient(from 0deg, transparent 0deg, #00f2fe 55deg, #4facfe 115deg, #a855f7 205deg, transparent 275deg, #00f2fe 360deg);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
-  animation: logoOrbit 4s linear infinite;
+  animation: logoOrbit 3.2s linear infinite;
+}
+nav a[href="#home"] > div.relative::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 0%, #fff 0 2px, #00f2fe 2px 4px, transparent 5px);
+  filter: drop-shadow(0 0 4px #00f2fe);
+  pointer-events: none;
+  animation: logoSparkOrbit 2.2s linear infinite;
 }
 nav a[href="#home"] > div.relative img {
   position: relative;
   z-index: 1;
-  animation: logoBreath 3s ease-in-out infinite !important;
+  border-radius: 50%;
+  animation: logoBreath 2.8s ease-in-out infinite !important;
   transition: filter .3s ease;
 }
+nav a[href="#home"]:hover > div.relative {
+  box-shadow: 0 0 0 1px rgba(0,242,254,.75), 0 0 26px rgba(0,242,254,.72), 0 0 48px rgba(168,85,247,.38);
+}
 nav a[href="#home"]:hover > div.relative img {
-  filter: saturate(1.35) brightness(1.18) drop-shadow(0 0 8px rgba(0,242,254,.7));
+  filter: saturate(1.45) brightness(1.2) drop-shadow(0 0 9px rgba(0,242,254,.8));
 }
 @media (prefers-reduced-motion: reduce) {
   nav a[href="#home"] > div.relative,
   nav a[href="#home"] > div.relative::before,
+  nav a[href="#home"] > div.relative::after,
   nav a[href="#home"] > div.relative img { animation: none !important; }
 }
 
