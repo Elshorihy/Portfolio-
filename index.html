@@ -358,6 +358,27 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
       <div><p class="text-slate-400 mb-3 tracking-widest">WELCOME TO MY DIGITAL SPACE</p><div class="intro-name">HAMZA<span style="color:#00f2fe">.</span></div><p class="text-slate-400 mt-3">Web • Design • Creative Builds</p></div>
       <button id="intro-skip">تخطي المقدمة <i class="fas fa-arrow-left ms-2"></i></button>
     </div>
+    <!-- Intro failsafe: hide the welcome screen even if a later script/library fails -->
+    <script>
+      (function () {
+        var screen = document.getElementById('intro-screen');
+        var skip = document.getElementById('intro-skip');
+        if (!screen) return;
+        function closeIntro() {
+          screen.classList.add('hide');
+          screen.style.pointerEvents = 'none';
+          try { sessionStorage.setItem('portfolioIntroSeen', '1'); } catch (e) {}
+        }
+        if (skip) skip.addEventListener('click', closeIntro);
+        try {
+          if (sessionStorage.getItem('portfolioIntroSeen') === '1') {
+            closeIntro();
+            return;
+          }
+        } catch (e) {}
+        window.setTimeout(closeIntro, 2200);
+      })();
+    </script>
 
     <!-- Preloader -->
     <div id="preloader">
