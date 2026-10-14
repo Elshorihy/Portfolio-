@@ -1,3 +1,5 @@
 name = "portfolio-telegram-bot"
 main = "telegram-admin-worker.js"
 compatibility_date = "2026-10-14"
+
+# Trigger initial Cloudflare Git build
