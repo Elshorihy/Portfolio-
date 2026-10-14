@@ -5,13 +5,14 @@ export default {async fetch(request,env){
  if(request.method==="OPTIONS")return new Response(null,{status:204,headers:corsHeaders(cors)});
  const url=new URL(request.url);
  try{
-  if(url.pathname==="/health")return json({ok:true,service:"portfolio-admin-api"},200,cors);
+  if(url.pathname==="/health"){const kvConfigured=!!env.PROJECTS_KV;return json({ok:kvConfigured,service:"portfolio-admin-api",kvConfigured},kvConfigured?200:503,cors)}
   if(url.pathname==="/login"&&request.method==="POST"){
    const b=await request.json();if(!env.ADMIN_PASSWORD||typeof b.password!=="string"||!equal(b.password,env.ADMIN_PASSWORD))return json({error:"كلمة السر غير صحيحة"},401,cors);
    return json({token:await makeToken(env.ADMIN_PASSWORD,TTL),expiresIn:TTL},200,cors);
   }
-  if(url.pathname==="/projects"&&request.method==="GET")return json({projects:await readProjects(env)},200,cors,{"Cache-Control":"no-store"});
+  if(url.pathname==="/projects"&&request.method==="GET"){if(!env.PROJECTS_KV)return json({error:"إعداد KV غير مكتمل في Cloudflare Worker."},503,cors);return json({projects:await readProjects(env)},200,cors,{"Cache-Control":"no-store"})}
   if(url.pathname==="/projects"&&request.method==="PUT"){
+   if(!env.PROJECTS_KV)return json({error:"إعداد KV غير مكتمل في Cloudflare Worker."},503,cors);
    const auth=(request.headers.get("Authorization")||"").replace(/^Bearer\s+/i,"");
    if(!await verifyToken(auth,env.ADMIN_PASSWORD))return json({error:"جلسة الإدارة انتهت، سجّل الدخول من جديد"},401,cors);
    const b=await request.json();if(!b||!Array.isArray(b.projects)||b.projects.length>200)return json({error:"قائمة المشاريع غير صالحة (الحد الأقصى 200)"},400,cors);
