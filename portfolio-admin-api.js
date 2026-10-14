@@ -12,7 +12,7 @@ export default {async fetch(request,env){
   }
   if(url.pathname==="/projects"&&request.method==="GET")return json({projects:await readProjects(env)},200,cors,{"Cache-Control":"no-store"});
   if(url.pathname==="/projects"&&request.method==="PUT"){
-   const auth=(request.headers.get("Authorization")||"").replace(/^Bearer\\s+/i,"");
+   const auth=(request.headers.get("Authorization")||"").replace(/^Bearer\s+/i,"");
    if(!await verifyToken(auth,env.ADMIN_PASSWORD))return json({error:"جلسة الإدارة انتهت، سجّل الدخول من جديد"},401,cors);
    const b=await request.json();if(!b||!Array.isArray(b.projects)||b.projects.length>200)return json({error:"قائمة المشاريع غير صالحة (الحد الأقصى 200)"},400,cors);
    const projects=b.projects.map(normalizeProject);await env.PROJECTS_KV.put("projects",JSON.stringify(projects));return json({ok:true,count:projects.length},200,cors);
@@ -29,4 +29,4 @@ function equal(a,b){if(typeof a!=="string"||typeof b!=="string"||a.length!==b.le
 async function makeToken(secret,ttl){const p=b64url(btoa(JSON.stringify({exp:Math.floor(Date.now()/1000)+ttl,nonce:crypto.randomUUID()})));return p+"."+await sign(p,secret)}
 async function verifyToken(token,secret){if(!token||!secret)return false;const a=token.split(".");if(a.length!==2||!equal(a[1],await sign(a[0],secret)))return false;try{return JSON.parse(atob(a[0].replace(/-/g,"+").replace(/_/g,"/"))).exp>Math.floor(Date.now()/1000)}catch{return false}}
 async function sign(value,secret){const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(secret),{name:"HMAC",hash:"SHA-256"},false,["sign"]);return b64url(btoa(String.fromCharCode(...new Uint8Array(await crypto.subtle.sign("HMAC",key,new TextEncoder().encode(value))))))}
-function b64url(s){return s.replace(/=/g,"").replace(/\\+/g,"-").replace(/\\//g,"_")}
+function b64url(s){return s.replace(/=/g,"").replace(/\+/g,"-").replace(/\//g,"_")}
