@@ -307,70 +307,7 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
             </div>
 
             <div id="project-filters" class="flex flex-wrap justify-center gap-2 mb-8"><button class="pill-btn active" data-filter="all">الكل</button><button class="pill-btn" data-filter="3d">3D</button><button class="pill-btn" data-filter="store">متجر</button><button class="pill-btn" data-filter="game">ألعاب</button></div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- Project 1: Koshary 3D -->
-                <div class="interactive-el glass-panel rounded-3xl overflow-hidden group hover:-translate-y-3 hover:shadow-[0_15px_30px_rgba(0,242,254,0.1)] hover:border-neonCyan/40 transition-all duration-500 flex flex-col" data-aos="fade-up" data-aos-delay="100">
-                    <div class="h-56 bg-slate-900 relative overflow-hidden flex items-center justify-center">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-10 opacity-90"></div>
-                        <!-- Placeholder visual for Koshary -->
-                        <i class="fas fa-cube text-7xl text-cyan-900 group-hover:scale-110 group-hover:text-neonCyan transition-all duration-700 z-0"></i>
-                        <div class="absolute top-4 end-4 z-20 glass-panel px-3 py-1 rounded-full text-xs font-bold text-neonCyan">3D Sim</div>
-                    </div>
-                    <div class="p-6 flex flex-col flex-grow relative z-20">
-                        <h3 class="text-2xl font-bold text-white mb-2" data-i18n="proj1Title">لعبة الكشري 3D</h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow" data-i18n="proj1Desc">تجربة تفاعلية ثلاثية الأبعاد لمحاكاة تحضير طبق الكشري المصري بكامل الإضافات.</p>
-                        <div class="flex gap-2 mb-4 flex-wrap">
-                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">Three.js</span>
-                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">JavaScript</span>
-                        </div>
-                        <span class="inline-flex items-center gap-2 text-neonCyan/70 text-sm font-bold mt-auto w-max">
-                            <span data-i18n="viewProject">عرض المشروع</span> <span class="text-xs border border-white/10 rounded-full px-2 py-1">قريبًا</span>
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Project 2: Elshori7y Store -->
-                <div class="interactive-el glass-panel rounded-3xl overflow-hidden group hover:-translate-y-3 hover:shadow-[0_15px_30px_rgba(79,172,254,0.1)] hover:border-neonPurple/40 transition-all duration-500 flex flex-col" data-aos="fade-up" data-aos-delay="200">
-                    <div class="h-56 bg-slate-900 relative overflow-hidden flex items-center justify-center">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-10 opacity-90"></div>
-                        <i class="fas fa-shopping-bag text-7xl text-purple-900 group-hover:scale-110 group-hover:text-neonPurple transition-all duration-700 z-0"></i>
-                        <div class="absolute top-4 end-4 z-20 glass-panel px-3 py-1 rounded-full text-xs font-bold text-neonPurple">E-Commerce</div>
-                    </div>
-                    <div class="p-6 flex flex-col flex-grow relative z-20">
-                        <h3 class="text-2xl font-bold text-white mb-2" data-i18n="proj2Title">Elshori7y Store</h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow" data-i18n="proj2Desc">متجر إلكتروني متكامل بتصميم عصري وأداء سريع، يشمل سلة مشتريات ولوحة تحكم.</p>
-                        <div class="flex gap-2 mb-4 flex-wrap">
-                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">Next.js</span>
-                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">Tailwind</span>
-                        </div>
-                        <span class="inline-flex items-center gap-2 text-neonPurple/70 text-sm font-bold mt-auto w-max">
-                            <span data-i18n="viewProject">عرض المشروع</span> <span class="text-xs border border-white/10 rounded-full px-2 py-1">قريبًا</span>
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Project 3: Stickman Game -->
-                <div class="interactive-el glass-panel rounded-3xl overflow-hidden group hover:-translate-y-3 hover:shadow-[0_15px_30px_rgba(255,255,255,0.1)] hover:border-white/40 transition-all duration-500 flex flex-col" data-aos="fade-up" data-aos-delay="300">
-                    <div class="h-56 bg-slate-900 relative overflow-hidden flex items-center justify-center">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-10 opacity-90"></div>
-                        <i class="fas fa-gamepad text-7xl text-slate-700 group-hover:scale-110 group-hover:text-white transition-all duration-700 z-0"></i>
-                        <div class="absolute top-4 end-4 z-20 glass-panel px-3 py-1 rounded-full text-xs font-bold text-white">Browser Game</div>
-                    </div>
-                    <div class="p-6 flex flex-col flex-grow relative z-20">
-                        <h3 class="text-2xl font-bold text-white mb-2" data-i18n="proj3Title">لعبة حمزة</h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow" data-i18n="proj3Desc">لعبة أكشن ثنائية الأبعاد (Stickman) تعمل مباشرة على المتصفح بفيزياء حركة ممتعة.</p>
-                        <div class="flex gap-2 mb-4 flex-wrap">
-                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">HTML5 Canvas</span>
-                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">JS</span>
-                        </div>
-                        <span class="inline-flex items-center gap-2 text-white/70 text-sm font-bold mt-auto w-max">
-                            <span data-i18n="viewProject">عرض المشروع</span> <span class="text-xs border border-white/10 rounded-full px-2 py-1">قريبًا</span>
-                        </span>
-                    </div>
-                </div>
-
-            </div>
+            <div id="project-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" aria-live="polite"><p class="text-slate-400 text-center col-span-full">جاري تحميل المشاريع...</p></div>
         </div>
     </section>
 
@@ -645,26 +582,42 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
           function setTheme(light){document.body.classList.toggle('light-mode',light);if(themeBtn)themeBtn.innerHTML=light?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';try{localStorage.setItem('portfolioTheme',light?'light':'dark')}catch(e){}}
           let savedTheme='dark';try{savedTheme=localStorage.getItem('portfolioTheme')||'dark'}catch(e){}setTheme(savedTheme==='light');themeBtn?.addEventListener('click',()=>setTheme(!document.body.classList.contains('light-mode')));
           
-          // Project detail popups and filters (only real details shown; no fake external links).
-          const projectInfo=[
-            {title:'لعبة الكشري 3D',body:'تجربة تفاعلية ثلاثية الأبعاد مستوحاة من تحضير الكشري المصري. التقنيات المعروضة: Three.js وJavaScript. حالة الرابط: غير مضاف حتى الآن.'},
-            {title:'Elshori7y Store',body:'واجهة متجر إلكتروني ضمن الأعمال المعروضة. التقنيات المكتوبة في البطاقة: Next.js وTailwind CSS. حالة الرابط: غير مضاف حتى الآن.'},
-            {title:'لعبة حمزة',body:'فكرة لعبة Stickman ثنائية الأبعاد للمتصفح باستخدام HTML5 Canvas وJavaScript. حالة الرابط: غير مضاف حتى الآن.'}
-          ];
+          // Dynamic portfolio projects managed from the Telegram dashboard.
           const modal=$('project-modal'),modalBody=$('modal-body'),modalTitle=$('modal-title');
-          document.querySelectorAll('#projects .grid > div').forEach((card,i)=>{card.style.cursor='pointer';card.setAttribute('tabindex','0');card.setAttribute('role','button');card.setAttribute('aria-label','عرض تفاصيل '+(projectInfo[i]?.title||'المشروع'));const open=()=>{if(!projectInfo[i])return;modalTitle.textContent=projectInfo[i].title;modalBody.textContent=projectInfo[i].body;modal.classList.add('open')};card.addEventListener('click',open);card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}})});
-          const closeModal=()=>modal.classList.remove('open');$('modal-close')?.addEventListener('click',closeModal);$('modal-ok')?.addEventListener('click',closeModal);modal?.addEventListener('click',e=>{if(e.target===modal)closeModal()});
-          
-
-          // Quick project filters.
+          const projectGrid=$('project-grid');
+          let portfolioProjects=[];
+          const escapeHTML=(value)=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+          const safeWebURL=(value)=>{try{const u=new URL(String(value||''));return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return ''}};
+          const categoryNames={all:'الكل','3d':'3D',store:'متجر',game:'ألعاب',web:'مواقع',other:'متنوع'};
+          const categoryIcons={'3d':'fa-cube',store:'fa-shopping-bag',game:'fa-gamepad',web:'fa-globe',other:'fa-code'};
+          function renderProjects(){
+            if(!projectGrid)return;
+            const visible=portfolioProjects.filter(p=>p.visible!==false);
+            if(!visible.length){projectGrid.innerHTML='<p class="text-slate-400 text-center col-span-full py-12">مفيش مشاريع معروضة حاليًا.</p>';return;}
+            projectGrid.innerHTML=visible.map((p,i)=>{
+              const name=escapeHTML(p.name),desc=escapeHTML(p.description),category=String(p.category||'other');
+              const url=safeWebURL(p.url),image=safeWebURL(p.image);
+              const tech=Array.isArray(p.technologies)?p.technologies:[];
+              const icon=categoryIcons[category]||categoryIcons.other;
+              const cover=image
+                ? '<img src="'+escapeHTML(image)+'" alt="'+name+'" loading="lazy" class="absolute inset-0 w-full h-full object-cover">'
+                : '<i class="fas '+icon+' text-7xl text-neonCyan group-hover:scale-110 group-hover:text-neonPurple transition-all duration-700 z-0"></i>';
+              const link=url?'<a href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-neonCyan text-sm font-bold mt-auto w-max" data-project-link><span>عرض المشروع</span><i class="fas fa-arrow-up-left-from-square text-xs"></i></a>':'<span class="inline-flex items-center gap-2 text-slate-400 text-sm font-bold mt-auto w-max"><span>تفاصيل المشروع</span><span class="text-xs border border-white/10 rounded-full px-2 py-1">الرابط غير مضاف</span></span>';
+              return '<article class="project-card interactive-el glass-panel rounded-3xl overflow-hidden group hover:-translate-y-3 hover:shadow-[0_15px_30px_rgba(0,242,254,0.1)] hover:border-neonCyan/40 transition-all duration-500 flex flex-col" data-project-id="'+escapeHTML(p.id)+'" data-category="'+escapeHTML(category)+'" data-aos="fade-up" data-aos-delay="'+(Math.min(i,5)*100)+'" tabindex="0" role="button" aria-label="عرض تفاصيل '+name+'"><div class="h-56 bg-slate-900 relative overflow-hidden flex items-center justify-center">'+cover+'<div class="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-10 opacity-70 pointer-events-none"></div><div class="absolute top-4 end-4 z-20 glass-panel px-3 py-1 rounded-full text-xs font-bold text-neonCyan">'+escapeHTML(categoryNames[category]||'مشروع')+'</div></div><div class="p-6 flex flex-col flex-grow relative z-20"><h3 class="text-2xl font-bold text-white mb-2">'+name+'</h3><p class="text-slate-400 text-sm mb-6 flex-grow">'+desc+'</p><div class="flex gap-2 mb-4 flex-wrap">'+tech.map(t=>'<span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">'+escapeHTML(t)+'</span>').join('')+'</div>'+link+'</div></article>';
+            }).join('');
+            projectGrid.querySelectorAll('.project-card').forEach(card=>{
+              const open=()=>{const p=portfolioProjects.find(x=>String(x.id)===card.dataset.projectId);if(!p)return;modalTitle.textContent=p.name||'تفاصيل المشروع';modalBody.textContent=[p.description||'',p.details||'',(p.technologies||[]).length?'التقنيات: '+p.technologies.join('، '):''].filter(Boolean).join('\n\n');modal?.classList.add('open');};
+              card.addEventListener('click',e=>{if(e.target.closest('[data-project-link]'))return;open();});
+              card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('[data-project-link]')){e.preventDefault();open();}});
+            });
+            if(window.AOS?.refresh)window.AOS.refresh();
+          }
+          fetch('./projects.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('projects unavailable');return r.json();}).then(data=>{portfolioProjects=Array.isArray(data.projects)?data.projects:[];renderProjects();}).catch(()=>{if(projectGrid)projectGrid.innerHTML='<p class="text-slate-400 text-center col-span-full py-12">تعذر تحميل المشاريع حاليًا.</p>';});
+          const closeModal=()=>modal?.classList.remove('open');$('modal-close')?.addEventListener('click',closeModal);$('modal-ok')?.addEventListener('click',closeModal);modal?.addEventListener('click',e=>{if(e.target===modal)closeModal()});
           document.querySelectorAll('#project-filters [data-filter]').forEach(btn=>btn.addEventListener('click',()=>{
             document.querySelectorAll('#project-filters [data-filter]').forEach(b=>b.classList.toggle('active',b===btn));
             const filter=btn.dataset.filter;
-            [...document.querySelectorAll('#projects .grid > div')].forEach(card=>{
-              const title=(card.innerText||'').toLowerCase();
-              const match=filter==='all'||(filter==='3d'&&title.includes('3d'))||(filter==='store'&&(title.includes('store')||title.includes('متجر')))||(filter==='game'&&(title.includes('لعبة')||title.includes('game')));
-              card.style.display=match?'':'none';
-            });
+            projectGrid?.querySelectorAll('.project-card').forEach(card=>{card.style.display=filter==='all'||card.dataset.category===filter?'':'none';});
           }));
           // Cycle accent palettes.
           const palettes=[['#00f2fe','#4facfe'],['#a78bfa','#ec4899'],['#34d399','#22d3ee'],['#fbbf24','#fb7185']];
