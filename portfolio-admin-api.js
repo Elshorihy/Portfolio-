@@ -19,6 +19,39 @@ export default {async fetch(request,env){
    const s=normalizeSettings(b.settings);await env.PROJECTS_KV.put("settings",JSON.stringify(s));return json({ok:true},200,cors);
   }
   if(url.pathname==="/projects"&&request.method==="GET"){if(!env.PROJECTS_KV)return json({error:"إعداد KV غير مكتمل في Cloudflare Worker."},503,cors);return json({projects:await readProjects(env)},200,cors,{"Cache-Control":"no-store"})}
+  if(url.pathname==="/reviews"&&request.method==="GET"){
+   if(!env.PROJECTS_KV)return json({error:"إعداد KV غير مكتمل في Cloudflare Worker."},503,cors);
+   const auth=(request.headers.get("Authorization")||"").replace(/^Bearer\s+/i,"");
+   const isAdmin=await verifyToken(auth,env.ADMIN_PASSWORD);
+   const reviews=await readReviews(env);
+   return json({reviews:isAdmin?reviews:reviews.filter(r=>r.status==="approved")},200,cors,{"Cache-Control":"no-store"});
+  }
+  if(url.pathname==="/reviews"&&request.method==="POST"){
+   if(!env.PROJECTS_KV)return json({error:"إعداد KV غير مكتمل في Cloudflare Worker."},503,cors);
+   const ip=request.headers.get("CF-Connecting-IP")||"unknown";
+   const rateKey="review-rate:"+await hashText(ip);
+   if(await env.PROJECTS_KV.get(rateKey))return json({error:"استنى دقيقة قبل ما تبعت تقييم تاني."},429,cors);
+   const b=await request.json();
+   const name=cleanText(b.name,60),comment=cleanText(b.comment,700),rating=Number(b.rating);
+   if(name.length<2||comment.length<5||comment.length>700||!Number.isInteger(rating)||rating<1||rating>5)return json({error:"اكتب اسمًا صحيحًا ورأيًا من 5 أحرف على الأقل، واختار تقييم من 1 إلى 5."},400,cors);
+   const reviews=await readReviews(env);
+   if(reviews.length>=2000)return json({error:"وصلنا للحد الأقصى من التقييمات حاليًا."},429,cors);
+   reviews.unshift({id:crypto.randomUUID(),name,comment,rating,status:"pending",createdAt:new Date().toISOString()});
+   await env.PROJECTS_KV.put("reviews",JSON.stringify(reviews));
+   await env.PROJECTS_KV.put(rateKey,"1",{expirationTtl:60});
+   return json({ok:true,message:"وصل رأيك، وهيظهر بعد مراجعته."},201,cors);
+  }
+  if(url.pathname==="/reviews"&&request.method==="PUT"){
+   if(!env.PROJECTS_KV)return json({error:"إعداد KV غير مكتمل في Cloudflare Worker."},503,cors);
+   const auth=(request.headers.get("Authorization")||"").replace(/^Bearer\s+/i,"");
+   if(!await verifyToken(auth,env.ADMIN_PASSWORD))return json({error:"جلسة الإدارة انتهت، سجّل الدخول من جديد"},401,cors);
+   const b=await request.json();
+   if(typeof b.id!=="string"||!["approved","rejected","pending"].includes(b.status))return json({error:"قرار المراجعة غير صالح."},400,cors);
+   const reviews=await readReviews(env),item=reviews.find(r=>r.id===b.id);
+   if(!item)return json({error:"التقييم غير موجود."},404,cors);
+   item.status=b.status;await env.PROJECTS_KV.put("reviews",JSON.stringify(reviews));
+   return json({ok:true},200,cors);
+  }
   if(url.pathname==="/projects"&&request.method==="PUT"){
    if(!env.PROJECTS_KV)return json({error:"إعداد KV غير مكتمل في Cloudflare Worker."},503,cors);
    const auth=(request.headers.get("Authorization")||"").replace(/^Bearer\s+/i,"");
@@ -42,3 +75,7 @@ async function makeToken(secret,ttl){const p=b64url(btoa(JSON.stringify({exp:Mat
 async function verifyToken(token,secret){if(!token||!secret)return false;const a=token.split(".");if(a.length!==2||!equal(a[1],await sign(a[0],secret)))return false;try{return JSON.parse(atob(a[0].replace(/-/g,"+").replace(/_/g,"/"))).exp>Math.floor(Date.now()/1000)}catch{return false}}
 async function sign(value,secret){const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(secret),{name:"HMAC",hash:"SHA-256"},false,["sign"]);return b64url(btoa(String.fromCharCode(...new Uint8Array(await crypto.subtle.sign("HMAC",key,new TextEncoder().encode(value))))))}
 function b64url(s){return s.replace(/=/g,"").replace(/\+/g,"-").replace(/\//g,"_")}
+
+async function readReviews(env){const saved=await env.PROJECTS_KV.get("reviews");if(!saved)return [];try{const a=JSON.parse(saved);return Array.isArray(a)?a:[]}catch{return []}}
+function cleanText(v,max){return String(v??"").replace(/[<>]/g,"").replace(/\s+/g," ").trim().slice(0,max)}
+async function hashText(v){const bytes=new TextEncoder().encode(v),digest=await crypto.subtle.digest("SHA-256",bytes);return Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,"0")).join("")}
