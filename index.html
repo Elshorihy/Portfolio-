@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="البورتفوليو الشخصي لحمزة: مشاريع ويب وتجارب تفاعلية وتقنيات برمجية.">
+    <meta name="theme-color" content="#050505">
+    <meta property="og:title" content="حمزة | مطور ويب">
+    <meta property="og:description" content="استكشف مشاريع حمزة ومهاراته وتواصل معه.">
+    <meta property="og:type" content="website">
     <title>حمزة | مطور ويب - Hamza | Web Developer</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,9 +115,50 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+    
+/* Portfolio upgrades */
+:root{--accent:#00f2fe;--accent2:#4facfe}
+body.light-mode{background-color:#f4f7fb!important;background-image:radial-gradient(circle at 15% 50%,rgba(79,172,254,.10),transparent 50%),radial-gradient(circle at 85% 30%,rgba(0,242,254,.10),transparent 50%)!important;color:#172033!important}
+body.light-mode nav,body.light-mode .glass-panel{background:rgba(255,255,255,.78)!important;border-color:rgba(15,23,42,.12)!important;color:#172033}
+body.light-mode h1,body.light-mode h2,body.light-mode h3,body.light-mode nav a,body.light-mode .text-white{color:#172033!important}
+body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!important}
+#ambient-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.5}
+#intro-screen{position:fixed;inset:0;z-index:10001;background:#050505;display:flex;align-items:center;justify-content:center;text-align:center;transition:opacity .65s ease,visibility .65s ease}
+#intro-screen.hide{opacity:0;visibility:hidden;pointer-events:none}
+.intro-name{font-size:clamp(2rem,8vw,5rem);font-weight:900;background:linear-gradient(90deg,#00f2fe,#4facfe,#a855f7);background-clip:text;-webkit-background-clip:text;color:transparent}
+#intro-skip{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);border:1px solid #334155;border-radius:999px;padding:9px 20px;color:#cbd5e1}
+.feature-section{padding:5rem 1.5rem;position:relative}
+.feature-card{background:rgba(25,25,35,.48);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.09);border-radius:1.25rem;padding:1.4rem;transition:transform .25s,border-color .25s}
+.feature-card:hover{transform:translateY(-5px);border-color:rgba(0,242,254,.4)}
+.pill-btn{border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:.55rem 1rem;font-size:.85rem;transition:.2s}
+.pill-btn.active,.pill-btn:hover{background:#00f2fe;color:#041014;border-color:#00f2fe}
+#assistant-panel,#dev-panel{position:fixed;z-index:1000;right:18px;bottom:88px;width:min(360px,calc(100vw - 28px));max-height:72vh;overflow:auto;background:#0b1120;border:1px solid rgba(0,242,254,.4);box-shadow:0 20px 70px #0009;border-radius:20px;padding:16px;color:#e2e8f0}
+#assistant-panel[hidden],#dev-panel[hidden]{display:none}
+#assistant-toggle,#dev-toggle,#theme-toggle{cursor:pointer}
+.assistant-question{display:block;width:100%;text-align:right;padding:11px 12px;margin-top:8px;border:1px solid #263449;border-radius:12px;background:#101a2a;color:#e2e8f0}
+.assistant-question:hover{border-color:#00f2fe}
+#assistant-answer{white-space:pre-wrap;line-height:1.8;background:#111827;border-radius:12px;padding:12px;margin-top:12px;min-height:44px}
+#ambient-controls{position:fixed;left:14px;bottom:14px;z-index:80;display:flex;gap:8px}
+.floating-control{background:#0b1120;border:1px solid #334155;color:#e2e8f0;border-radius:999px;padding:10px 13px;box-shadow:0 8px 24px #0004}
+#project-modal{position:fixed;inset:0;z-index:10002;background:#020617dd;display:none;align-items:center;justify-content:center;padding:20px}
+#project-modal.open{display:flex}
+#project-modal .modal-card{width:min(600px,100%);background:#0b1120;border:1px solid #334155;border-radius:24px;padding:24px}
+#contactForm input,#contactForm textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:12px 14px;color:inherit;outline:none}
+#contactForm input:focus,#contactForm textarea:focus{border-color:#00f2fe}
+#contactForm label{display:block;text-align:start;margin-bottom:6px;color:#94a3b8}
+#contactForm .field{margin-bottom:14px}
+.terminal-line{font-family:ui-monospace,monospace;color:#67e8f9;margin:7px 0;direction:ltr;text-align:left}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+@media(max-width:640px){.feature-section{padding:3.5rem 1rem}#ambient-controls{left:8px;bottom:8px}.floating-control{padding:9px 11px}}
+
     </style>
 </head>
 <body class="antialiased selection:bg-neonCyan selection:text-black font-sans">
+    <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+    <div id="intro-screen" aria-label="مقدمة الموقع">
+      <div><p class="text-slate-400 mb-3 tracking-widest">WELCOME TO MY DIGITAL SPACE</p><div class="intro-name">HAMZA<span style="color:#00f2fe">.</span></div><p class="text-slate-400 mt-3">Web • Design • Creative Builds</p></div>
+      <button id="intro-skip">تخطي المقدمة <i class="fas fa-arrow-left ms-2"></i></button>
+    </div>
 
     <!-- Preloader -->
     <div id="preloader">
@@ -150,6 +196,9 @@
                 <button id="langToggle" class="interactive-el w-10 h-10 rounded-full glass-panel hover:bg-white/10 hover:text-neonCyan transition-all flex items-center justify-center font-bold text-xs border-white/10">
                     EN
                 </button>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="theme-toggle" class="interactive-el w-10 h-10 rounded-full glass-panel flex items-center justify-center" aria-label="تبديل المظهر" title="تبديل المظهر"><i class="fas fa-sun"></i></button>
             </div>
         </div>
     </nav>
@@ -323,6 +372,68 @@
             </div>
         </div>
     </section>
+
+
+    <!-- Achievements / Timeline -->
+    <section id="journey" class="feature-section">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12"><h2 class="text-3xl md:text-5xl font-bold text-white">رحلتي <span class="text-gradient">وإنجازاتي</span></h2><p class="text-slate-400 mt-4">محطات أضيفها مع كل مشروع وتجربة جديدة.</p></div>
+        <div class="grid md:grid-cols-3 gap-5">
+          <article class="feature-card"><div class="text-neonCyan text-2xl mb-3"><i class="fas fa-code"></i></div><h3 class="text-xl font-bold text-white mb-2">بناء مشاريع ويب</h3><p class="text-slate-400 text-sm leading-7">تجربة أفكار وتحويلها لواجهات قابلة للاستخدام، مع الاهتمام بالتفاصيل.</p></article>
+          <article class="feature-card"><div class="text-neonCyan text-2xl mb-3"><i class="fas fa-wand-magic-sparkles"></i></div><h3 class="text-xl font-bold text-white mb-2">تصميم وتجربة مستخدم</h3><p class="text-slate-400 text-sm leading-7">تجربة أساليب بصرية تفاعلية مع الحفاظ على وضوح المحتوى وسهولة التصفح.</p></article>
+          <article class="feature-card"><div class="text-neonCyan text-2xl mb-3"><i class="fas fa-rocket"></i></div><h3 class="text-xl font-bold text-white mb-2">التعلّم المستمر</h3><p class="text-slate-400 text-sm leading-7">تطوير المهارات عبر التجربة العملية وإضافة تحسينات مستمرة للمشاريع.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Developer mode -->
+    <section class="feature-section pt-0">
+      <div class="max-w-6xl mx-auto feature-card flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+        <div><h2 class="text-2xl font-bold text-white mb-2"><i class="fas fa-terminal text-neonCyan ms-2"></i>وضع المطوّر</h2><p class="text-slate-400">افتح نافذة أوامر صغيرة لاستكشاف أجزاء الموقع.</p></div>
+        <button id="dev-inline" class="pill-btn">فتح Terminal <i class="fas fa-arrow-up-left-from-square me-1"></i></button>
+      </div>
+    </section>
+
+    <!-- Contact form -->
+    <section id="message-me" class="feature-section pt-0">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-8"><h2 class="text-3xl md:text-4xl font-bold text-white">خلّينا <span class="text-gradient">نتواصل</span></h2><p class="text-slate-400 mt-3">اكتب رسالتك، وهيتجهّز لك إرسالها من تطبيق البريد على جهازك.</p></div>
+        <form id="contactForm" class="feature-card">
+          <div class="field"><label for="senderName">اسمك</label><input id="senderName" name="name" required maxlength="80" placeholder="اكتب اسمك"></div>
+          <div class="field"><label for="senderEmail">بريدك الإلكتروني</label><input id="senderEmail" name="email" type="email" required maxlength="120" placeholder="name@example.com"></div>
+          <div class="field"><label for="senderMessage">الرسالة</label><textarea id="senderMessage" name="message" required maxlength="2000" rows="4" placeholder="حابب تتكلم عن إيه؟"></textarea></div>
+          <button type="submit" class="w-full rounded-xl py-3 font-bold text-black bg-gradient-to-r from-neonCyan to-neonPurple">تجهيز الرسالة <i class="fas fa-paper-plane me-2"></i></button>
+          <p id="contactHint" class="text-xs text-slate-500 mt-3">لن تُرسل الرسالة تلقائيًا من الموقع؛ سيتم فتح تطبيق البريد لديك.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Fixed-question assistant -->
+    <div id="assistant-panel" hidden>
+      <div class="flex items-center justify-between gap-3 mb-2"><div><h3 class="font-bold text-lg">مساعد حمزة</h3><p class="text-xs text-slate-400">اختار سؤال من الأسئلة الجاهزة</p></div><button id="assistant-close" aria-label="إغلاق" class="text-slate-400 text-xl">×</button></div>
+      <div id="assistant-questions">
+        <button class="assistant-question" data-q="who">مين صاحب البورتفوليو؟</button>
+        <button class="assistant-question" data-q="skills">إيه المهارات والتقنيات المعروضة؟</button>
+        <button class="assistant-question" data-q="projects">إيه المشاريع الموجودة؟</button>
+        <button class="assistant-question" data-q="contact">أتواصل مع حمزة إزاي؟</button>
+        <button class="assistant-question" data-q="availability">هل كل المشاريع متاحة للتجربة؟</button>
+        <button class="assistant-question" data-q="languages">الموقع بيدعم لغات إيه؟</button>
+      </div>
+      <div id="assistant-answer" aria-live="polite">أهلًا! أنا مساعد ثابت، وبجاوب على الأسئلة الموجودة فوق فقط.</div>
+    </div>
+
+    <div id="dev-panel" hidden>
+      <div class="flex items-center justify-between"><strong><i class="fas fa-terminal text-neonCyan ms-2"></i>HAMZA TERMINAL</strong><button id="dev-close" aria-label="إغلاق" class="text-slate-400 text-xl">×</button></div>
+      <div class="terminal-line">$ help</div><div class="text-slate-300 text-sm leading-7">about — نبذة عن الموقع<br>skills — عرض التقنيات<br>projects — الانتقال للمشاريع<br>contact — الانتقال للتواصل<br>clear — مسح الشاشة</div>
+      <div id="terminal-output" class="mt-3"></div>
+      <form id="terminal-form" class="flex gap-2 mt-3"><span class="text-neonCyan self-center">$</span><input id="terminal-input" autocomplete="off" aria-label="أمر" class="min-w-0 flex-1 bg-black/30 border border-slate-700 rounded-lg px-3 py-2 text-white" placeholder="اكتب help"><button class="pill-btn" type="submit">تنفيذ</button></form>
+    </div>
+    <div id="ambient-controls">
+      <button id="assistant-toggle" class="floating-control" aria-label="فتح المساعد"><i class="fas fa-comment-dots text-neonCyan ms-1"></i> المساعد</button>
+      <button id="cv-print" class="floating-control" aria-label="طباعة السيرة الذاتية"><i class="fas fa-file-pdf text-neonCyan ms-1"></i> CV</button>
+      <button id="easter-toggle" class="floating-control" aria-label="ميزة سرية" title="ميزة سرية"><i class="fas fa-key"></i></button>
+    </div>
+    <div id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-card"><div class="flex items-center justify-between gap-3"><h3 id="modal-title" class="text-2xl font-bold text-white">تفاصيل المشروع</h3><button id="modal-close" class="text-2xl text-slate-400" aria-label="إغلاق">×</button></div><p id="modal-body" class="text-slate-300 leading-8 mt-4"></p><button id="modal-ok" class="pill-btn mt-5">تمام</button></div></div>
 
     <!-- Contact Section -->
     <section id="contact" class="py-24 px-6 relative">
@@ -509,6 +620,69 @@
                 }
             });
         });
+
+        // Portfolio features — fixed, curated assistant answers only (no AI/API).
+        (() => {
+          const $ = id => document.getElementById(id);
+          const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const intro = $('intro-screen');
+          const dismissIntro = () => { if (!intro) return; intro.classList.add('hide'); try { sessionStorage.setItem('portfolioIntroSeen','1'); } catch(e) {} };
+          try { if (sessionStorage.getItem('portfolioIntroSeen') === '1' || reducedMotion) dismissIntro(); } catch(e) {}
+          $('intro-skip')?.addEventListener('click', dismissIntro);
+          if (!reducedMotion) setTimeout(dismissIntro, 2400);
+
+          // Lightweight ambient particles, paused when the tab is hidden.
+          const canvas = $('ambient-canvas'), ctx = canvas?.getContext('2d');
+          let particles = [], raf = 0;
+          function resizeCanvas(){ if(!canvas||!ctx)return; const dpr=Math.min(window.devicePixelRatio||1,1.5); canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0);particles=Array.from({length:Math.min(55,Math.floor(innerWidth/22))},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.7+.5}));}
+          function drawParticles(){if(!ctx||document.hidden)return;ctx.clearRect(0,0,innerWidth,innerHeight);for(let i=0;i<particles.length;i++){const p=particles[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>innerWidth)p.vx*=-1;if(p.y<0||p.y>innerHeight)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(0,242,254,.65)';ctx.fill();if(innerWidth>600){for(let j=i+1;j<particles.length;j++){const q=particles[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy);if(d<105){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(79,172,254,'+(1-d/105)*.12+')';ctx.stroke();}}}}raf=requestAnimationFrame(drawParticles);}
+          resizeCanvas(); if(!reducedMotion)drawParticles(); addEventListener('resize',()=>{resizeCanvas();});document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!reducedMotion){cancelAnimationFrame(raf);drawParticles();}});
+          
+          // Persistent light/dark mode.
+          const themeBtn=$('theme-toggle');
+          function setTheme(light){document.body.classList.toggle('light-mode',light);if(themeBtn)themeBtn.innerHTML=light?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';try{localStorage.setItem('portfolioTheme',light?'light':'dark')}catch(e){}}
+          let savedTheme='dark';try{savedTheme=localStorage.getItem('portfolioTheme')||'dark'}catch(e){}setTheme(savedTheme==='light');themeBtn?.addEventListener('click',()=>setTheme(!document.body.classList.contains('light-mode')));
+          
+          // Project detail popups and filters (only real details shown; no fake external links).
+          const projectInfo=[
+            {title:'لعبة الكشري 3D',body:'تجربة تفاعلية ثلاثية الأبعاد مستوحاة من تحضير الكشري المصري. التقنيات المعروضة: Three.js وJavaScript. حالة الرابط: غير مضاف حتى الآن.'},
+            {title:'Elshori7y Store',body:'واجهة متجر إلكتروني ضمن الأعمال المعروضة. التقنيات المكتوبة في البطاقة: Next.js وTailwind CSS. حالة الرابط: غير مضاف حتى الآن.'},
+            {title:'لعبة حمزة',body:'فكرة لعبة Stickman ثنائية الأبعاد للمتصفح باستخدام HTML5 Canvas وJavaScript. حالة الرابط: غير مضاف حتى الآن.'}
+          ];
+          const modal=$('project-modal'),modalBody=$('modal-body'),modalTitle=$('modal-title');
+          document.querySelectorAll('#projects .grid > div').forEach((card,i)=>{card.style.cursor='pointer';card.setAttribute('tabindex','0');card.setAttribute('role','button');card.setAttribute('aria-label','عرض تفاصيل '+(projectInfo[i]?.title||'المشروع'));const open=()=>{if(!projectInfo[i])return;modalTitle.textContent=projectInfo[i].title;modalBody.textContent=projectInfo[i].body;modal.classList.add('open')};card.addEventListener('click',open);card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}})});
+          const closeModal=()=>modal.classList.remove('open');$('modal-close')?.addEventListener('click',closeModal);$('modal-ok')?.addEventListener('click',closeModal);modal?.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+          
+          // Fixed FAQ assistant. Answers are deliberately limited to these buttons.
+          const answers={
+            who:'أنا حمزة، وده البورتفوليو الشخصي لعرض المشاريع والمهارات وطرق التواصل.',
+            skills:'المهارات المعروضة حاليًا: React وNext.js وNode.js وJavaScript وThree.js وHTML وCSS وGitHub وVercel. المعروض هنا لا يُعد شهادة بمستوى احترافي في كل تقنية.',
+            projects:'المعروض حاليًا: لعبة الكشري 3D، وElshori7y Store، ولعبة حمزة. بعض الروابط لسه غير مضافة، فمش هادّعي إنها متاحة للتجربة.',
+            contact:'تقدر تستخدم روابط WhatsApp وFacebook وInstagram في قسم «تواصل معي»، أو نموذج الرسالة في قسم التواصل الإضافي.',
+            availability:'مش كل المشاريع متاحة كرابط مباشر حاليًا. افتح تفاصيل كل مشروع لمعرفة حالته؛ أي مشروع من غير رابط مباشر ظاهر على إنه غير متاح للتجربة الآن.',
+            languages:'الموقع بيدعم العربية والإنجليزية من زر EN/AR الموجود أعلى الصفحة.'
+          };
+          document.querySelectorAll('.assistant-question').forEach(btn=>btn.addEventListener('click',()=>{$('assistant-answer').textContent=answers[btn.dataset.q]||'اختار سؤالًا من القائمة المتاحة.';}));
+          $('assistant-toggle')?.addEventListener('click',()=>{$('assistant-panel').hidden=!$('assistant-panel').hidden;});
+          $('assistant-close')?.addEventListener('click',()=>$('assistant-panel').hidden=true);
+          
+          // Developer terminal supports a tiny allow-list; it never executes arbitrary code.
+          const devPanel=$('dev-panel'),openDev=()=>{devPanel.hidden=false;$('terminal-input')?.focus();};
+          $('dev-inline')?.addEventListener('click',openDev);$('dev-close')?.addEventListener('click',()=>devPanel.hidden=true);
+          $('terminal-form')?.addEventListener('submit',e=>{e.preventDefault();const input=$('terminal-input'),out=$('terminal-output'),cmd=input.value.trim().toLowerCase();input.value='';if(cmd==='clear'){out.innerHTML='';return;}const messages={help:'الأوامر المتاحة: about, skills, projects, contact, clear.',about:'Portfolio شخصي لحمزة — واجهة عربية/إنجليزية.',skills:'React • Next.js • Node.js • JavaScript • Three.js • HTML/CSS.',projects:'الانتقال لقسم المشاريع…',contact:'الانتقال لقسم التواصل…'};const line=document.createElement('div');line.className='terminal-line';line.textContent='$ '+cmd;out.appendChild(line);const result=document.createElement('div');result.className='text-slate-300 text-sm my-2';result.textContent=messages[cmd]||'أمر غير معروف. اكتب help لعرض الأوامر.';out.appendChild(result);if(cmd==='projects')location.hash='projects';if(cmd==='contact')location.hash='contact';out.scrollTop=out.scrollHeight;});
+          
+          // Email draft uses mailto; no backend or silent sending.
+          $('contactForm')?.addEventListener('submit',e=>{e.preventDefault();const name=$('senderName').value.trim(),email=$('senderEmail').value.trim(),message=$('senderMessage').value.trim();if(!name||!email||!message)return;const subject=encodeURIComponent('رسالة من بورتفوليو حمزة');const body=encodeURIComponent('الاسم: '+name+'\nالبريد: '+email+'\n\nالرسالة:\n'+message);$('contactHint').textContent='هنفتح تطبيق البريد لإكمال الإرسال.';location.href='mailto:?subject='+subject+'&body='+body;});
+          
+          // Print-friendly CV generated from verified visible details, not fabricated credentials.
+          $('cv-print')?.addEventListener('click',()=>{const w=window.open('','_blank');if(!w){alert('اسمح بفتح النافذة المنبثقة لطباعة السيرة الذاتية.');return;}w.document.write('<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>السيرة الذاتية - حمزة</title><style>body{font-family:Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 24px;color:#172033;line-height:1.9}h1{font-size:32px;border-bottom:3px solid #0891b2;padding-bottom:10px}h2{color:#0e7490;margin-top:24px}.muted{color:#64748b}@media print{button{display:none}}</style><h1>حمزة — مطور ويب</h1><p class="muted">سيرة ذاتية مختصرة مولّدة من معلومات البورتفوليو الحالي</p><h2>نبذة</h2><p>مهتم ببناء واجهات ويب وتجارب تفاعلية، وتطوير المشاريع بالتعلّم والتجربة العملية.</p><h2>التقنيات المعروضة</h2><p>React، Next.js، Node.js، JavaScript، Three.js، HTML، CSS، GitHub، Vercel.</p><h2>مشاريع معروضة</h2><ul><li>لعبة الكشري 3D — Three.js وJavaScript</li><li>Elshori7y Store — Next.js وTailwind CSS</li><li>لعبة حمزة — HTML5 Canvas وJavaScript</li></ul><h2>التواصل</h2><p>استخدم روابط التواصل في البورتفوليو للحصول على وسائل الاتصال المتاحة.</p><p class="muted">لم تُضف بيانات تعليم أو خبرة أو شهادات غير مؤكدة.</p><button onclick="window.print()">طباعة / حفظ PDF</button></html>');w.document.close();setTimeout(()=>w.print(),350);});
+          
+          // Easter egg: type the Konami sequence on a keyboard, or use the key button.
+          let sequence=[];const secret=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+          function revealSecret(){const box=document.createElement('div');box.style.cssText='position:fixed;inset:0;z-index:10003;background:#030712f2;display:grid;place-items:center;text-align:center;padding:24px';box.innerHTML='<div style="max-width:560px;border:1px solid #00f2fe;border-radius:24px;padding:30px;background:#0b1120;box-shadow:0 0 50px #00f2fe22"><div style="font-size:48px">🕹️</div><h2 style="font-size:28px;font-weight:800;color:#00f2fe;margin:12px 0">Secret unlocked!</h2><p style="color:#cbd5e1;line-height:1.9">أنت اكتشفت المنطقة السرية 👾<br>أحلى حاجة في البرمجة إن دايمًا فيه حاجة جديدة تكتشفها.</p><button style="margin-top:18px;border:1px solid #334155;border-radius:999px;padding:9px 20px;color:white" id="secret-close">الرجوع للموقع</button></div>';document.body.appendChild(box);box.querySelector('#secret-close').onclick=()=>box.remove();}
+          $('easter-toggle')?.addEventListener('click',revealSecret);addEventListener('keydown',e=>{sequence.push(e.key);sequence=sequence.slice(-secret.length);if(sequence.every((v,i)=>v===secret[i]))revealSecret();if(e.key==='Escape'){closeModal();if(devPanel)devPanel.hidden=true;if($('assistant-panel'))$('assistant-panel').hidden=true;}});
+        })();
+
     </script>
 </body>
 </html>
