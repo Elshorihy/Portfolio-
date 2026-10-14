@@ -82,10 +82,10 @@ export default {
       const chatId = update.message?.chat?.id || update.callback_query?.message?.chat?.id;
       if (chatId) {
         const detail = String(error?.message || "خطأ غير معروف")
-          .replace(/Bearer\\s+[^\\s]+/gi, "Bearer [hidden]")
-          .replace(/bot\\d+:[A-Za-z0-9_-]+/g, "bot[hidden]")
+          .replace(/Bearer\s+[^\s]+/gi, "Bearer [hidden]")
+          .replace(/bot\d+:[A-Za-z0-9_-]+/g, "bot[hidden]")
           .slice(0, 700);
-        await sendText(env, chatId, "❌ حصل خطأ: " + detail + "\\n\\nراجع إعدادات GitHub/Cloudflare بناءً على الرسالة دي.");
+        await sendText(env, chatId, "❌ حصل خطأ: " + detail + "\n\nراجع إعدادات GitHub/Cloudflare بناءً على الرسالة دي.");
       }
     }
     return new Response("ok");
