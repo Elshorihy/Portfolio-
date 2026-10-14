@@ -612,7 +612,21 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
             });
             if(window.AOS?.refresh)window.AOS.refresh();
           }
-          fetch('./projects.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('projects unavailable');return r.json();}).then(data=>{portfolioProjects=Array.isArray(data.projects)?data.projects:[];renderProjects();}).catch(()=>{if(projectGrid)projectGrid.innerHTML='<p class="text-slate-400 text-center col-span-full py-12">تعذر تحميل المشاريع حاليًا.</p>';});
+          const PORTFOLIO_API='https://portfolio-admin-api.YOUR-SUBDOMAIN.workers.dev';
+          async function loadPortfolioProjects(){
+            try{
+              if(!PORTFOLIO_API.includes('YOUR-SUBDOMAIN')){
+                const apiResponse=await fetch(PORTFOLIO_API+'/projects?v='+Date.now(),{cache:'no-store'});
+                if(!apiResponse.ok)throw new Error('API unavailable');
+                const apiData=await apiResponse.json();
+                portfolioProjects=Array.isArray(apiData.projects)?apiData.projects:[];
+                renderProjects();return;
+              }
+            }catch(e){console.warn('Admin API unavailable; using projects.json fallback.',e);}
+            try{const r=await fetch('./projects.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('projects unavailable');const data=await r.json();portfolioProjects=Array.isArray(data.projects)?data.projects:[];renderProjects();}
+            catch(e){if(projectGrid)projectGrid.innerHTML='<p class="text-slate-400 text-center col-span-full py-12">تعذر تحميل المشاريع حاليًا.</p>';}
+          }
+          loadPortfolioProjects();
           const closeModal=()=>modal?.classList.remove('open');$('modal-close')?.addEventListener('click',closeModal);$('modal-ok')?.addEventListener('click',closeModal);modal?.addEventListener('click',e=>{if(e.target===modal)closeModal()});
           document.querySelectorAll('#project-filters [data-filter]').forEach(btn=>btn.addEventListener('click',()=>{
             document.querySelectorAll('#project-filters [data-filter]').forEach(b=>b.classList.toggle('active',b===btn));
