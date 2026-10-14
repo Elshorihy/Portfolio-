@@ -9,6 +9,7 @@
     <meta property="og:description" content="استكشف مشاريع حمزة ومهاراته وتواصل معه.">
     <meta property="og:type" content="website">
     <title>حمزة | مطور ويب - Hamza | Web Developer</title>
+    <link rel="icon" type="image/svg+xml" href="./logo.svg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -363,21 +364,25 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
 .solar-orbit-one{width:48%;height:22%;border-color:#00f2fe65;transform:translate(-50%,-50%) rotate(-32deg)}
 .solar-orbit-two{width:72%;height:43%;border-color:#a855f74d;transform:translate(-50%,-50%) rotate(29deg)}
 .solar-orbit-three{width:96%;height:64%;border-color:#4facfe38;transform:translate(-50%,-50%) rotate(-17deg)}
-.solar-planets{position:absolute;inset:0;z-index:7}
-.solar-planet{position:absolute;left:50%;top:50%;width:clamp(48px,9vw,76px);height:clamp(48px,9vw,76px);margin:calc(clamp(48px,9vw,76px)/-2) 0 0 calc(clamp(48px,9vw,76px)/-2);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#dffcff;background:radial-gradient(circle at 30% 25%,#263d59,#091322 62%,#02050b);border:1px solid var(--planet-color,#00f2fe);box-shadow:0 0 13px color-mix(in srgb,var(--planet-color,#00f2fe) 50%,transparent),inset -7px -7px 15px #0009;animation:planetFloat 4s ease-in-out infinite;transition:box-shadow .25s,filter .25s;overflow:visible}
+.solar-planets{position:absolute;inset:0;z-index:7;pointer-events:none}
+.solar-track{position:absolute;inset:0;border-radius:50%;animation:solarOrbitSpin var(--orbit-duration,28s) linear infinite;pointer-events:none;will-change:transform}
+.solar-planet-position{position:absolute;left:50%;top:50%;transform:translateX(var(--orbit-radius,25%)) translate(-50%,-50%);pointer-events:auto}
+.solar-planet{position:relative;width:clamp(48px,9vw,76px);height:clamp(48px,9vw,76px);margin:0;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#dffcff;background:radial-gradient(circle at 30% 25%,#263d59,#091322 62%,#02050b);border:1px solid var(--planet-color,#00f2fe);box-shadow:0 0 13px color-mix(in srgb,var(--planet-color,#00f2fe) 50%,transparent),inset -7px -7px 15px #0009;transition:box-shadow .25s,filter .25s;overflow:visible}
+.solar-planet-core{position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:solarCounterSpin var(--orbit-duration,28s) linear infinite;will-change:transform}
 .solar-planet::before{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid color-mix(in srgb,var(--planet-color,#00f2fe) 38%,transparent);transform:rotate(-28deg) scaleY(.55);pointer-events:none}
 .solar-planet img{width:100%;height:100%;object-fit:cover;border-radius:50%;position:absolute;inset:0;z-index:1;opacity:.92}
 .solar-planet i{font-size:clamp(17px,3vw,27px);position:relative;z-index:2;text-shadow:0 0 12px var(--planet-color,#00f2fe)}
 .solar-planet .solar-planet-name{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);font-size:clamp(9px,1.7vw,11px);font-weight:800;white-space:nowrap;background:#060b16eF;border:1px solid #ffffff22;border-radius:99px;padding:3px 8px;color:#e2e8f0;max-width:120px;overflow:hidden;text-overflow:ellipsis;backdrop-filter:blur(8px)}
 .solar-planet:hover,.solar-planet:focus-visible{z-index:20;filter:brightness(1.35);box-shadow:0 0 25px var(--planet-color,#00f2fe),0 0 55px color-mix(in srgb,var(--planet-color,#00f2fe) 40%,transparent);outline:none}
-.solar-planet:nth-child(3n){animation-delay:-1.4s}.solar-planet:nth-child(3n + 1){animation-delay:-2.5s}
+@keyframes solarOrbitSpin{to{transform:rotate(360deg)}}
+@keyframes solarCounterSpin{to{transform:rotate(-360deg)}}
 .solar-loading{position:absolute;top:calc(50% + 100px);left:50%;transform:translateX(-50%);font-size:11px;color:#94a3b8;white-space:nowrap}
 .solar-caption{font-size:11px;letter-spacing:.08em;color:#94a3b8;display:flex;align-items:center;gap:8px}
 .solar-caption-dot{width:6px;height:6px;border-radius:50%;background:#00f2fe;box-shadow:0 0 10px #00f2fe}
 @keyframes solarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 @keyframes solarBreath{0%,100%{transform:scale(.94);opacity:.7}50%{transform:scale(1.08);opacity:1}}
 @keyframes planetFloat{0%,100%{filter:brightness(.94)}50%{filter:brightness(1.13)}}
-@media(max-width:520px){.hero-solar-system{width:94vw;height:94vw;min-height:0;margin:-.5rem auto 0}.solar-orbit-one{width:53%;height:27%}.solar-orbit-two{width:78%;height:49%}.solar-orbit-three{width:98%;height:67%}.solar-planet{width:48px;height:48px;margin:-24px 0 0 -24px}.solar-planet .solar-planet-name{font-size:9px;max-width:86px;padding:2px 6px}.solar-caption{font-size:9px}}
+@media(max-width:520px){.hero-solar-system{width:94vw;height:94vw;min-height:0;margin:-.5rem auto 0}.solar-orbit-one{width:53%;height:27%}.solar-orbit-two{width:78%;height:49%}.solar-orbit-three{width:98%;height:67%}.solar-planet{width:48px;height:48px}.solar-planet .solar-planet-name{font-size:9px;max-width:86px;padding:2px 6px}.solar-caption{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.solar-halo,.solar-sun,.solar-planet{animation:none!important}}
     </style>
 
@@ -407,7 +412,7 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
             <!-- Brand / Logo -->
             <a href="#home" class="flex items-center gap-3 group interactive-el">
                 <div class="relative w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-neonCyan to-neonPurple group-hover:shadow-[0_0_15px_rgba(0,242,254,0.5)] transition-all duration-300">
-                    <img src="https://avatars.githubusercontent.com/u/208288672?v=4" alt="حمزة" class="w-full h-full rounded-full object-cover object-top border border-black">
+                    <img src="./logo.svg" alt="لوجو حمزة" class="brand-logo w-full h-full rounded-full object-contain border border-black">
                 </div>
                 <span class="font-bold text-xl tracking-wide text-white group-hover:text-neonCyan transition-colors" data-i18n="brandName">حمزة</span>
             </a>
@@ -834,16 +839,16 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
             const count=$('solar-project-count');if(count)count.textContent=String(visible.length);
             if(!visible.length){holder.innerHTML='<span class="solar-loading">أضف مشاريع من لوحة الإدارة عشان تظهر في مدارك ✨</span>';return;}
             holder.innerHTML=visible.map((p,i)=>{
-              const angle=(-90+i*(360/visible.length))*Math.PI/180;
-              const rx=visible.length<=3?25:visible.length<=6?36:45;
-              const ry=visible.length<=3?25:visible.length<=6?34:43;
-              const x=50+Math.cos(angle)*rx,y=50+Math.sin(angle)*ry;
+              const orbit=i%3;
+              const radius=orbit===0?'24%':orbit===1?'36%':'46%';
+              const duration=orbit===0?19:orbit===1?29:39;
+              const reverse=i%2===1?'reverse':'normal';
               const image=safeImageURL(p.image),url=safeWebURL(p.url);
               const icon=icons[String(p.category||'other')]||icons.other;
               const title=escapeHTML(p.name||'مشروع');
               const contents=image?'<img src="'+escapeHTML(image)+'" alt="" loading="lazy">':'<i class="fas '+icon+'" aria-hidden="true"></i>';
               const attrs=url?'href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer"':'href="#projects"';
-              return '<a class="solar-planet" '+attrs+' aria-label="'+title+'" title="'+title+'" style="left:'+x+'%;top:'+y+'%;--planet-color:'+colors[i%colors.length]+';animation-delay:-'+(i*.47).toFixed(2)+'s">'+contents+'<span class="solar-planet-name">'+title+'</span></a>';
+              return '<div class="solar-track" style="--orbit-duration:'+duration+'s;animation-direction:'+reverse+'"><div class="solar-planet-position" style="--orbit-radius:'+radius+'"><a class="solar-planet" '+attrs+' aria-label="'+title+'" title="'+title+'" style="--planet-color:'+colors[i%colors.length]+';--orbit-duration:'+duration+'s"><span class="solar-planet-core">'+contents+'<span class="solar-planet-name">'+title+'</span></span></a></div></div>';
             }).join('');
           }
           function renderProjects(){
@@ -872,19 +877,33 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
           }
           const PORTFOLIO_API='https://portfolio-admin-api.sheenomatp.workers.dev';
           async function loadPortfolioProjects(){
+            const controller=new AbortController();
+            const timeout=setTimeout(()=>controller.abort(),5000);
             try{
               if(!PORTFOLIO_API.includes('YOUR-SUBDOMAIN')){
-                const apiResponse=await fetch(PORTFOLIO_API+'/projects?v='+Date.now(),{cache:'no-store'});
+                const apiResponse=await fetch(PORTFOLIO_API+'/projects?v='+Date.now(),{cache:'no-store',signal:controller.signal});
                 if(!apiResponse.ok)throw new Error('API unavailable');
                 const apiData=await apiResponse.json();
-                portfolioProjects=Array.isArray(apiData.projects)?apiData.projects:[];
-                renderProjects();return;
+                const remoteProjects=Array.isArray(apiData.projects)?apiData.projects:[];
+                if(remoteProjects.length){portfolioProjects=remoteProjects;renderProjects();return;}
+                throw new Error('API returned no projects; use local fallback');
               }
             }catch(e){console.warn('Admin API unavailable; using projects.json fallback.',e);}
-            try{const r=await fetch('./projects.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('projects unavailable');const data=await r.json();portfolioProjects=Array.isArray(data.projects)?data.projects:[];renderProjects();}
-            catch(e){if(projectGrid)projectGrid.innerHTML='<p class="text-slate-400 text-center col-span-full py-12">تعذر تحميل المشاريع حاليًا.</p>';}
+            finally{clearTimeout(timeout);}
+            try{
+              const r=await fetch('./projects.json?v='+Date.now(),{cache:'no-store'});
+              if(!r.ok)throw new Error('projects unavailable');
+              const data=await r.json();
+              portfolioProjects=Array.isArray(data.projects)?data.projects:[];
+              renderProjects();
+            }catch(e){
+              console.warn('Project sources unavailable.',e);
+              portfolioProjects=[];
+              renderProjects();
+              if(projectGrid)projectGrid.innerHTML='<p class="text-slate-400 text-center col-span-full py-12">تعذر تحميل المشاريع حاليًا. جرّب تحديث الصفحة بعد قليل.</p>';
+            }
           }
-          async function loadPortfolioSettings(){try{const r=await fetch(PORTFOLIO_API+'/settings?v='+Date.now(),{cache:'no-store'});if(!r.ok)return;const d=await r.json(),s=d.settings||{};if(s.brandName)document.querySelectorAll('[data-i18n="brandName"]').forEach(el=>el.textContent=s.brandName);if(s.logo)document.querySelectorAll('nav img[alt="حمزة"], #home img[alt="حمزة"]').forEach(el=>el.src=s.logo);if(s.heroName){document.querySelectorAll('[data-i18n="heroName"]').forEach(el=>el.textContent=s.heroName);const intro=document.querySelector('.intro-name');if(intro)intro.innerHTML=escapeHTML(s.heroName)+'<span style="color:'+(s.accent||'#00f2fe')+'">.</span>'}if(s.role)document.querySelectorAll('[data-i18n="heroRole"]').forEach(el=>el.textContent=s.role);if(s.description)document.querySelectorAll('[data-i18n="heroDesc"]').forEach(el=>el.textContent=s.description);if(s.title){document.title=s.title;document.querySelectorAll('meta[property="og:title"]').forEach(el=>el.content=s.title)}if(s.metaDescription)document.querySelectorAll('meta[name="description"],meta[property="og:description"]').forEach(el=>el.content=s.metaDescription);if(s.accent){document.documentElement.style.setProperty('--accent',s.accent);document.querySelectorAll('.text-neonCyan').forEach(el=>el.style.color=s.accent);document.querySelectorAll('.text-gradient').forEach(el=>el.style.backgroundImage='linear-gradient(135deg,'+s.accent+','+(s.accent2||'#4facfe')+')')}if(s.accent2){document.documentElement.style.setProperty('--accent2',s.accent2);document.querySelectorAll('.text-gradient').forEach(el=>el.style.backgroundImage='linear-gradient(135deg,'+(s.accent||'#00f2fe')+','+s.accent2+')')}}catch(e){console.warn('Site settings unavailable',e)}}loadPortfolioSettings();loadPortfolioProjects();
+          async function loadPortfolioSettings(){try{const r=await fetch(PORTFOLIO_API+'/settings?v='+Date.now(),{cache:'no-store'});if(!r.ok)return;const d=await r.json(),s=d.settings||{};if(s.brandName)document.querySelectorAll('[data-i18n="brandName"]').forEach(el=>el.textContent=s.brandName);if(s.logo)document.querySelectorAll('nav img.brand-logo').forEach(el=>el.src=s.logo);if(s.heroName){document.querySelectorAll('[data-i18n="heroName"]').forEach(el=>el.textContent=s.heroName);const intro=document.querySelector('.intro-name');if(intro)intro.innerHTML=escapeHTML(s.heroName)+'<span style="color:'+(s.accent||'#00f2fe')+'">.</span>'}if(s.role)document.querySelectorAll('[data-i18n="heroRole"]').forEach(el=>el.textContent=s.role);if(s.description)document.querySelectorAll('[data-i18n="heroDesc"]').forEach(el=>el.textContent=s.description);if(s.title){document.title=s.title;document.querySelectorAll('meta[property="og:title"]').forEach(el=>el.content=s.title)}if(s.metaDescription)document.querySelectorAll('meta[name="description"],meta[property="og:description"]').forEach(el=>el.content=s.metaDescription);if(s.accent){document.documentElement.style.setProperty('--accent',s.accent);document.querySelectorAll('.text-neonCyan').forEach(el=>el.style.color=s.accent);document.querySelectorAll('.text-gradient').forEach(el=>el.style.backgroundImage='linear-gradient(135deg,'+s.accent+','+(s.accent2||'#4facfe')+')')}if(s.accent2){document.documentElement.style.setProperty('--accent2',s.accent2);document.querySelectorAll('.text-gradient').forEach(el=>el.style.backgroundImage='linear-gradient(135deg,'+(s.accent||'#00f2fe')+','+s.accent2+')')}}catch(e){console.warn('Site settings unavailable',e)}}loadPortfolioSettings();loadPortfolioProjects();
           const closeModal=()=>modal?.classList.remove('open');$('modal-close')?.addEventListener('click',closeModal);$('modal-ok')?.addEventListener('click',closeModal);modal?.addEventListener('click',e=>{if(e.target===modal)closeModal()});
           document.querySelectorAll('#project-filters [data-filter]').forEach(btn=>btn.addEventListener('click',()=>{
             document.querySelectorAll('#project-filters [data-filter]').forEach(b=>b.classList.toggle('active',b===btn));
