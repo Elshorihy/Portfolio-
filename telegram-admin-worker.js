@@ -46,7 +46,15 @@ export default {
         await answerCallback(env, cq.id);
         const chatId = cq.message?.chat?.id;
         if (chatId) {
-          switch (cq.data) {
+          if (String(cq.data || "").startsWith("proj:")) {
+            await handleProjectCallback(env, chatId, String(cq.data));
+          } else switch (cq.data) {
+            case "projects":
+              await listProjects(env, chatId);
+              break;
+            case "addproject":
+              await sendText(env, chatId, addProjectHelp());
+              break;
             case "files":
               await listFiles(env, chatId);
               break;
@@ -91,6 +99,189 @@ export default {
     return new Response("ok");
   },
 };
+
+
+const PROJECTS_PATH = "projects.json";
+const PROJECT_CATEGORIES = new Set(["3d", "store", "game", "web", "other"]);
+
+function addProjectHelp() {
+  return [
+    "➕ إضافة مشروع للموقع",
+    "",
+    "ابعت أمرًا واحدًا بالشكل ده:",
+    "/addproject اسم المشروع | وصف المشروع | التصنيف | رابط المشروع | رابط الصورة | التقنيات",
+    "",
+    "مثال:",
+    "/addproject مشروعي الجديد | موقع تفاعلي حديث | web | https://example.com | https://example.com/cover.jpg | HTML, CSS, JavaScript",
+    "",
+    "التصنيفات: 3d أو store أو game أو web أو other",
+    "لو مفيش رابط أو صورة اكتب - مكانها. التقنيات افصل بينها بفاصلة.",
+    "تقدر كمان تضغط زر إضافة مشروع في الداش بورد.",
+  ].join("\n");
+}
+
+async function getProjectsData(env) {
+  const file = await getRepoFile(env, PROJECTS_PATH);
+  if (!file || file.type !== "file") throw new Error("ملف projects.json مش موجود في المستودع.");
+  let data;
+  try {
+    data = JSON.parse(new TextDecoder().decode(decodeBase64(file.content || "")));
+  } catch {
+    throw new Error("ملف projects.json محتواه غير صالح.");
+  }
+  if (!data || !Array.isArray(data.projects)) throw new Error("صيغة projects.json غير صحيحة.");
+  return { file, projects: data.projects };
+}
+
+async function saveProjectsData(env, projects) {
+  const data = new TextEncoder().encode(JSON.stringify({ projects }, null, 2) + "\n");
+  await writeRepoFile(env, PROJECTS_PATH, data, false);
+}
+
+function normalizeProjectCategory(value) {
+  const category = String(value || "").trim().toLowerCase();
+  if (!PROJECT_CATEGORIES.has(category)) throw new Error("التصنيف غير صحيح. استخدم: 3d أو store أو game أو web أو other.");
+  return category;
+}
+
+function normalizeProjectUrl(value, label) {
+  const raw = String(value || "").trim();
+  if (!raw || raw === "-") return "";
+  let url;
+  try { url = new URL(raw); } catch { throw new Error(label + " لازم يكون رابطًا كاملًا يبدأ بـ https:// أو http://، أو اكتب -."); }
+  if (!["https:", "http:"].includes(url.protocol)) throw new Error(label + " لازم يكون http أو https.");
+  return url.href;
+}
+
+function splitProjectFields(input) {
+  return String(input || "").split("|").map(x => x.trim());
+}
+
+async function addProjectFromText(env, chatId, payload) {
+  const fields = splitProjectFields(payload);
+  if (fields.length < 3 || !fields[0] || !fields[1]) return sendText(env, chatId, addProjectHelp());
+  const [name, description, rawCategory, rawUrl = "-", rawImage = "-", rawTech = ""] = fields;
+  if (name.length > 100) return sendText(env, chatId, "اسم المشروع طويل جدًا (الحد 100 حرف).");
+  if (description.length > 600) return sendText(env, chatId, "الوصف طويل جدًا (الحد 600 حرف).");
+  let category, url, image;
+  try {
+    category = normalizeProjectCategory(rawCategory);
+    url = normalizeProjectUrl(rawUrl, "رابط المشروع");
+    image = normalizeProjectUrl(rawImage, "رابط الصورة");
+  } catch (e) { return sendText(env, chatId, "❌ " + e.message + "\n\n" + addProjectHelp()); }
+  const { projects } = await getProjectsData(env);
+  const maxId = projects.reduce((max, p) => Math.max(max, Number(String(p.id || "").replace(/^p/, "")) || 0), 0);
+  const project = {
+    id: "p" + (maxId + 1),
+    name,
+    description,
+    category,
+    url,
+    image,
+    technologies: rawTech && rawTech !== "-" ? rawTech.split(",").map(x => x.trim()).filter(Boolean).slice(0, 12) : [],
+    visible: true,
+    details: description
+  };
+  projects.push(project);
+  await saveProjectsData(env, projects);
+  await sendText(env, chatId, "✅ اتضاف المشروع للموقع بنجاح!\n\n📌 " + project.name + "\n🆔 " + project.id + "\n🌐 هيتعرض بعد تحديث نشر الموقع.\n\nاستخدم /projects لإدارة باقي المشاريع.");
+  return listProjects(env, chatId);
+}
+
+async function editProjectFromText(env, chatId, payload) {
+  const fields = splitProjectFields(payload);
+  if (fields.length < 3) return sendText(env, chatId, "استخدم:\n/editproject ID | field | value\n\nالحقول: name أو description أو category أو url أو image أو technologies\nمثال: /editproject p1 | name | اسم جديد");
+  const [id, rawField, ...rest] = fields;
+  const value = rest.join(" | ");
+  const field = rawField.toLowerCase();
+  const aliases = { title: "name", desc: "description", link: "url", tech: "technologies", technology: "technologies" };
+  const key = aliases[field] || field;
+  const allowed = new Set(["name", "description", "category", "url", "image", "technologies"]);
+  if (!allowed.has(key)) return sendText(env, chatId, "حقل غير معروف. المتاح: name, description, category, url, image, technologies.");
+  const { projects } = await getProjectsData(env);
+  const project = projects.find(p => String(p.id) === id);
+  if (!project) return sendText(env, chatId, "مش لاقي مشروع بالمعرّف " + id + ". استخدم /projects.");
+  if (key === "name") {
+    if (!value || value.length > 100) return sendText(env, chatId, "اسم المشروع مطلوب وبحد أقصى 100 حرف.");
+    project.name = value;
+  } else if (key === "description") {
+    if (value.length > 600) return sendText(env, chatId, "الوصف لازم يكون 600 حرف أو أقل.");
+    project.description = value;
+    if (!project.details) project.details = value;
+  } else if (key === "category") {
+    try { project.category = normalizeProjectCategory(value); } catch (e) { return sendText(env, chatId, "❌ " + e.message); }
+  } else if (key === "url" || key === "image") {
+    try { project[key] = normalizeProjectUrl(value, key === "url" ? "رابط المشروع" : "رابط الصورة"); } catch (e) { return sendText(env, chatId, "❌ " + e.message); }
+  } else if (key === "technologies") {
+    project.technologies = value && value !== "-" ? value.split(",").map(x => x.trim()).filter(Boolean).slice(0, 12) : [];
+  }
+  await saveProjectsData(env, projects);
+  return sendText(env, chatId, "✅ تم تعديل المشروع " + project.name + " (" + id + ").\nالتغيير محفوظ على GitHub، وهيظهر على الموقع بعد تحديث النشر.");
+}
+
+async function toggleProjectById(env, chatId, id) {
+  const { projects } = await getProjectsData(env);
+  const project = projects.find(p => String(p.id) === String(id));
+  if (!project) return sendText(env, chatId, "مش لاقي المشروع ده. استخدم /projects.");
+  project.visible = project.visible === false;
+  await saveProjectsData(env, projects);
+  return sendText(env, chatId, (project.visible ? "👁️ المشروع بقى ظاهر: " : "🙈 المشروع اتخفى: ") + project.name + "\nالتغيير محفوظ على GitHub.");
+}
+
+async function deleteProjectFromText(env, chatId, input) {
+  const match = String(input).trim().match(/^([A-Za-z0-9_-]+)(?:\s+(CONFIRM))?$/i);
+  if (!match) return sendText(env, chatId, "استخدم /deleteproject ID ثم أكد الحذف من الزر اللي هيظهر.");
+  const id = match[1];
+  const { projects } = await getProjectsData(env);
+  const project = projects.find(p => String(p.id) === id);
+  if (!project) return sendText(env, chatId, "مش لاقي المشروع ده. استخدم /projects.");
+  if (match[2]) {
+    const remaining = projects.filter(p => String(p.id) !== id);
+    await saveProjectsData(env, remaining);
+    return sendText(env, chatId, "🗑️ اتمسح المشروع من قائمة الموقع: " + project.name + "\nتقدر ترجعه من سجل Commits على GitHub لو احتجت.");
+  }
+  return sendText(env, chatId, "⚠️ متأكد إنك عايز تحذف المشروع ده من الموقع؟\n" + project.name, {
+    inline_keyboard: [[{ text: "🗑️ أيوه، احذف", callback_data: "proj:confirm:" + id }, { text: "إلغاء", callback_data: "proj:cancel" }]]
+  });
+}
+
+async function listProjects(env, chatId) {
+  const { projects } = await getProjectsData(env);
+  if (!projects.length) {
+    return sendText(env, chatId, "📦 مفيش مشاريع حاليًا. اضغط إضافة مشروع أو استخدم /addproject.", {
+      inline_keyboard: [[{ text: "➕ إضافة مشروع", callback_data: "addproject" }]]
+    });
+  }
+  await sendText(env, chatId, "📦 مشاريع البورتفوليو (" + projects.length + ")\nاختار إجراء لأي مشروع. المعروض بعلامة 👁️، والمخفي بعلامة 🙈.");
+  for (const p of projects.slice(0, 25)) {
+    const status = p.visible === false ? "🙈 مخفي" : "👁️ ظاهر";
+    await sendText(env, chatId, status + " · " + p.name + "\n🆔 " + p.id + "\n🏷️ " + (p.category || "other") + "\n🔗 " + (p.url || "بدون رابط"), {
+      inline_keyboard: [
+        [{ text: "✏️ تعديل", callback_data: "proj:edit:" + p.id }, { text: p.visible === false ? "👁️ إظهار" : "🙈 إخفاء", callback_data: "proj:toggle:" + p.id }],
+        [{ text: "🗑️ حذف", callback_data: "proj:delete:" + p.id }]
+      ]
+    });
+  }
+  await sendText(env, chatId, "لإضافة مشروع جديد اضغط الزر أو استخدم /addproject.", {
+    inline_keyboard: [[{ text: "➕ إضافة مشروع", callback_data: "addproject" }, { text: "🔄 تحديث القائمة", callback_data: "projects" }]]
+  });
+}
+
+async function handleProjectCallback(env, chatId, data) {
+  const [, action, id] = data.split(":");
+  if (action === "list") return listProjects(env, chatId);
+  if (action === "edit") {
+    const { projects } = await getProjectsData(env);
+    const p = projects.find(x => String(x.id) === id);
+    if (!p) return sendText(env, chatId, "المشروع مش موجود.");
+    return sendText(env, chatId, "✏️ تعديل: " + p.name + "\nالمعرّف: " + p.id + "\n\nاستخدم أمرًا واحدًا لكل تعديل:\n/editproject " + p.id + " | name | الاسم الجديد\n/editproject " + p.id + " | description | الوصف الجديد\n/editproject " + p.id + " | category | web\n/editproject " + p.id + " | url | https://example.com\n/editproject " + p.id + " | image | https://example.com/image.jpg\n/editproject " + p.id + " | technologies | HTML, CSS, JavaScript");
+  }
+  if (action === "toggle") return toggleProjectById(env, chatId, id);
+  if (action === "delete") return deleteProjectFromText(env, chatId, id);
+  if (action === "confirm") return deleteProjectFromText(env, chatId, id + " CONFIRM");
+  if (action === "cancel") return sendText(env, chatId, "تمام، تم إلغاء الحذف.");
+  return sendText(env, chatId, "الإجراء غير معروف.");
+}
 
 async function handleMessage(env, msg) {
   const chatId = msg.chat.id;
@@ -139,6 +330,15 @@ async function handleMessage(env, msg) {
     if (!result.ok) throw new Error("GitHub delete failed: " + result.status);
     return sendText(env, chatId, `🗑️ اتمسح ${path} من GitHub واتسجل Commit. تقدر تسترجعه من سجل الملفات/Commits على GitHub.`);
   }
+  if (/^\/projects(?:@\\w+)?$/i.test(text)) return listProjects(env, chatId);
+  if (/^\/addproject(?:@\\w+)?(?:\\s|$)/i.test(text)) {
+    const payload = text.replace(/^\\/addproject(?:@\\w+)?\\s*/i, "").trim();
+    if (!payload) return sendText(env, chatId, addProjectHelp());
+    return addProjectFromText(env, chatId, payload);
+  }
+  if (/^\\/editproject\\s+/i.test(text)) return editProjectFromText(env, chatId, text.replace(/^\\/editproject\\s+/i, ""));
+  if (/^\\/toggleproject\\s+/i.test(text)) return toggleProjectById(env, chatId, text.replace(/^\\/toggleproject\\s+/i, "").trim());
+  if (/^\\/deleteproject\\s+/i.test(text)) return deleteProjectFromText(env, chatId, text.replace(/^\\/deleteproject\\s+/i, "").trim());
   if (/^\/status$/i.test(text)) return repoStatus(env, chatId);
   if (/^\/replace(?:\s|$)/i.test(text) || /^\/create(?:\s|$)/i.test(text)) {
     return sendText(env, chatId, "📎 ابعت الملف كمرفق Document، واكتب الأمر في خانة الوصف (Caption)، مثال:\n/replace index.html\nأو:\n/create assets/new-file.css");
@@ -150,12 +350,14 @@ async function handleMessage(env, msg) {
 async function showMenu(env, chatId) {
   const keyboard = {
     inline_keyboard: [
-      [{ text: "📁 ملفات المستودع", callback_data: "files" }, { text: "📊 حالة الموقع", callback_data: "status" }],
+      [{ text: "📦 إدارة المشاريع", callback_data: "projects" }, { text: "➕ إضافة مشروع", callback_data: "addproject" }],
+      [{ text: "📊 حالة الموقع", callback_data: "status" }],
+      [{ text: "📁 أدوات الملفات المتقدمة", callback_data: "files" }],
       [{ text: "📄 طريقة قراءة ملف", callback_data: "readhelp" }, { text: "✏️ تعديل/إنشاء ملف", callback_data: "writehelp" }],
       [{ text: "🗑️ حذف ملف", callback_data: "deletehelp" }, { text: "❓ المساعدة", callback_data: "help" }],
     ],
   };
-  await sendText(env, chatId, "🛠️ لوحة تحكم الـ Portfolio\nاختار عملية، أو استخدم الأوامر المكتوبة تحت.", keyboard);
+  await sendText(env, chatId, "🛠️ داش بورد البورتفوليو\nمن هنا تقدر تدير المشاريع المعروضة على الموقع مباشرة، أو تستخدم أدوات الملفات المتقدمة.", keyboard);
 }
 
 async function listFiles(env, chatId, path = "") {
@@ -289,9 +491,15 @@ function helpText() {
     "ارفع ملفًا مع Caption: /replace index.html — استبدال ملف موجود",
     "ارفع ملفًا مع Caption: /create assets/new.css — إنشاء ملف جديد",
     "/delete path/to/file CONFIRM — حذف ملف بعد التأكيد",
-    "/status — آخر Commit وحالة المستودع",
+    "/status — آخر Commit وحالة الموقع",
+    "/projects — عرض وإدارة مشاريع الموقع",
+    "/addproject الاسم | الوصف | التصنيف | الرابط | رابط الصورة | التقنيات مفصولة بفواصل",
+    "/editproject ID | field | value — تعديل name أو description أو category أو url أو image أو technologies",
+    "/toggleproject ID — إظهار/إخفاء مشروع",
+    "/deleteproject ID CONFIRM — حذف مشروع بعد التأكيد",
     "",
-    "مهم: أوامر الكتابة والحذف تنشئ Commits مباشرة على الفرع المحدد. خُد نسخة احتياطية قبل التعديلات الكبيرة.",
-    "البوت ينفّذ عمليات ملفات GitHub فقط؛ لا يوجد ذكاء اصطناعي مدمج لتوليد كود من وصف طبيعي.",
+    "تصنيفات المشاريع: 3d أو store أو game أو web أو other. استخدم - لترك الرابط/الصورة فارغين.",
+    "إدارة المشاريع تعدّل projects.json الذي يقرأه الموقع مباشرة، وتحفظ Commit على الفرع المحدد.",
+    "أدوات الملفات المتقدمة ما زالت متاحة من القائمة.",
   ].join("\n");
 }
