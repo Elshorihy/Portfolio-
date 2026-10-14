@@ -418,7 +418,7 @@ async function writeRepoFile(env, path, bytes, createOnly) {
     throw new Error("GitHub accepted the write, but verification could not read the saved file.");
   }
   const expectedBase64 = encodeBase64(bytes);
-  const actualBase64 = saved.content.replace(/\\s/g, "");
+  const actualBase64 = saved.content.replace(/\s/g, "");
   if (actualBase64 !== expectedBase64) {
     throw new Error("GitHub accepted the write, but the saved file did not match the submitted content. Check the configured repository and branch.");
   }
