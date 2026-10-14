@@ -1,0 +1,11 @@
+name = "portfolio-admin-api"
+main = "portfolio-admin-api.js"
+compatibility_date = "2026-10-14"
+
+[[kv_namespaces]]
+binding = "PROJECTS_KV"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+
+[vars]
+ALLOWED_ORIGIN = "https://elshorihy.github.io"
+INITIAL_PROJECTS_URL = "https://raw.githubusercontent.com/Elshorihy/Portfolio-/main/projects.json"
