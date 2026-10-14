@@ -198,6 +198,28 @@ body img:hover{
   body img,#project-grid .project-card img{animation:none!important;transition:none!important}
 }
 
+/* BEYOND THE SCREEN — responsive digital-universe layer */
+:root{--pointer-x:50vw;--pointer-y:35vh;--space-glow:rgba(0,242,254,.13)}
+body{isolation:isolate}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(420px circle at var(--pointer-x) var(--pointer-y),var(--space-glow),transparent 72%);opacity:.8;transition:opacity .25s}
+#home{isolation:isolate}
+#home::before{content:"";position:absolute;inset:7% 4%;z-index:-1;pointer-events:none;border-radius:50%;background:radial-gradient(ellipse at 50% 50%,rgba(0,242,254,.075),transparent 56%),radial-gradient(ellipse at 70% 25%,rgba(168,85,247,.09),transparent 48%);filter:blur(12px)}
+#home::after{content:"";position:absolute;inset:12% 7%;z-index:-1;pointer-events:none;border:1px solid rgba(0,242,254,.07);border-radius:50%;transform:rotate(-18deg) scaleY(.34);box-shadow:0 0 70px rgba(0,242,254,.035),inset 0 0 55px rgba(168,85,247,.035)}
+.project-card{transform-style:preserve-3d;will-change:transform;backface-visibility:hidden}
+.project-card:focus-visible,.pill-btn:focus-visible,.floating-control:focus-visible{outline:2px solid var(--accent,#00f2fe);outline-offset:4px}
+#project-modal .modal-card{animation:modalArrival .35s cubic-bezier(.2,.8,.2,1) both}
+@keyframes modalArrival{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+#dev-panel{backdrop-filter:blur(18px);border-color:rgba(0,242,254,.55)}
+body.hacker-mode{--space-glow:rgba(52,211,153,.15);background-color:#020906!important}
+body.hacker-mode::before{background:radial-gradient(420px circle at var(--pointer-x) var(--pointer-y),rgba(52,211,153,.16),transparent 72%)}
+body.hacker-mode .text-gradient{background-image:linear-gradient(135deg,#34d399,#a3e635)!important}
+body.hacker-mode .text-neonCyan{color:#34d399!important}
+body.hacker-mode .glass-panel,body.hacker-mode .feature-card{border-color:rgba(52,211,153,.2)}
+body.hacker-mode .terminal-line{color:#86efac}
+@media(max-width:640px){body::before{opacity:.45}#home::after{inset:18% 2%}#home::before{inset:12% 0}.project-card{will-change:auto}}
+@media(hover:none){body::before{display:none}}
+@media(prefers-reduced-motion:reduce){#home::after,#home::before{display:none!important}#project-modal .modal-card{animation:none!important}.project-card{transform:none!important;will-change:auto}}
+
 /* Portfolio upgrades */
 :root{--accent:#00f2fe;--accent2:#4facfe}
 body.light-mode{background-color:#f4f7fb!important;background-image:radial-gradient(circle at 15% 50%,rgba(79,172,254,.10),transparent 50%),radial-gradient(circle at 85% 30%,rgba(0,242,254,.10),transparent 50%)!important;color:#172033!important}
@@ -659,6 +681,26 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
           function drawParticles(){if(!ctx||document.hidden)return;ctx.clearRect(0,0,innerWidth,innerHeight);for(let i=0;i<particles.length;i++){const p=particles[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>innerWidth)p.vx*=-1;if(p.y<0||p.y>innerHeight)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(0,242,254,.65)';ctx.fill();if(innerWidth>600){for(let j=i+1;j<particles.length;j++){const q=particles[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy);if(d<105){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(79,172,254,'+(1-d/105)*.12+')';ctx.stroke();}}}}raf=requestAnimationFrame(drawParticles);}
           resizeCanvas(); if(!reducedMotion)drawParticles(); addEventListener('resize',()=>{resizeCanvas();});document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!reducedMotion){cancelAnimationFrame(raf);drawParticles();}});
           
+          // Pointer-reactive universe: lightweight, no external libraries.
+          let pointerFrame=0;
+          const updatePointer=(x,y)=>{if(pointerFrame)return;pointerFrame=requestAnimationFrame(()=>{document.documentElement.style.setProperty('--pointer-x',x+'px');document.documentElement.style.setProperty('--pointer-y',y+'px');pointerFrame=0;});};
+          if(!reducedMotion&&matchMedia('(hover:hover) and (pointer:fine)').matches){
+            addEventListener('pointermove',e=>updatePointer(e.clientX,e.clientY),{passive:true});
+          }
+          // Project cards react subtly to the visitor, without affecting touch devices.
+          if(!reducedMotion&&matchMedia('(hover:hover) and (pointer:fine)').matches&&projectGrid){
+            projectGrid.addEventListener('pointermove',e=>{
+              const card=e.target.closest('.project-card');if(!card)return;
+              const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+              card.style.transform='perspective(900px) rotateX('+((.5-y)*3.5)+'deg) rotateY('+((x-.5)*4)+'deg) translateY(-5px)';
+            });
+            projectGrid.addEventListener('pointerout',e=>{const card=e.target.closest('.project-card');if(card&&!card.contains(e.relatedTarget))card.style.transform='';});
+          }
+          // Hacker mode is a visual easter egg, not a real shell or code executor.
+          const toggleHackerMode=()=>{const on=document.body.classList.toggle('hacker-mode');const out=$('terminal-output');if(out){const line=document.createElement('div');line.className='terminal-line';line.textContent=on?'[SYSTEM] GREEN MATRIX THEME: ON':'[SYSTEM] NORMAL THEME RESTORED';out.appendChild(line);}return on;};
+          // Secret keyboard shortcut: Ctrl + Shift + H.
+          addEventListener('keydown',e=>{if(e.ctrlKey&&e.shiftKey&&e.key.toLowerCase()==='h'){e.preventDefault();toggleHackerMode();openDev();}});
+          
           // Persistent light/dark mode.
           const themeBtn=$('theme-toggle');
           function setTheme(light){document.body.classList.toggle('light-mode',light);if(themeBtn)themeBtn.innerHTML=light?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';try{localStorage.setItem('portfolioTheme',light?'light':'dark')}catch(e){}}
@@ -745,7 +787,7 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
           // Developer terminal supports a tiny allow-list; it never executes arbitrary code.
           const devPanel=$('dev-panel'),openDev=()=>{devPanel.hidden=false;$('terminal-input')?.focus();};
           $('dev-inline')?.addEventListener('click',openDev);$('dev-close')?.addEventListener('click',()=>devPanel.hidden=true);
-          $('terminal-form')?.addEventListener('submit',e=>{e.preventDefault();const input=$('terminal-input'),out=$('terminal-output'),cmd=input.value.trim().toLowerCase();input.value='';if(cmd==='clear'){out.innerHTML='';return;}const messages={help:'الأوامر المتاحة: about, skills, projects, contact, clear.',about:'Portfolio شخصي لحمزة — واجهة عربية/إنجليزية.',skills:'React • Next.js • Node.js • JavaScript • Three.js • HTML/CSS.',projects:'الانتقال لقسم المشاريع…',contact:'الانتقال لقسم التواصل…'};const line=document.createElement('div');line.className='terminal-line';line.textContent='$ '+cmd;out.appendChild(line);const result=document.createElement('div');result.className='text-slate-300 text-sm my-2';result.textContent=messages[cmd]||'أمر غير معروف. اكتب help لعرض الأوامر.';out.appendChild(result);if(cmd==='projects')location.hash='projects';if(cmd==='contact')location.hash='contact';out.scrollTop=out.scrollHeight;});
+          $('terminal-form')?.addEventListener('submit',e=>{e.preventDefault();const input=$('terminal-input'),out=$('terminal-output'),cmd=input.value.trim().toLowerCase();input.value='';if(cmd==='clear'){out.innerHTML='';return;}const messages={help:'الأوامر: about, whoami, skills, projects, contact, matrix, hack, clear.',about:'Portfolio شخصي لحمزة — واجهة عربية/إنجليزية.',matrix:'تفعيل/إيقاف Hacker Mode البصري.',hack:'تفعيل/إيقاف Hacker Mode البصري.',whoami:'visitor@hamza-portfolio — session: local.',skills:'React • Next.js • Node.js • JavaScript • Three.js • HTML/CSS.',projects:'الانتقال لقسم المشاريع…',contact:'الانتقال لقسم التواصل…'};const line=document.createElement('div');line.className='terminal-line';line.textContent='$ '+cmd;out.appendChild(line);const result=document.createElement('div');result.className='text-slate-300 text-sm my-2';result.textContent=messages[cmd]||'أمر غير معروف. اكتب help لعرض الأوامر.';out.appendChild(result);if(cmd==='matrix'||cmd==='hack'){toggleHackerMode();result.textContent=document.body.classList.contains('hacker-mode')?'Hacker Mode اتفعل 🟢':'رجعنا للوضع الطبيعي.';}if(cmd==='whoami')result.textContent='visitor@hamza-portfolio — session محلية آمنة.';if(cmd==='projects')location.hash='projects';if(cmd==='contact')location.hash='contact';out.scrollTop=out.scrollHeight;});
           
           // Email draft uses mailto; no backend or silent sending.
           $('contactForm')?.addEventListener('submit',e=>{e.preventDefault();const name=$('senderName').value.trim(),email=$('senderEmail').value.trim(),message=$('senderMessage').value.trim();if(!name||!email||!message)return;const subject=encodeURIComponent('رسالة من بورتفوليو حمزة');const body=encodeURIComponent('الاسم: '+name+'\nالبريد: '+email+'\n\nالرسالة:\n'+message);$('contactHint').textContent='هنفتح تطبيق البريد لإكمال الإرسال.';location.href='mailto:?subject='+subject+'&body='+body;});
