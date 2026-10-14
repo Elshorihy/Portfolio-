@@ -9,7 +9,6 @@
     <meta property="og:description" content="استكشف مشاريع حمزة ومهاراته وتواصل معه.">
     <meta property="og:type" content="website">
     <title>حمزة | مطور ويب - Hamza | Web Developer</title>
-    <link rel="icon" type="image/svg+xml" href="./logo.svg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -350,40 +349,6 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
       }
       body.light-mode #project-grid .project-card{background:linear-gradient(155deg,#fff,#edf5fc)!important}
       body.light-mode #project-grid .project-card>div:nth-child(2){background:linear-gradient(180deg,#fff,#f0f6fc)}
-    
-
-/* HERO SOLAR SYSTEM — Hamza at the center, projects in orbit */
-#home{min-height:100svh}
-.hero-universe{position:relative;isolation:isolate}
-.hero-solar-system{position:relative;width:min(90vw,680px);height:min(90vw,680px);max-height:680px;min-height:340px;margin:-.3rem auto 0;display:grid;place-items:center;isolation:isolate}
-.solar-halo{position:absolute;width:45%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(0,242,254,.2),rgba(124,58,237,.12) 42%,transparent 72%);filter:blur(18px);animation:solarBreath 4s ease-in-out infinite}
-.solar-sun{position:absolute;width:clamp(112px,22vw,190px);aspect-ratio:1;border-radius:50%;padding:5px;background:linear-gradient(135deg,#00f2fe,#a855f7,#4facfe);box-shadow:0 0 22px #00f2fe66,0 0 65px #4facfe3d,0 0 120px #a855f72b;z-index:10;animation:solarFloat 5s ease-in-out infinite;overflow:visible}.solar-sun-aura{display:none!important}
-.solar-profile-image{display:block!important;width:100%;height:100%;min-width:0;min-height:0;object-fit:cover;object-position:center center;border-radius:50%;border:3px solid #07101e;position:relative;z-index:2;background:#0b1220;opacity:1;visibility:visible}
-.solar-sun-label{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);font:800 9px/1 ui-monospace,monospace;letter-spacing:.25em;color:#dffcff;background:#07101eeF;border:1px solid #00f2fe77;border-radius:99px;padding:5px 9px;white-space:nowrap}
-.solar-orbit{position:absolute;left:50%;top:50%;border:1px solid rgba(0,242,254,.23);border-radius:50%;transform:translate(-50%,-50%) rotate(-22deg);pointer-events:none}
-.solar-orbit-one{width:48%;height:48%;border-color:#00f2fe65;transform:translate(-50%,-50%)}
-.solar-orbit-two{width:72%;height:72%;border-color:#a855f74d;transform:translate(-50%,-50%)}
-.solar-orbit-three{width:96%;height:96%;border-color:#4facfe38;transform:translate(-50%,-50%)}
-.solar-planets{position:absolute;inset:0;z-index:7;pointer-events:none}
-.solar-track{position:absolute;width:var(--orbit-size,48%);height:var(--orbit-size,48%);left:calc((100% - var(--orbit-size,48%))/2);top:calc((100% - var(--orbit-size,48%))/2);border-radius:50%;animation:solarOrbitSpin var(--orbit-duration,28s) linear infinite;pointer-events:none;will-change:transform}
-.solar-planet-position{position:absolute;left:100%;top:50%;width:0;height:0;transform:translate(-50%,-50%);pointer-events:auto}
-.solar-planet{position:relative;width:clamp(48px,9vw,76px);height:clamp(48px,9vw,76px);margin:0;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#dffcff;background:radial-gradient(circle at 30% 25%,#263d59,#091322 62%,#02050b);border:1px solid var(--planet-color,#00f2fe);box-shadow:0 0 13px color-mix(in srgb,var(--planet-color,#00f2fe) 50%,transparent),inset -7px -7px 15px #0009;transition:box-shadow .25s,filter .25s;overflow:visible}
-.solar-planet-core{position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:solarCounterSpin var(--orbit-duration,28s) linear infinite;will-change:transform}
-.solar-planet::before{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid color-mix(in srgb,var(--planet-color,#00f2fe) 38%,transparent);transform:rotate(-28deg) scaleY(.55);pointer-events:none}
-.solar-planet img{width:100%;height:100%;object-fit:cover;border-radius:50%;position:absolute;inset:0;z-index:1;opacity:.92}
-.solar-planet i{font-size:clamp(17px,3vw,27px);position:relative;z-index:2;text-shadow:0 0 12px var(--planet-color,#00f2fe)}
-.solar-planet .solar-planet-name{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);font-size:clamp(9px,1.7vw,11px);font-weight:800;white-space:nowrap;background:#060b16eF;border:1px solid #ffffff22;border-radius:99px;padding:3px 8px;color:#e2e8f0;max-width:120px;overflow:hidden;text-overflow:ellipsis;backdrop-filter:blur(8px)}
-.solar-planet:hover,.solar-planet:focus-visible{z-index:20;filter:brightness(1.35);box-shadow:0 0 25px var(--planet-color,#00f2fe),0 0 55px color-mix(in srgb,var(--planet-color,#00f2fe) 40%,transparent);outline:none}
-@keyframes solarOrbitSpin{to{transform:rotate(360deg)}}
-@keyframes solarCounterSpin{to{transform:rotate(-360deg)}}
-.solar-loading{position:absolute;top:calc(50% + 100px);left:50%;transform:translateX(-50%);font-size:11px;color:#94a3b8;white-space:nowrap}
-.solar-caption{font-size:11px;letter-spacing:.08em;color:#94a3b8;display:flex;align-items:center;gap:8px}
-.solar-caption-dot{width:6px;height:6px;border-radius:50%;background:#00f2fe;box-shadow:0 0 10px #00f2fe}
-@keyframes solarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-@keyframes solarBreath{0%,100%{transform:scale(.94);opacity:.7}50%{transform:scale(1.08);opacity:1}}
-@keyframes planetFloat{0%,100%{filter:brightness(.94)}50%{filter:brightness(1.13)}}
-@media(max-width:520px){.hero-solar-system{width:94vw;height:94vw;min-height:0;margin:-.5rem auto 0}.solar-orbit-one{width:53%;height:53%}.solar-orbit-two{width:78%;height:78%}.solar-orbit-three{width:98%;height:98%}.solar-planet{width:48px;height:48px}.solar-planet .solar-planet-name{font-size:9px;max-width:86px;padding:2px 6px}.solar-caption{font-size:9px}}
-@media(prefers-reduced-motion:reduce){.solar-halo,.solar-sun,.solar-planet{animation:none!important}}
     </style>
 
 </head>
@@ -412,7 +377,7 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
             <!-- Brand / Logo -->
             <a href="#home" class="flex items-center gap-3 group interactive-el">
                 <div class="relative w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-neonCyan to-neonPurple group-hover:shadow-[0_0_15px_rgba(0,242,254,0.5)] transition-all duration-300">
-                    <img src="./logo.svg" alt="لوجو حمزة" onerror="this.onerror=null;this.src='./logo.svg'" class="brand-logo w-full h-full rounded-full object-contain border border-black">
+                    <img src="https://avatars.githubusercontent.com/u/208288672?v=4" alt="حمزة" class="w-full h-full rounded-full object-cover object-top border border-black">
                 </div>
                 <span class="font-bold text-xl tracking-wide text-white group-hover:text-neonCyan transition-colors" data-i18n="brandName">حمزة</span>
             </a>
@@ -437,28 +402,43 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
         </div>
     </nav>
 
-    <!-- Solar System Hero -->
-    <section id="home" class="min-h-screen flex items-center justify-center pt-24 pb-14 px-4 relative overflow-hidden">
-      <div class="hero-universe w-full max-w-6xl mx-auto flex flex-col items-center text-center">
-        <p class="text-neonCyan font-bold tracking-wider mb-2 relative z-10" data-i18n="heroGreeting">أهلاً بك، أنا</p>
-        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-2 leading-tight relative z-10"><span data-i18n="heroName">حمزة</span></h1>
-        <div class="hero-solar-system" id="hero-solar-system" aria-label="مشاريعي بتدور حول صورتي">
-          <div class="solar-halo"></div><div class="solar-orbit solar-orbit-one"></div><div class="solar-orbit solar-orbit-two"></div><div class="solar-orbit solar-orbit-three"></div>
-          <div class="solar-sun">
-            <span class="solar-sun-aura"></span>
-            <img src="https://avatars.githubusercontent.com/u/208288672?v=4" alt="حمزة" class="solar-profile-image">
-            <span class="solar-sun-label">HAMZA</span>
-          </div>
-          <div class="solar-planets" id="hero-solar-planets"><span class="solar-loading">جاري تجهيز مجرتي...</span></div>
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center pt-20 pb-12 px-6 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
+            
+            <!-- Text Content -->
+            <div class="order-2 md:order-1 text-center md:text-start" data-aos="fade-up" data-aos-duration="1000">
+                <p class="text-neonCyan font-bold tracking-wider mb-2" data-i18n="heroGreeting">أهلاً بك، أنا</p>
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight">
+                    <span data-i18n="heroName">حمزة</span>
+                </h1>
+                <h2 class="text-2xl md:text-4xl font-bold text-gradient mb-6" data-i18n="heroRole">مطور ويب شامل (Full Stack)</h2>
+                <p class="text-slate-400 text-lg md:text-xl leading-relaxed mb-8 max-w-lg mx-auto md:mx-0" data-i18n="heroDesc">
+                    أصنع تجارب رقمية استثنائية. من تصميم واجهات تفاعلية مذهلة إلى بناء أنظمة خلفية قوية ومعقدة.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                    <a href="#projects" class="interactive-el px-8 py-3 rounded-full bg-gradient-to-r from-neonCyan to-neonPurple text-black font-bold hover:shadow-[0_0_20px_rgba(79,172,254,0.4)] transition-all transform hover:-translate-y-1" data-i18n="btnProjects">
+                        استكشف أعمالي
+                    </a>
+                    <a href="#contact" class="interactive-el px-8 py-3 rounded-full glass-panel border border-white/20 text-white font-bold hover:bg-white/10 transition-all transform hover:-translate-y-1" data-i18n="btnContact">
+                        تواصل معي
+                    </a>
+                </div>
+            </div>
+
+            <!-- Profile Image Area -->
+            <div class="order-1 md:order-2 flex justify-center items-center relative h-[400px]" data-aos="zoom-in" data-aos-duration="1200">
+                <!-- Glowing Pulsing Rings -->
+                <div class="absolute w-64 h-64 md:w-80 md:h-80 rounded-full bg-neonCyan/20 blur-3xl animate-pulse-slow"></div>
+                <div class="absolute w-56 h-56 md:w-72 md:h-72 rounded-full border border-neonCyan/30 animate-[spin_10s_linear_infinite]"></div>
+                <div class="absolute w-64 h-64 md:w-80 md:h-80 rounded-full border border-neonPurple/20 animate-[spin_15s_linear_infinite_reverse]"></div>
+                
+                <!-- Main Image -->
+                <div class="relative w-56 h-56 md:w-72 md:h-72 rounded-full p-2 glass-panel z-10 animate-float">
+                    <img src="https://avatars.githubusercontent.com/u/208288672?v=4" alt="حمزة" class="w-full h-full rounded-full object-cover object-top border-2 border-transparent">
+                </div>
+            </div>
         </div>
-        <h2 class="text-xl md:text-3xl font-bold text-gradient mt-2 mb-4 relative z-10" data-i18n="heroRole">مطور ويب شامل (Full Stack)</h2>
-        <p class="text-slate-400 text-base md:text-lg leading-relaxed mb-7 max-w-2xl mx-auto relative z-10" data-i18n="heroDesc">أصنع تجارب رقمية استثنائية. من تصميم واجهات تفاعلية مذهلة إلى بناء أنظمة خلفية قوية ومعقدة.</p>
-        <div class="flex flex-wrap gap-3 justify-center relative z-10">
-          <a href="#projects" class="interactive-el px-7 py-3 rounded-full bg-gradient-to-r from-neonCyan to-neonPurple text-black font-bold hover:shadow-[0_0_20px_rgba(79,172,254,0.4)] transition-all transform hover:-translate-y-1" data-i18n="btnProjects">استكشف أعمالي</a>
-          <a href="#contact" class="interactive-el px-7 py-3 rounded-full glass-panel border border-white/20 text-white font-bold hover:bg-white/10 transition-all transform hover:-translate-y-1" data-i18n="btnContact">تواصل معي</a>
-        </div>
-        <div class="solar-caption mt-5"><span class="solar-caption-dot"></span> مشاريعي • عالمي الرقمي • <span id="solar-project-count">0</span> كوكب</div>
-      </div>
     </section>
 
     <!-- Skills Section -->
@@ -830,30 +810,7 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
           const safeWebURL=(value)=>{try{const u=new URL(String(value||''));return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return ''}};const safeImageURL=(value)=>{const s=String(value||'');if(/^data:image\/(jpeg|png|webp|gif);base64,[a-z0-9+/=]+$/i.test(s)&&s.length<=1800000)return s;return safeWebURL(s)};
           const categoryNames={all:'الكل','3d':'3D',store:'متجر',game:'ألعاب',web:'مواقع',other:'متنوع'};
           const categoryIcons={'3d':'fa-cube',store:'fa-shopping-bag',game:'fa-gamepad',web:'fa-globe',other:'fa-code'};
-          function renderHeroSolarSystem(){
-            const holder=$('hero-solar-planets');
-            if(!holder)return;
-            const visible=portfolioProjects.filter(p=>p.visible!==false).slice(0,10);
-            const icons={'3d':'fa-cube',store:'fa-bag-shopping',game:'fa-gamepad',web:'fa-globe',other:'fa-code'};
-            const colors=['#00f2fe','#a78bfa','#34d399','#fb7185','#fbbf24','#60a5fa','#e879f9','#2dd4bf','#f97316','#818cf8'];
-            const count=$('solar-project-count');if(count)count.textContent=String(visible.length);
-            if(!visible.length){holder.innerHTML='<span class="solar-loading">أضف مشاريع من لوحة الإدارة عشان تظهر في مدارك ✨</span>';return;}
-            holder.innerHTML=visible.map((p,i)=>{
-              const orbit=i%3;
-              const orbitSize=orbit===0?'48%':orbit===1?'72%':'96%';
-              const duration=orbit===0?19:orbit===1?29:39;
-              const reverse=i%2===1?'reverse':'normal';
-              const image=safeImageURL(p.image),url=safeWebURL(p.url);
-              const icon=icons[String(p.category||'other')]||icons.other;
-              const title=escapeHTML(p.name||'مشروع');
-              const contents=image?'<img src="'+escapeHTML(image)+'" alt="" loading="lazy">':'<i class="fas '+icon+'" aria-hidden="true"></i>';
-              const attrs=url?'href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer"':'href="#projects"';
-              const phaseDelay=-((Math.floor(i/3)*duration)/(Math.ceil(visible.length/3)||1));
-              return '<div class="solar-track" style="--orbit-size:'+orbitSize+';--orbit-duration:'+duration+'s;animation-direction:'+reverse+';animation-delay:'+phaseDelay+'s"><div class="solar-planet-position"><a class="solar-planet" '+attrs+' aria-label="'+title+'" title="'+title+'" style="--planet-color:'+colors[i%colors.length]+';--orbit-duration:'+duration+'s"><span class="solar-planet-core">'+contents+'<span class="solar-planet-name">'+title+'</span></span></a></div></div>';
-            }).join('');
-          }
           function renderProjects(){
-            renderHeroSolarSystem();
             if(!projectGrid)return;
             const visible=portfolioProjects.filter(p=>p.visible!==false);
             if(!visible.length){projectGrid.innerHTML='<p class="text-slate-400 text-center col-span-full py-12">مفيش مشاريع معروضة حاليًا.</p>';return;}
@@ -878,33 +835,19 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
           }
           const PORTFOLIO_API='https://portfolio-admin-api.sheenomatp.workers.dev';
           async function loadPortfolioProjects(){
-            const controller=new AbortController();
-            const timeout=setTimeout(()=>controller.abort(),5000);
             try{
               if(!PORTFOLIO_API.includes('YOUR-SUBDOMAIN')){
-                const apiResponse=await fetch(PORTFOLIO_API+'/projects?v='+Date.now(),{cache:'no-store',signal:controller.signal});
+                const apiResponse=await fetch(PORTFOLIO_API+'/projects?v='+Date.now(),{cache:'no-store'});
                 if(!apiResponse.ok)throw new Error('API unavailable');
                 const apiData=await apiResponse.json();
-                const remoteProjects=Array.isArray(apiData.projects)?apiData.projects:[];
-                if(remoteProjects.length){portfolioProjects=remoteProjects;renderProjects();return;}
-                throw new Error('API returned no projects; use local fallback');
+                portfolioProjects=Array.isArray(apiData.projects)?apiData.projects:[];
+                renderProjects();return;
               }
             }catch(e){console.warn('Admin API unavailable; using projects.json fallback.',e);}
-            finally{clearTimeout(timeout);}
-            try{
-              const r=await fetch('./projects.json?v='+Date.now(),{cache:'no-store'});
-              if(!r.ok)throw new Error('projects unavailable');
-              const data=await r.json();
-              portfolioProjects=Array.isArray(data.projects)?data.projects:[];
-              renderProjects();
-            }catch(e){
-              console.warn('Project sources unavailable.',e);
-              portfolioProjects=[];
-              renderProjects();
-              if(projectGrid)projectGrid.innerHTML='<p class="text-slate-400 text-center col-span-full py-12">تعذر تحميل المشاريع حاليًا. جرّب تحديث الصفحة بعد قليل.</p>';
-            }
+            try{const r=await fetch('./projects.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('projects unavailable');const data=await r.json();portfolioProjects=Array.isArray(data.projects)?data.projects:[];renderProjects();}
+            catch(e){if(projectGrid)projectGrid.innerHTML='<p class="text-slate-400 text-center col-span-full py-12">تعذر تحميل المشاريع حاليًا.</p>';}
           }
-          async function loadPortfolioSettings(){try{const r=await fetch(PORTFOLIO_API+'/settings?v='+Date.now(),{cache:'no-store'});if(!r.ok)return;const d=await r.json(),s=d.settings||{};if(s.brandName)document.querySelectorAll('[data-i18n="brandName"]').forEach(el=>el.textContent=s.brandName);if(s.logo)document.querySelectorAll('nav img.brand-logo').forEach(el=>el.src=s.logo);if(s.heroName){document.querySelectorAll('[data-i18n="heroName"]').forEach(el=>el.textContent=s.heroName);const intro=document.querySelector('.intro-name');if(intro)intro.innerHTML=escapeHTML(s.heroName)+'<span style="color:'+(s.accent||'#00f2fe')+'">.</span>'}if(s.role)document.querySelectorAll('[data-i18n="heroRole"]').forEach(el=>el.textContent=s.role);if(s.description)document.querySelectorAll('[data-i18n="heroDesc"]').forEach(el=>el.textContent=s.description);if(s.title){document.title=s.title;document.querySelectorAll('meta[property="og:title"]').forEach(el=>el.content=s.title)}if(s.metaDescription)document.querySelectorAll('meta[name="description"],meta[property="og:description"]').forEach(el=>el.content=s.metaDescription);if(s.accent){document.documentElement.style.setProperty('--accent',s.accent);document.querySelectorAll('.text-neonCyan').forEach(el=>el.style.color=s.accent);document.querySelectorAll('.text-gradient').forEach(el=>el.style.backgroundImage='linear-gradient(135deg,'+s.accent+','+(s.accent2||'#4facfe')+')')}if(s.accent2){document.documentElement.style.setProperty('--accent2',s.accent2);document.querySelectorAll('.text-gradient').forEach(el=>el.style.backgroundImage='linear-gradient(135deg,'+(s.accent||'#00f2fe')+','+s.accent2+')')}}catch(e){console.warn('Site settings unavailable',e)}}loadPortfolioSettings();loadPortfolioProjects();
+          async function loadPortfolioSettings(){try{const r=await fetch(PORTFOLIO_API+'/settings?v='+Date.now(),{cache:'no-store'});if(!r.ok)return;const d=await r.json(),s=d.settings||{};if(s.brandName)document.querySelectorAll('[data-i18n="brandName"]').forEach(el=>el.textContent=s.brandName);if(s.logo)document.querySelectorAll('nav img[alt="حمزة"], #home img[alt="حمزة"]').forEach(el=>el.src=s.logo);if(s.heroName){document.querySelectorAll('[data-i18n="heroName"]').forEach(el=>el.textContent=s.heroName);const intro=document.querySelector('.intro-name');if(intro)intro.innerHTML=escapeHTML(s.heroName)+'<span style="color:'+(s.accent||'#00f2fe')+'">.</span>'}if(s.role)document.querySelectorAll('[data-i18n="heroRole"]').forEach(el=>el.textContent=s.role);if(s.description)document.querySelectorAll('[data-i18n="heroDesc"]').forEach(el=>el.textContent=s.description);if(s.title){document.title=s.title;document.querySelectorAll('meta[property="og:title"]').forEach(el=>el.content=s.title)}if(s.metaDescription)document.querySelectorAll('meta[name="description"],meta[property="og:description"]').forEach(el=>el.content=s.metaDescription);if(s.accent){document.documentElement.style.setProperty('--accent',s.accent);document.querySelectorAll('.text-neonCyan').forEach(el=>el.style.color=s.accent);document.querySelectorAll('.text-gradient').forEach(el=>el.style.backgroundImage='linear-gradient(135deg,'+s.accent+','+(s.accent2||'#4facfe')+')')}if(s.accent2){document.documentElement.style.setProperty('--accent2',s.accent2);document.querySelectorAll('.text-gradient').forEach(el=>el.style.backgroundImage='linear-gradient(135deg,'+(s.accent||'#00f2fe')+','+s.accent2+')')}}catch(e){console.warn('Site settings unavailable',e)}}loadPortfolioSettings();loadPortfolioProjects();
           const closeModal=()=>modal?.classList.remove('open');$('modal-close')?.addEventListener('click',closeModal);$('modal-ok')?.addEventListener('click',closeModal);modal?.addEventListener('click',e=>{if(e.target===modal)closeModal()});
           document.querySelectorAll('#project-filters [data-filter]').forEach(btn=>btn.addEventListener('click',()=>{
             document.querySelectorAll('#project-filters [data-filter]').forEach(b=>b.classList.toggle('active',b===btn));
@@ -947,7 +890,8 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
           $('contactForm')?.addEventListener('submit',e=>{e.preventDefault();const name=$('senderName').value.trim(),email=$('senderEmail').value.trim(),message=$('senderMessage').value.trim();if(!name||!email||!message)return;const subject=encodeURIComponent('رسالة من بورتفوليو حمزة');const body=encodeURIComponent('الاسم: '+name+'\nالبريد: '+email+'\n\nالرسالة:\n'+message);$('contactHint').textContent='هنفتح تطبيق البريد لإكمال الإرسال.';location.href='mailto:?subject='+subject+'&body='+body;});
           
           // Print-friendly CV generated from verified visible details, not fabricated credentials.
-          $('cv-print')?.addEventListener('click',()=>{const w=window.open('','_blank');if(!w){alert('اسمح بفتح النافذة المنبثقة لطباعة السيرة الذاتية.');return;}const cvHtml='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>السيرة الذاتية - حمزة</title><style>body{font-family:Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 24px;color:#172033;line-height:1.9}h1{font-size:32px;border-bottom:3px solid #0891b2;padding-bottom:10px}h2{color:#0e7490;margin-top:24px}.muted{color:#64748b}@media print{button{display:none}}</style></head><body><h1>حمزة — مطور ويب</h1><p class="muted">سيرة ذاتية مختصرة مولّدة من معلومات البورتفوليو الحالي</p><h2>نبذة</h2><p>مهتم ببناء واجهات ويب وتجارب تفاعلية، وتطوير المشاريع بالتعلّم والتجربة العملية.</p><h2>التقنيات المعروضة</h2><p>React، Next.js، Node.js، JavaScript، Three.js، HTML، CSS، GitHub، Vercel.</p><h2>مشاريع معروضة</h2><ul><li>لعبة الكشري 3D — Three.js وJavaScript</li><li>Elshori7y Store — Next.js وTailwind CSS</li><li>لعبة حمزة — HTML5 Canvas وJavaScript</li></ul><h2>التواصل</h2><p>استخدم روابط التواصل في البورتفوليو للحصول على وسائل الاتصال المتاحة.</p><p class="muted">لم تُضف بيانات تعليم أو خبرة أو شهادات غير مؤكدة.</p><button onclick="window.print()">طباعة / حفظ PDF</button></body></html>';w.document.open();w.document.write(cvHtml);w.document.close();setTimeout(()=>w.print(),350);});
+          $('cv-print')?.addEventListener('click',()=>{const w=window.open('','_blank');if(!w){alert('اسمح بفتح النافذة المنبثقة لطباعة السيرة الذاتية.');return;}w.document.write('<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>السيرة الذاتية - حمزة</title><style>body{font-family:Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 24px;color:#172033;line-height:1.9}h1{font-size:32px;border-bottom:3px solid #0891b2;padding-bottom:10px}h2{color:#0e7490;margin-top:24px}.muted{color:#64748b}@media print{button{display:none}}</style><h1>حمزة — مطور ويب</h1><p class="muted">سيرة ذاتية مختصرة مولّدة من معلومات البورتفوليو الحالي</p><h2>نبذة</h2><p>مهتم ببناء واجهات ويب وتجارب تفاعلية، وتطوير المشاريع بالتعلّم والتجربة العملية.</p><h2>التقنيات المعروضة</h2><p>React، Next.js، Node.js، JavaScript، Three.js، HTML، CSS، GitHub، Vercel.</p><h2>مشاريع معروضة</h2><ul><li>لعبة الكشري 3D — Three.js وJavaScript</li><li>Elshori7y Store — Next.js وTailwind CSS</li><li>لعبة حمزة — HTML5 Canvas وJavaScript</li></ul><h2>التواصل</h2><p>استخدم روابط التواصل في البورتفوليو للحصول على وسائل الاتصال المتاحة.</p><p class="muted">لم تُضف بيانات تعليم أو خبرة أو شهادات غير مؤكدة.</p><button onclick="window.print()">طباعة / حفظ PDF</button></html>');w.document.close();setTimeout(()=>w.print(),350);});
+          
           // Easter egg: type the Konami sequence on a keyboard, or use the key button.
           let sequence=[];const secret=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
           function revealSecret(){const box=document.createElement('div');box.style.cssText='position:fixed;inset:0;z-index:10003;background:#030712f2;display:grid;place-items:center;text-align:center;padding:24px';box.innerHTML='<div style="max-width:560px;border:1px solid #00f2fe;border-radius:24px;padding:30px;background:#0b1120;box-shadow:0 0 50px #00f2fe22"><div style="font-size:48px">🕹️</div><h2 style="font-size:28px;font-weight:800;color:#00f2fe;margin:12px 0">Secret unlocked!</h2><p style="color:#cbd5e1;line-height:1.9">أنت اكتشفت المنطقة السرية 👾<br>أحلى حاجة في البرمجة إن دايمًا فيه حاجة جديدة تكتشفها.</p><button style="margin-top:18px;border:1px solid #334155;border-radius:999px;padding:9px 20px;color:white" id="secret-close">الرجوع للموقع</button></div>';document.body.appendChild(box);box.querySelector('#secret-close').onclick=()=>box.remove();}
