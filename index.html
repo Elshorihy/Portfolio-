@@ -116,6 +116,28 @@
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
     
+/* Global image motion: applies automatically to every image, including dashboard-updated images */
+@keyframes imageCinematicReveal{
+  0%{opacity:0;filter:blur(7px) brightness(.72);transform:scale(.965)}
+  65%{opacity:1;filter:blur(0) brightness(1.08);transform:scale(1.012)}
+  100%{opacity:1;filter:blur(0) brightness(1);transform:scale(1)}
+}
+body img{
+  animation:imageCinematicReveal .85s cubic-bezier(.2,.7,.2,1) both;
+  transition:filter .35s ease,transform .55s cubic-bezier(.2,.7,.2,1);
+}
+body img:hover{
+  filter:drop-shadow(0 0 10px rgba(0,242,254,.35)) brightness(1.04);
+}
+#project-grid .project-card img{
+  animation:imageCinematicReveal .9s cubic-bezier(.2,.7,.2,1) both;
+  will-change:transform,filter;
+}
+#project-grid .project-card:hover img{transform:scale(1.055);filter:brightness(1.08) saturate(1.08)}
+@media(prefers-reduced-motion:reduce){
+  body img,#project-grid .project-card img{animation:none!important;transition:none!important}
+}
+
 /* Portfolio upgrades */
 :root{--accent:#00f2fe;--accent2:#4facfe}
 body.light-mode{background-color:#f4f7fb!important;background-image:radial-gradient(circle at 15% 50%,rgba(79,172,254,.10),transparent 50%),radial-gradient(circle at 85% 30%,rgba(0,242,254,.10),transparent 50%)!important;color:#172033!important}
