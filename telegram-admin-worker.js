@@ -330,15 +330,15 @@ async function handleMessage(env, msg) {
     if (!result.ok) throw new Error("GitHub delete failed: " + result.status);
     return sendText(env, chatId, `🗑️ اتمسح ${path} من GitHub واتسجل Commit. تقدر تسترجعه من سجل الملفات/Commits على GitHub.`);
   }
-  if (/^\/projects(?:@\\w+)?$/i.test(text)) return listProjects(env, chatId);
-  if (/^\/addproject(?:@\\w+)?(?:\\s|$)/i.test(text)) {
-    const payload = text.replace(/^\\/addproject(?:@\\w+)?\\s*/i, "").trim();
+  if (/^\/projects(?:@\w+)?$/i.test(text)) return listProjects(env, chatId);
+  if (/^\/addproject(?:@\w+)?(?:\s|$)/i.test(text)) {
+    const payload = text.replace(/^\/addproject(?:@\w+)?\s*/i, "").trim();
     if (!payload) return sendText(env, chatId, addProjectHelp());
     return addProjectFromText(env, chatId, payload);
   }
-  if (/^\\/editproject\\s+/i.test(text)) return editProjectFromText(env, chatId, text.replace(/^\\/editproject\\s+/i, ""));
-  if (/^\\/toggleproject\\s+/i.test(text)) return toggleProjectById(env, chatId, text.replace(/^\\/toggleproject\\s+/i, "").trim());
-  if (/^\\/deleteproject\\s+/i.test(text)) return deleteProjectFromText(env, chatId, text.replace(/^\\/deleteproject\\s+/i, "").trim());
+  if (/^\/editproject\s+/i.test(text)) return editProjectFromText(env, chatId, text.replace(/^\/editproject\s+/i, ""));
+  if (/^\/toggleproject\s+/i.test(text)) return toggleProjectById(env, chatId, text.replace(/^\/toggleproject\s+/i, "").trim());
+  if (/^\/deleteproject\s+/i.test(text)) return deleteProjectFromText(env, chatId, text.replace(/^\/deleteproject\s+/i, "").trim());
   if (/^\/status$/i.test(text)) return repoStatus(env, chatId);
   if (/^\/replace(?:\s|$)/i.test(text) || /^\/create(?:\s|$)/i.test(text)) {
     return sendText(env, chatId, "📎 ابعت الملف كمرفق Document، واكتب الأمر في خانة الوصف (Caption)، مثال:\n/replace index.html\nأو:\n/create assets/new-file.css");
