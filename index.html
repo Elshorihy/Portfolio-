@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حمزة | مطور ويب - Hamza | Web Developer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        darkBase: '#050505',
+                        glassBg: 'rgba(255, 255, 255, 0.03)',
+                        glassBorder: 'rgba(255, 255, 255, 0.05)',
+                        neonCyan: '#00f2fe',
+                        neonPurple: '#4facfe',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(79, 172, 254, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 242, 254, 0.08) 0%, transparent 50%);
+            color: #e2e8f0;
+            overflow-x: hidden;
+            cursor: none; /* For custom cursor */
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4facfe; }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(25, 25, 35, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Cursor Elements */
+        .cursor-dot {
+            width: 6px; height: 6px; background-color: #00f2fe;
+            position: fixed; border-radius: 50%; pointer-events: none;
+            z-index: 9999; transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        .cursor-ring {
+            width: 36px; height: 36px;
+            border: 1px solid rgba(0, 242, 254, 0.5);
+            position: fixed; border-radius: 50%; pointer-events: none;
+            z-index: 9998; transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s, transform 0.1s ease-out;
+        }
+        /* Mobile fallback for cursor */
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-ring { display: none !important; }
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed; inset: 0; z-index: 10000;
+            background: #050505;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .loader-ring {
+            width: 60px; height: 60px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top-color: #00f2fe;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="antialiased selection:bg-neonCyan selection:text-black font-sans">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="flex flex-col items-center">
+            <div class="loader-ring mb-4"></div>
+            <div class="text-neonCyan tracking-widest text-sm font-bold animate-pulse" data-i18n="loading">جاري التحميل...</div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <!-- Navbar (Sticky & Glass) -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 transition-all duration-300 py-3">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <!-- Brand / Logo -->
+            <a href="#home" class="flex items-center gap-3 group interactive-el">
+                <div class="relative w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-neonCyan to-neonPurple group-hover:shadow-[0_0_15px_rgba(0,242,254,0.5)] transition-all duration-300">
+                    <img src="https://avatars.githubusercontent.com/u/208288672?v=4" alt="حمزة" class="w-full h-full rounded-full object-cover object-top border border-black">
+                </div>
+                <span class="font-bold text-xl tracking-wide text-white group-hover:text-neonCyan transition-colors" data-i18n="brandName">حمزة</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8 font-medium text-sm">
+                <a href="#home" class="hover:text-neonCyan transition-colors interactive-el" data-i18n="navHome">الرئيسية</a>
+                <a href="#skills" class="hover:text-neonCyan transition-colors interactive-el" data-i18n="navSkills">المهارات</a>
+                <a href="#projects" class="hover:text-neonCyan transition-colors interactive-el" data-i18n="navProjects">الأعمال</a>
+                <a href="#contact" class="hover:text-neonCyan transition-colors interactive-el" data-i18n="navContact">تواصل معي</a>
+            </div>
+
+            <!-- Language Toggle & Mobile Menu -->
+            <div class="flex items-center gap-4">
+                <button id="langToggle" class="interactive-el w-10 h-10 rounded-full glass-panel hover:bg-white/10 hover:text-neonCyan transition-all flex items-center justify-center font-bold text-xs border-white/10">
+                    EN
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center pt-20 pb-12 px-6 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
+            
+            <!-- Text Content -->
+            <div class="order-2 md:order-1 text-center md:text-start" data-aos="fade-up" data-aos-duration="1000">
+                <p class="text-neonCyan font-bold tracking-wider mb-2" data-i18n="heroGreeting">أهلاً بك، أنا</p>
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight">
+                    <span data-i18n="heroName">حمزة</span>
+                </h1>
+                <h2 class="text-2xl md:text-4xl font-bold text-gradient mb-6" data-i18n="heroRole">مطور ويب شامل (Full Stack)</h2>
+                <p class="text-slate-400 text-lg md:text-xl leading-relaxed mb-8 max-w-lg mx-auto md:mx-0" data-i18n="heroDesc">
+                    أصنع تجارب رقمية استثنائية. من تصميم واجهات تفاعلية مذهلة إلى بناء أنظمة خلفية قوية ومعقدة.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                    <a href="#projects" class="interactive-el px-8 py-3 rounded-full bg-gradient-to-r from-neonCyan to-neonPurple text-black font-bold hover:shadow-[0_0_20px_rgba(79,172,254,0.4)] transition-all transform hover:-translate-y-1" data-i18n="btnProjects">
+                        استكشف أعمالي
+                    </a>
+                    <a href="#contact" class="interactive-el px-8 py-3 rounded-full glass-panel border border-white/20 text-white font-bold hover:bg-white/10 transition-all transform hover:-translate-y-1" data-i18n="btnContact">
+                        تواصل معي
+                    </a>
+                </div>
+            </div>
+
+            <!-- Profile Image Area -->
+            <div class="order-1 md:order-2 flex justify-center items-center relative h-[400px]" data-aos="zoom-in" data-aos-duration="1200">
+                <!-- Glowing Pulsing Rings -->
+                <div class="absolute w-64 h-64 md:w-80 md:h-80 rounded-full bg-neonCyan/20 blur-3xl animate-pulse-slow"></div>
+                <div class="absolute w-56 h-56 md:w-72 md:h-72 rounded-full border border-neonCyan/30 animate-[spin_10s_linear_infinite]"></div>
+                <div class="absolute w-64 h-64 md:w-80 md:h-80 rounded-full border border-neonPurple/20 animate-[spin_15s_linear_infinite_reverse]"></div>
+                
+                <!-- Main Image -->
+                <div class="relative w-56 h-56 md:w-72 md:h-72 rounded-full p-2 glass-panel z-10 animate-float">
+                    <img src="https://avatars.githubusercontent.com/u/208288672?v=4" alt="حمزة" class="w-full h-full rounded-full object-cover object-top border-2 border-transparent">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-2" data-i18n="skillsTitle">المهارات و<span class="text-gradient">التقنيات</span></h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-neonCyan to-neonPurple mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
+                <!-- React -->
+                <div class="interactive-el glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:-translate-y-2 hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.1)] transition-all group" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fab fa-react text-5xl text-cyan-400 group-hover:scale-110 transition-transform duration-300"></i>
+                    <span class="font-bold tracking-wide">React</span>
+                </div>
+                <!-- Next.js -->
+                <div class="interactive-el glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:-translate-y-2 hover:border-white/50 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all group" data-aos="fade-up" data-aos-delay="200">
+                    <svg class="w-12 h-12 text-white group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M14.437 15.542l-4.135-4.697v4.697h-1.57V8.458h1.834l3.856 4.38V8.458h1.57v7.084h-1.555zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22.5C6.201 22.5 1.5 17.799 1.5 12S6.201 1.5 12 1.5 22.5 6.201 22.5 12 17.799 22.5 12 22.5z"/></svg>
+                    <span class="font-bold tracking-wide">Next.js</span>
+                </div>
+                <!-- Node.js -->
+                <div class="interactive-el glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:-translate-y-2 hover:border-green-500/50 hover:shadow-[0_0_20px_rgba(34,197,94,0.1)] transition-all group" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fab fa-node-js text-5xl text-green-500 group-hover:scale-110 transition-transform duration-300"></i>
+                    <span class="font-bold tracking-wide">Node.js</span>
+                </div>
+                <!-- JS -->
+                <div class="interactive-el glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:-translate-y-2 hover:border-yellow-400/50 hover:shadow-[0_0_20px_rgba(250,204,21,0.1)] transition-all group" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fab fa-js text-5xl text-yellow-400 group-hover:scale-110 transition-transform duration-300"></i>
+                    <span class="font-bold tracking-wide">JavaScript</span>
+                </div>
+                <!-- Three.js -->
+                <div class="interactive-el glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:-translate-y-2 hover:border-white/50 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all group" data-aos="fade-up" data-aos-delay="500">
+                    <svg class="w-12 h-12 text-white group-hover:scale-110 transition-transform duration-300" viewBox="0 0 100 100" fill="currentColor"><path d="M50 0L89 22.5V67.5L50 90L11 67.5V22.5L50 0ZM50 17.3L26 31.1V58.9L50 72.7L74 58.9V31.1L50 17.3Z"/></svg>
+                    <span class="font-bold tracking-wide">Three.js</span>
+                </div>
+                <!-- HTML/CSS -->
+                <div class="interactive-el glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:-translate-y-2 hover:border-orange-500/50 hover:shadow-[0_0_20px_rgba(249,115,22,0.1)] transition-all group" data-aos="fade-up" data-aos-delay="600">
+                    <div class="flex gap-2">
+                        <i class="fab fa-html5 text-4xl text-orange-500"></i>
+                        <i class="fab fa-css3-alt text-4xl text-blue-500"></i>
+                    </div>
+                    <span class="font-bold tracking-wide">HTML / CSS</span>
+                </div>
+                <!-- GitHub -->
+                <div class="interactive-el glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:-translate-y-2 hover:border-slate-400/50 hover:shadow-[0_0_20px_rgba(148,163,184,0.1)] transition-all group" data-aos="fade-up" data-aos-delay="700">
+                    <i class="fab fa-github text-5xl text-white group-hover:scale-110 transition-transform duration-300"></i>
+                    <span class="font-bold tracking-wide">GitHub</span>
+                </div>
+                <!-- Vercel -->
+                <div class="interactive-el glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:-translate-y-2 hover:border-white/50 transition-all group" data-aos="fade-up" data-aos-delay="800">
+                    <svg class="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" viewBox="0 0 512 512" fill="currentColor"><path fill-rule="evenodd" d="M256 48l240 416H16z"/></svg>
+                    <span class="font-bold tracking-wide">Vercel</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 px-6 relative bg-white/[0.02]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-2" data-i18n="projectsTitle">أبرز <span class="text-gradient">أعمالي</span></h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-neonCyan to-neonPurple mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project 1: Koshary 3D -->
+                <div class="interactive-el glass-panel rounded-3xl overflow-hidden group hover:-translate-y-3 hover:shadow-[0_15px_30px_rgba(0,242,254,0.1)] hover:border-neonCyan/40 transition-all duration-500 flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-56 bg-slate-900 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-10 opacity-90"></div>
+                        <!-- Placeholder visual for Koshary -->
+                        <i class="fas fa-cube text-7xl text-cyan-900 group-hover:scale-110 group-hover:text-neonCyan transition-all duration-700 z-0"></i>
+                        <div class="absolute top-4 end-4 z-20 glass-panel px-3 py-1 rounded-full text-xs font-bold text-neonCyan">3D Sim</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow relative z-20">
+                        <h3 class="text-2xl font-bold text-white mb-2" data-i18n="proj1Title">لعبة الكشري 3D</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow" data-i18n="proj1Desc">تجربة تفاعلية ثلاثية الأبعاد لمحاكاة تحضير طبق الكشري المصري بكامل الإضافات.</p>
+                        <div class="flex gap-2 mb-4 flex-wrap">
+                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">Three.js</span>
+                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">JavaScript</span>
+                        </div>
+                        <span class="inline-flex items-center gap-2 text-neonCyan/70 text-sm font-bold mt-auto w-max">
+                            <span data-i18n="viewProject">عرض المشروع</span> <span class="text-xs border border-white/10 rounded-full px-2 py-1">قريبًا</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Project 2: Elshori7y Store -->
+                <div class="interactive-el glass-panel rounded-3xl overflow-hidden group hover:-translate-y-3 hover:shadow-[0_15px_30px_rgba(79,172,254,0.1)] hover:border-neonPurple/40 transition-all duration-500 flex flex-col" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-56 bg-slate-900 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-10 opacity-90"></div>
+                        <i class="fas fa-shopping-bag text-7xl text-purple-900 group-hover:scale-110 group-hover:text-neonPurple transition-all duration-700 z-0"></i>
+                        <div class="absolute top-4 end-4 z-20 glass-panel px-3 py-1 rounded-full text-xs font-bold text-neonPurple">E-Commerce</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow relative z-20">
+                        <h3 class="text-2xl font-bold text-white mb-2" data-i18n="proj2Title">Elshori7y Store</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow" data-i18n="proj2Desc">متجر إلكتروني متكامل بتصميم عصري وأداء سريع، يشمل سلة مشتريات ولوحة تحكم.</p>
+                        <div class="flex gap-2 mb-4 flex-wrap">
+                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">Next.js</span>
+                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">Tailwind</span>
+                        </div>
+                        <span class="inline-flex items-center gap-2 text-neonPurple/70 text-sm font-bold mt-auto w-max">
+                            <span data-i18n="viewProject">عرض المشروع</span> <span class="text-xs border border-white/10 rounded-full px-2 py-1">قريبًا</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Project 3: Stickman Game -->
+                <div class="interactive-el glass-panel rounded-3xl overflow-hidden group hover:-translate-y-3 hover:shadow-[0_15px_30px_rgba(255,255,255,0.1)] hover:border-white/40 transition-all duration-500 flex flex-col" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-56 bg-slate-900 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-10 opacity-90"></div>
+                        <i class="fas fa-gamepad text-7xl text-slate-700 group-hover:scale-110 group-hover:text-white transition-all duration-700 z-0"></i>
+                        <div class="absolute top-4 end-4 z-20 glass-panel px-3 py-1 rounded-full text-xs font-bold text-white">Browser Game</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow relative z-20">
+                        <h3 class="text-2xl font-bold text-white mb-2" data-i18n="proj3Title">لعبة حمزة</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow" data-i18n="proj3Desc">لعبة أكشن ثنائية الأبعاد (Stickman) تعمل مباشرة على المتصفح بفيزياء حركة ممتعة.</p>
+                        <div class="flex gap-2 mb-4 flex-wrap">
+                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">HTML5 Canvas</span>
+                            <span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">JS</span>
+                        </div>
+                        <span class="inline-flex items-center gap-2 text-white/70 text-sm font-bold mt-auto w-max">
+                            <span data-i18n="viewProject">عرض المشروع</span> <span class="text-xs border border-white/10 rounded-full px-2 py-1">قريبًا</span>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6 relative">
+        <div class="max-w-4xl mx-auto text-center">
+            <div data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6" data-i18n="contactTitle">لنتحدث عن <span class="text-gradient">مشروعك القادم</span></h2>
+                <p class="text-slate-400 text-lg mb-12 max-w-2xl mx-auto" data-i18n="contactDesc">جاهز لتحويل فكرتك إلى واقع برمجي؟ لا تتردد في التواصل معي عبر المنصات التالية.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6" data-aos="fade-up" data-aos-delay="200">
+                <!-- WhatsApp -->
+                <a href="https://wa.me/?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B%20%D8%AD%D9%85%D8%B2%D8%A9%D8%8C%20%D8%B4%D9%81%D8%AA%20%D8%A7%D9%84%D8%A8%D9%88%D8%B1%D8%AA%D9%81%D9%88%D9%84%D9%8A%D9%88%20%D8%A8%D8%AA%D8%A7%D8%B9%D9%83%20%D9%88%D8%AD%D8%A7%D8%A8%D8%A8%20%D8%A3%D8%AA%D9%88%D8%A7%D8%B5%D9%84%20%D9%85%D8%B9%D8%A7%D9%83." target="_blank" class="interactive-el flex items-center justify-center gap-4 w-full md:w-auto px-8 py-4 glass-panel rounded-2xl hover:bg-[#25D366]/10 hover:border-[#25D366]/50 transition-all group">
+                    <i class="fab fa-whatsapp text-2xl text-[#25D366] group-hover:scale-125 transition-transform"></i>
+                    <div class="text-start">
+                        <span class="block text-white font-bold text-sm">WhatsApp</span>
+                        <span class="block text-slate-400 text-xs tracking-wider" dir="ltr">@Elshori7y</span>
+                    </div>
+                </a>
+                
+                <!-- Facebook -->
+                <a href="https://facebook.com/Elshori7y" target="_blank" class="interactive-el flex items-center justify-center gap-4 w-full md:w-auto px-8 py-4 glass-panel rounded-2xl hover:bg-[#1877F2]/10 hover:border-[#1877F2]/50 transition-all group">
+                    <i class="fab fa-facebook-f text-2xl text-[#1877F2] group-hover:scale-125 transition-transform"></i>
+                    <div class="text-start">
+                        <span class="block text-white font-bold text-sm">Facebook</span>
+                        <span class="block text-slate-400 text-xs tracking-wider" dir="ltr">@Elshori7y</span>
+                    </div>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://instagram.com/h.sha_heen" target="_blank" class="interactive-el flex items-center justify-center gap-4 w-full md:w-auto px-8 py-4 glass-panel rounded-2xl hover:bg-[#E1306C]/10 hover:border-[#E1306C]/50 transition-all group">
+                    <i class="fab fa-instagram text-2xl text-[#E1306C] group-hover:scale-125 transition-transform"></i>
+                    <div class="text-start">
+                        <span class="block text-white font-bold text-sm">Instagram</span>
+                        <span class="block text-slate-400 text-xs tracking-wider" dir="ltr">@h.sha_heen</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-white/5 text-center mt-10">
+        <p class="text-slate-500 text-sm">
+            &copy; <span id="year"></span> <span data-i18n="footerText">صُنع بحب بواسطة</span> <span class="text-neonCyan font-bold">حمزة</span>
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // --- Preloader Logic ---
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+                // Initialize AOS after preloader
+                AOS.init({
+                    once: true,
+                    offset: 50,
+                    duration: 800,
+                    easing: 'ease-out-cubic',
+                });
+            }, 1000); // Artificial delay for aesthetic loading
+        });
+
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorRing = document.getElementById('cursor-ring');
+        let mouseX = 0, mouseY = 0;
+        let ringX = 0, ringY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Dot follows instantly
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
+
+        // Smooth follow for the ring
+        function animateCursor() {
+            let distX = mouseX - ringX;
+            let distY = mouseY - ringY;
+            ringX += distX * 0.2;
+            ringY += distY * 0.2;
+            
+            cursorRing.style.left = ringX + 'px';
+            cursorRing.style.top = ringY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor hover effects
+        const interactiveEls = document.querySelectorAll('.interactive-el');
+        interactiveEls.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorRing.style.width = '50px';
+                cursorRing.style.height = '50px';
+                cursorRing.style.backgroundColor = 'rgba(0, 242, 254, 0.1)';
+                cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorRing.style.width = '36px';
+                cursorRing.style.height = '36px';
+                cursorRing.style.backgroundColor = 'transparent';
+                cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+        });
+
+        // --- Localization (AR / EN) ---
+        const dict = {
+            ar: {
+                loading: "جاري التحميل...",
+                brandName: "حمزة",
+                navHome: "الرئيسية", navSkills: "المهارات", navProjects: "الأعمال", navContact: "تواصل معي",
+                heroGreeting: "أهلاً بك، أنا", heroName: "حمزة", heroRole: "مطور ويب شامل (Full Stack)",
+                heroDesc: "أصنع تجارب رقمية استثنائية. من تصميم واجهات تفاعلية مذهلة إلى بناء أنظمة خلفية قوية ومعقدة.",
+                btnProjects: "استكشف أعمالي", btnContact: "تواصل معي",
+                skillsTitle: "المهارات و<span class='text-gradient'>التقنيات</span>",
+                projectsTitle: "أبرز <span class='text-gradient'>أعمالي</span>",
+                proj1Title: "لعبة الكشري 3D", proj1Desc: "تجربة تفاعلية ثلاثية الأبعاد لمحاكاة تحضير طبق الكشري المصري بكامل الإضافات.",
+                proj2Title: "Elshori7y Store", proj2Desc: "متجر إلكتروني متكامل بتصميم عصري وأداء سريع، يشمل سلة مشتريات ولوحة تحكم.",
+                proj3Title: "لعبة حمزة", proj3Desc: "لعبة أكشن ثنائية الأبعاد (Stickman) تعمل مباشرة على المتصفح بفيزياء حركة ممتعة.",
+                viewProject: "عرض المشروع",
+                contactTitle: "لنتحدث عن <span class='text-gradient'>مشروعك القادم</span>",
+                contactDesc: "جاهز لتحويل فكرتك إلى واقع برمجي؟ لا تتردد في التواصل معي عبر المنصات التالية.",
+                footerText: "صُنع بحب بواسطة"
+            },
+            en: {
+                loading: "LOADING...",
+                brandName: "Hamza",
+                navHome: "Home", navSkills: "Skills", navProjects: "Projects", navContact: "Contact",
+                heroGreeting: "Welcome, I am", heroName: "Hamza", heroRole: "Full Stack Web Developer",
+                heroDesc: "I build exceptional digital experiences. From designing stunning interactive interfaces to building robust backend systems.",
+                btnProjects: "Explore My Work", btnContact: "Get In Touch",
+                skillsTitle: "Tech & <span class='text-gradient'>Skills</span>",
+                projectsTitle: "Featured <span class='text-gradient'>Projects</span>",
+                proj1Title: "3D Koshary Sim", proj1Desc: "An interactive 3D simulation to prepare an Egyptian Koshary dish with all toppings.",
+                proj2Title: "Elshori7y Store", proj2Desc: "A complete e-commerce store with a modern design, fast performance, cart, and dashboard.",
+                proj3Title: "Hamza Game", proj3Desc: "A 2D Stickman action browser game featuring fun movement physics.",
+                viewProject: "View Project",
+                contactTitle: "Let's Talk About <span class='text-gradient'>Your Next Project</span>",
+                contactDesc: "Ready to turn your idea into reality? Feel free to reach out to me via the following platforms.",
+                footerText: "Crafted with love by"
+            }
+        };
+
+        let currentLang = 'ar';
+        const langToggle = document.getElementById('langToggle');
+        const root = document.documentElement;
+
+        langToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            
+            // Update direction and lang attribute
+            root.lang = currentLang;
+            root.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            
+            // Update button text
+            langToggle.textContent = currentLang === 'ar' ? 'EN' : 'AR';
+
+            // Flip arrows for RTL/LTR
+            const arrows = document.querySelectorAll('.rtl-icon');
+            arrows.forEach(icon => {
+                if(currentLang === 'en') {
+                    icon.classList.remove('fa-arrow-left');
+                    icon.classList.add('fa-arrow-right');
+                } else {
+                    icon.classList.remove('fa-arrow-right');
+                    icon.classList.add('fa-arrow-left');
+                }
+            });
+
+            // Update text content
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(dict[currentLang][key]) {
+                    el.innerHTML = dict[currentLang][key];
+                }
+            });
+        });
+    </script>
+</body>
+</html>
