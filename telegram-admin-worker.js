@@ -323,7 +323,7 @@ async function handleMessage(env, msg) {
     if (!safePath(path)) return sendText(env, chatId, "المسار غير مسموح.");
     const file = await getRepoFile(env, path);
     if (!file || file.type !== "file") return sendText(env, chatId, "❌ الملف مش موجود.");
-    const result = await githubRequest(env, `/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${encodePath(path)}`, {
+    const result = await githubRequest(env, `/repos/${(env.GITHUB_OWNER || "Elshorihy")}/${(env.GITHUB_REPO || "Portfolio-")}/contents/${encodePath(path)}`, {
       method: "DELETE",
       body: JSON.stringify({ message: `Delete ${path} via Telegram admin`, sha: file.sha, branch: env.GITHUB_BRANCH || "main" }),
     });
@@ -362,7 +362,7 @@ async function showMenu(env, chatId) {
 
 async function listFiles(env, chatId, path = "") {
   if (!safePath(path, true)) return sendText(env, chatId, "المسار غير مسموح.");
-  const endpoint = `/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents${path ? "/" + encodePath(path) : ""}?ref=${encodeURIComponent(env.GITHUB_BRANCH || "main")}`;
+  const endpoint = `/repos/${(env.GITHUB_OWNER || "Elshorihy")}/${(env.GITHUB_REPO || "Portfolio-")}/contents${path ? "/" + encodePath(path) : ""}?ref=${encodeURIComponent(env.GITHUB_BRANCH || "main")}`;
   const response = await githubRequest(env, endpoint);
   if (response.status === 404) return sendText(env, chatId, "❌ المسار مش موجود.");
   if (!response.ok) throw new Error("GitHub listing failed: " + response.status);
@@ -376,18 +376,18 @@ async function listFiles(env, chatId, path = "") {
 
 async function repoStatus(env, chatId) {
   const branch = env.GITHUB_BRANCH || "main";
-  const res = await githubRequest(env, `/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/commits/${encodeURIComponent(branch)}`);
+  const res = await githubRequest(env, `/repos/${(env.GITHUB_OWNER || "Elshorihy")}/${(env.GITHUB_REPO || "Portfolio-")}/commits/${encodeURIComponent(branch)}`);
   if (!res.ok) throw new Error("GitHub status failed: " + res.status);
   const commit = await res.json();
   const short = (commit.sha || "").slice(0, 7);
   const date = commit.commit?.committer?.date || "غير متاح";
   const message = commit.commit?.message?.split("\n")[0] || "بدون رسالة";
-  await sendText(env, chatId, `📊 حالة المستودع\nالمستودع: ${env.GITHUB_OWNER}/${env.GITHUB_REPO}\nالفرع: ${branch}\nآخر Commit: ${short}\nالتاريخ: ${date}\nالرسالة: ${message}\n\nhttps://github.com/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/commits/${branch}`);
+  await sendText(env, chatId, `📊 حالة المستودع\nالمستودع: ${(env.GITHUB_OWNER || "Elshorihy")}/${(env.GITHUB_REPO || "Portfolio-")}\nالفرع: ${branch}\nآخر Commit: ${short}\nالتاريخ: ${date}\nالرسالة: ${message}\n\nhttps://github.com/${(env.GITHUB_OWNER || "Elshorihy")}/${(env.GITHUB_REPO || "Portfolio-")}/commits/${branch}`);
 }
 
 async function getRepoFile(env, path) {
   if (!safePath(path)) return null;
-  const res = await githubRequest(env, `/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${encodePath(path)}?ref=${encodeURIComponent(env.GITHUB_BRANCH || "main")}`);
+  const res = await githubRequest(env, `/repos/${(env.GITHUB_OWNER || "Elshorihy")}/${(env.GITHUB_REPO || "Portfolio-")}/contents/${encodePath(path)}?ref=${encodeURIComponent(env.GITHUB_BRANCH || "main")}`);
   if (res.status === 404) return null;
   if (!res.ok) throw new Error("GitHub read failed: " + res.status);
   return res.json();
@@ -402,7 +402,7 @@ async function writeRepoFile(env, path, bytes, createOnly) {
   const content = encodeBase64(bytes);
   const body = { message: `${existing ? "Update" : "Create"} ${path} via Telegram admin`, content, branch: env.GITHUB_BRANCH || "main" };
   if (existing?.sha) body.sha = existing.sha;
-  const res = await githubRequest(env, `/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${encodePath(path)}`, {
+  const res = await githubRequest(env, `/repos/${(env.GITHUB_OWNER || "Elshorihy")}/${(env.GITHUB_REPO || "Portfolio-")}/contents/${encodePath(path)}`, {
     method: "PUT",
     body: JSON.stringify(body),
   });
