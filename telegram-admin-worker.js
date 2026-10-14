@@ -410,6 +410,18 @@ async function writeRepoFile(env, path, bytes, createOnly) {
     const detail = await res.text();
     throw new Error("GitHub write failed: " + res.status + " " + detail.slice(0, 300));
   }
+
+  // Verify the exact bytes were persisted on the configured branch before
+  // allowing any handler to send a success message.
+  const saved = await getRepoFile(env, path);
+  if (!saved || saved.type !== "file" || !saved.content) {
+    throw new Error("GitHub accepted the write, but verification could not read the saved file.");
+  }
+  const expectedBase64 = encodeBase64(bytes);
+  const actualBase64 = saved.content.replace(/\\s/g, "");
+  if (actualBase64 !== expectedBase64) {
+    throw new Error("GitHub accepted the write, but the saved file did not match the submitted content. Check the configured repository and branch.");
+  }
 }
 
 async function githubRequest(env, path, init = {}) {
