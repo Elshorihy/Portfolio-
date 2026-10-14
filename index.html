@@ -246,10 +246,35 @@ body.light-mode nav,body.light-mode .glass-panel{background:rgba(255,255,255,.78
 body.light-mode h1,body.light-mode h2,body.light-mode h3,body.light-mode nav a,body.light-mode .text-white{color:#172033!important}
 body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!important}
 #ambient-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.5}
-#intro-screen{position:fixed;inset:0;z-index:10001;background:#050505;display:flex;align-items:center;justify-content:center;text-align:center;transition:opacity .65s ease,visibility .65s ease}
+/* Intro-only hacker boot sequence */
+#intro-screen{position:fixed;inset:0;z-index:10001;overflow:hidden;background:radial-gradient(ellipse at center,#071827 0%,#03070d 48%,#010205 100%);display:flex;align-items:center;justify-content:center;text-align:center;transition:opacity .7s ease,visibility .7s ease;isolation:isolate}
 #intro-screen.hide{opacity:0;visibility:hidden;pointer-events:none}
-.intro-name{font-size:clamp(2rem,8vw,5rem);font-weight:900;background:linear-gradient(90deg,#00f2fe,#4facfe,#a855f7);background-clip:text;-webkit-background-clip:text;color:transparent}
-#intro-skip{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);border:1px solid #334155;border-radius:999px;padding:9px 20px;color:#cbd5e1}
+#intro-matrix{position:absolute;inset:0;width:100%;height:100%;opacity:.34;z-index:-2}
+.intro-grid{position:absolute;inset:-40%;z-index:-1;opacity:.18;background-image:linear-gradient(rgba(0,242,254,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(0,242,254,.2) 1px,transparent 1px);background-size:48px 48px;transform:perspective(450px) rotateX(62deg) translateY(22%);animation:intro-grid-drift 9s linear infinite;mask-image:linear-gradient(transparent,#000 35%,#000 75%,transparent)}
+.intro-content{position:relative;width:min(92vw,460px);padding:28px 20px 34px;animation:intro-boot .9s cubic-bezier(.2,.8,.2,1) both}
+.intro-logo-frame{position:relative;width:clamp(116px,32vw,164px);aspect-ratio:1;margin:0 auto 25px;display:grid;place-items:center;border:1px solid rgba(0,242,254,.5);border-radius:30px;background:linear-gradient(145deg,rgba(0,242,254,.09),rgba(6,15,28,.7));box-shadow:0 0 25px rgba(0,242,254,.12),inset 0 0 28px rgba(0,242,254,.07);transform:rotate(-3deg);animation:intro-logo-float 3s ease-in-out infinite}
+.intro-logo-frame:before,.intro-logo-frame:after{content:"";position:absolute;inset:-8px;border:1px solid rgba(0,242,254,.45);border-radius:34px;animation:intro-ring 2.8s ease-out infinite}
+.intro-logo-frame:after{animation-delay:1.4s}
+.intro-logo{width:76%;height:76%;object-fit:contain;filter:drop-shadow(0 0 12px rgba(0,242,254,.65));animation:intro-glitch 4s steps(1,end) infinite}
+.intro-scan{position:absolute;left:7%;right:7%;height:2px;top:8%;background:#00f2fe;box-shadow:0 0 14px #00f2fe;animation:intro-scan 2.2s ease-in-out infinite;opacity:.9}
+.intro-kicker{font:700 11px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.25em;color:#00f2fe;text-transform:uppercase}
+.intro-title{margin:8px 0 4px;font-size:clamp(2.4rem,12vw,4.2rem);font-weight:950;letter-spacing:.06em;line-height:1;background:linear-gradient(90deg,#e9fdff,#00f2fe 42%,#8b5cf6 90%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 32px rgba(0,242,254,.12)}
+.intro-subtitle{margin-top:12px;color:#9fb5c8;font:12px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.07em}
+.intro-terminal{margin:24px auto 0;max-width:310px;text-align:left;border:1px solid rgba(0,242,254,.22);border-radius:10px;padding:12px 14px;background:rgba(2,9,16,.75);color:#8ba8b8;font:11px/1.9 ui-monospace,SFMono-Regular,Menlo,monospace;box-shadow:0 12px 40px #0005}
+.intro-terminal strong{color:#00f2fe;font-weight:600}.intro-cursor{display:inline-block;width:7px;height:12px;background:#00f2fe;vertical-align:-2px;animation:intro-blink .7s steps(2) infinite}
+.intro-progress{height:2px;background:#122635;margin-top:10px;overflow:hidden}.intro-progress span{display:block;width:0;height:100%;background:#00f2fe;box-shadow:0 0 12px #00f2fe;animation:intro-progress 3.1s linear forwards}
+#intro-skip{position:absolute;bottom:25px;left:50%;transform:translateX(-50%);border:1px solid rgba(0,242,254,.32);border-radius:999px;padding:9px 20px;color:#a9c4d3;background:rgba(2,12,20,.65);font-size:12px;transition:.2s}
+#intro-skip:hover{color:#00f2fe;border-color:#00f2fe;box-shadow:0 0 20px rgba(0,242,254,.12)}
+@keyframes intro-boot{from{opacity:0;transform:translateY(18px) scale(.96);filter:blur(8px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes intro-logo-float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-7px) rotate(2deg)}}
+@keyframes intro-ring{0%{transform:scale(.96);opacity:.8}100%{transform:scale(1.16);opacity:0}}
+@keyframes intro-scan{0%{top:8%;opacity:0}12%{opacity:1}88%{opacity:1}100%{top:91%;opacity:0}}
+@keyframes intro-glitch{0%,91%,94%,97%,100%{transform:translate(0);clip-path:inset(0)}92%{transform:translate(3px,-1px);clip-path:inset(15% 0 62%)}95%{transform:translate(-3px,1px);clip-path:inset(58% 0 20%)}}
+@keyframes intro-grid-drift{to{background-position:0 48px,48px 0}}
+@keyframes intro-blink{50%{opacity:0}}
+@keyframes intro-progress{to{width:100%}}
+@media(max-width:420px){.intro-terminal{max-width:275px;font-size:10px}.intro-content{padding-inline:12px}}
+@media(prefers-reduced-motion:reduce){#intro-screen *{animation:none!important}.intro-progress span{width:100%}}
 .feature-section{padding:5rem 1.5rem;position:relative}
 .feature-card{background:rgba(25,25,35,.48);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.09);border-radius:1.25rem;padding:1.4rem;transition:transform .25s,border-color .25s}
 .feature-card:hover{transform:translateY(-5px);border-color:rgba(0,242,254,.4)}
@@ -355,7 +380,19 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
 <body class="antialiased selection:bg-neonCyan selection:text-black font-sans">
     <canvas id="ambient-canvas" aria-hidden="true"></canvas>
     <div id="intro-screen" aria-label="مقدمة الموقع">
-      <div><p class="text-slate-400 mb-3 tracking-widest">WELCOME TO MY DIGITAL SPACE</p><div class="intro-name">HAMZA<span style="color:#00f2fe">.</span></div><p class="text-slate-400 mt-3">Web • Design • Creative Builds</p></div>
+      <canvas id="intro-matrix" aria-hidden="true"></canvas><div class="intro-grid" aria-hidden="true"></div>
+      <div class="intro-content">
+        <div class="intro-kicker">SECURE CONNECTION // INITIALIZING</div>
+        <div class="intro-logo-frame"><img class="intro-logo" src="logo.svg" alt="Hamza Portfolio Logo"><span class="intro-scan"></span></div>
+        <div class="intro-kicker">SYSTEM ONLINE</div>
+        <h1 class="intro-title">HAMZA<span style="color:#00f2fe">.</span></h1>
+        <p class="intro-subtitle">DEVELOPER PORTFOLIO <span style="color:#00f2fe">/</span> ACCESS GRANTED</p>
+        <div class="intro-terminal" aria-hidden="true">
+          <div><strong>root@hamza</strong>:~$ initializing_portfolio</div>
+          <div id="intro-status">Loading creative modules<span class="intro-cursor"></span></div>
+          <div class="intro-progress"><span></span></div>
+        </div>
+      </div>
       <button id="intro-skip">تخطي المقدمة <i class="fas fa-arrow-left ms-2"></i></button>
     </div>
 
@@ -768,7 +805,45 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
           const dismissIntro = () => { if (!intro) return; intro.classList.add('hide'); try { sessionStorage.setItem('portfolioIntroSeen','1'); } catch(e) {} };
           try { if (sessionStorage.getItem('portfolioIntroSeen') === '1' || reducedMotion) dismissIntro(); } catch(e) {}
           $('intro-skip')?.addEventListener('click', dismissIntro);
-          if (!reducedMotion) setTimeout(dismissIntro, 2400);
+          if (!reducedMotion) setTimeout(dismissIntro, 3300);
+
+          // Hacker-style falling code is intentionally limited to the intro screen.
+          (() => {
+            const c = $('intro-matrix'), introCtx = c?.getContext('2d');
+            if (!c || !introCtx || reducedMotion) return;
+            let drops = [], w = 0, h = 0, dpr = 1, matrixFrame = 0;
+            const glyphs = '01アイウエオカキクケコ<>[]{}#$%';
+            function sizeMatrix() {
+              dpr = Math.min(devicePixelRatio || 1, 1.5); w = innerWidth; h = innerHeight;
+              c.width = Math.floor(w * dpr); c.height = Math.floor(h * dpr);
+              c.style.width = w + 'px'; c.style.height = h + 'px';
+              introCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+              const cols = Math.ceil(w / 18); drops = Array.from({length: cols}, () => Math.random() * (h / 18));
+            }
+            function drawMatrix() {
+              if (intro?.classList.contains('hide') || document.hidden) { matrixFrame = 0; return; }
+              introCtx.fillStyle = 'rgba(1,5,10,.13)'; introCtx.fillRect(0,0,w,h);
+              introCtx.font = '12px monospace'; introCtx.fillStyle = '#00d9e8';
+              for (let i=0;i<drops.length;i++) {
+                const ch = glyphs[Math.floor(Math.random()*glyphs.length)];
+                introCtx.globalAlpha = Math.random() * .55 + .12;
+                introCtx.fillText(ch, i*18, drops[i]*18);
+                if (drops[i]*18 > h && Math.random() > .975) drops[i] = 0;
+                drops[i] += .45 + Math.random()*.6;
+              }
+              introCtx.globalAlpha = 1; matrixFrame = requestAnimationFrame(drawMatrix);
+            }
+            sizeMatrix(); drawMatrix();
+            addEventListener('resize', sizeMatrix, {passive:true});
+            document.addEventListener('visibilitychange', () => {
+              if (!document.hidden && !intro.classList.contains('hide') && !matrixFrame) drawMatrix();
+            });
+            const status = $('intro-status');
+            const messages = ['Loading creative modules','Establishing secure interface','Compiling visual experience','Portfolio ready'];
+            let mi=0; const statusTimer=setInterval(()=>{if(!intro || intro.classList.contains('hide')){clearInterval(statusTimer);return;}mi=Math.min(mi+1,messages.length-1);if(status)status.innerHTML=messages[mi]+'<span class="intro-cursor"></span>';if(mi===messages.length-1)clearInterval(statusTimer);},760);
+            $('intro-skip')?.addEventListener('click',()=>{cancelAnimationFrame(matrixFrame);});
+            setTimeout(()=>cancelAnimationFrame(matrixFrame),3400);
+          })();
 
           // Lightweight ambient particles, paused when the tab is hidden.
           const canvas = $('ambient-canvas'), ctx = canvas?.getContext('2d');
