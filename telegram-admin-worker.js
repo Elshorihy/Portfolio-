@@ -44,7 +44,31 @@ export default {
           return new Response("ok");
         }
         await answerCallback(env, cq.id);
-        if (cq.message?.chat?.id) await showMenu(env, cq.message.chat.id);
+        const chatId = cq.message?.chat?.id;
+        if (chatId) {
+          switch (cq.data) {
+            case "files":
+              await listFiles(env, chatId);
+              break;
+            case "status":
+              await repoStatus(env, chatId);
+              break;
+            case "readhelp":
+              await sendText(env, chatId, "📄 لقراءة ملف ابعت الأمر بالشكل ده:\n/read index.html\nهيوصلك الملف كمرفق على تيليجرام.");
+              break;
+            case "writehelp":
+              await sendText(env, chatId, "✏️ لتعديل ملف موجود، ابعته كـ Document واكتب في Caption:\n/replace index.html\n\nلإنشاء ملف جديد:\n/create assets/new-file.css");
+              break;
+            case "deletehelp":
+              await sendText(env, chatId, "🗑️ للحذف اكتب اسم الملف والتأكيد، مثال:\n/delete assets/old.css CONFIRM\n⚠️ الحذف يسجل Commit مباشر على GitHub.");
+              break;
+            case "help":
+              await sendText(env, chatId, helpText());
+              break;
+            default:
+              await showMenu(env, chatId);
+          }
+        }
       } else if (update.message) {
         const msg = update.message;
         if (String(msg.from?.id) !== String(env.ADMIN_TELEGRAM_ID)) {
@@ -56,7 +80,13 @@ export default {
     } catch (error) {
       console.error("Update failed:", error?.stack || error);
       const chatId = update.message?.chat?.id || update.callback_query?.message?.chat?.id;
-      if (chatId) await sendText(env, chatId, "❌ حصل خطأ أثناء التنفيذ. راجع إعدادات GitHub/Cloudflare ثم جرّب تاني.");
+      if (chatId) {
+        const detail = String(error?.message || "خطأ غير معروف")
+          .replace(/Bearer\\s+[^\\s]+/gi, "Bearer [hidden]")
+          .replace(/bot\\d+:[A-Za-z0-9_-]+/g, "bot[hidden]")
+          .slice(0, 700);
+        await sendText(env, chatId, "❌ حصل خطأ: " + detail + "\\n\\nراجع إعدادات GitHub/Cloudflare بناءً على الرسالة دي.");
+      }
     }
     return new Response("ok");
   },
