@@ -848,7 +848,8 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
               const title=escapeHTML(p.name||'مشروع');
               const contents=image?'<img src="'+escapeHTML(image)+'" alt="" loading="lazy">':'<i class="fas '+icon+'" aria-hidden="true"></i>';
               const attrs=url?'href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer"':'href="#projects"';
-              return '<div class="solar-track" style="--orbit-duration:'+duration+'s;animation-direction:'+reverse+'"><div class="solar-planet-position" style="--orbit-radius:'+radius+'"><a class="solar-planet" '+attrs+' aria-label="'+title+'" title="'+title+'" style="--planet-color:'+colors[i%colors.length]+';--orbit-duration:'+duration+'s"><span class="solar-planet-core">'+contents+'<span class="solar-planet-name">'+title+'</span></span></a></div></div>';
+              const phaseDelay=-((Math.floor(i/3)*duration)/(Math.ceil(visible.length/3)||1));
+              return '<div class="solar-track" style="--orbit-duration:'+duration+'s;animation-direction:'+reverse+';animation-delay:'+phaseDelay+'s"><div class="solar-planet-position" style="--orbit-radius:'+radius+'"><a class="solar-planet" '+attrs+' aria-label="'+title+'" title="'+title+'" style="--planet-color:'+colors[i%colors.length]+';--orbit-duration:'+duration+'s"><span class="solar-planet-core">'+contents+'<span class="solar-planet-name">'+title+'</span></span></a></div></div>';
             }).join('');
           }
           function renderProjects(){
