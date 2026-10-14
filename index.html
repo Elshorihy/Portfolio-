@@ -220,6 +220,25 @@ body.hacker-mode .terminal-line{color:#86efac}
 @media(hover:none){body::before{display:none}}
 @media(prefers-reduced-motion:reduce){#home::after,#home::before{display:none!important}#project-modal .modal-card{animation:none!important}.project-card{transform:none!important;will-change:auto}}
 
+/* Project planets + cinematic warp transition */
+.project-card{position:relative;isolation:isolate}
+.project-card::before{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;opacity:.5;background:radial-gradient(circle at 78% 15%,rgba(168,85,247,.16),transparent 35%),linear-gradient(135deg,transparent 35%,rgba(0,242,254,.035));transition:opacity .35s}
+.project-card:hover::before{opacity:1}
+.project-card .project-orbit{position:absolute;left:50%;top:7rem;width:9rem;height:3.3rem;border:1px solid rgba(0,242,254,.24);border-radius:50%;transform:translate(-50%,-50%) rotate(-25deg);pointer-events:none;z-index:2;opacity:.7;transition:transform .5s,opacity .5s}
+.project-card .project-orbit::after{content:"";position:absolute;left:12%;top:10%;width:7px;height:7px;border-radius:50%;background:#00f2fe;box-shadow:0 0 14px #00f2fe}
+.project-card:hover .project-orbit{transform:translate(-50%,-50%) rotate(-10deg) scale(1.13);opacity:1}
+.project-card .project-planet-glow{position:absolute;left:50%;top:7rem;width:5rem;height:5rem;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1;background:radial-gradient(circle at 35% 30%,rgba(0,242,254,.14),rgba(168,85,247,.07) 48%,transparent 72%);filter:blur(5px)}
+#project-warp{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:radial-gradient(circle at center,rgba(0,242,254,.13),transparent 24%),#030711;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s}
+#project-warp.active{opacity:1;visibility:visible}
+#project-warp .warp-core{width:min(54vw,260px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(0,242,254,.5);display:grid;place-items:center;position:relative;box-shadow:0 0 60px rgba(0,242,254,.12),inset 0 0 45px rgba(168,85,247,.12);animation:warpPulse .75s ease-in-out infinite alternate}
+#project-warp .warp-core::before,#project-warp .warp-core::after{content:"";position:absolute;inset:-18%;border:1px solid rgba(168,85,247,.4);border-radius:50%;transform:rotateX(65deg) rotate(-25deg);animation:warpOrbit 1.8s linear infinite}
+#project-warp .warp-core::after{inset:-32%;border-color:rgba(0,242,254,.24);animation-duration:2.6s;animation-direction:reverse}
+#project-warp .warp-icon{font-size:clamp(2.5rem,9vw,5rem);color:#00f2fe;text-shadow:0 0 28px rgba(0,242,254,.65)}
+#project-warp .warp-label{position:absolute;top:calc(100% + 3rem);left:50%;width:80vw;transform:translateX(-50%);text-align:center;color:#e2e8f0;font-size:clamp(.8rem,2.5vw,1rem);letter-spacing:.2em;text-transform:uppercase}
+@keyframes warpPulse{from{transform:scale(.92);filter:brightness(.8)}to{transform:scale(1.04);filter:brightness(1.35)}}
+@keyframes warpOrbit{to{transform:rotateX(65deg) rotate(335deg)}}
+@media(prefers-reduced-motion:reduce){.project-card .project-orbit,.project-card .project-planet-glow,#project-warp .warp-core,#project-warp .warp-core::before,#project-warp .warp-core::after{animation:none!important;transition:none!important}#project-warp{transition:none}}
+
 /* Portfolio upgrades */
 :root{--accent:#00f2fe;--accent2:#4facfe}
 body.light-mode{background-color:#f4f7fb!important;background-image:radial-gradient(circle at 15% 50%,rgba(79,172,254,.10),transparent 50%),radial-gradient(circle at 85% 30%,rgba(0,242,254,.10),transparent 50%)!important;color:#172033!important}
@@ -476,6 +495,7 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
       <button id="cv-print" class="floating-control" aria-label="طباعة السيرة الذاتية"><i class="fas fa-file-pdf text-neonCyan ms-1"></i> CV</button>
       <button id="easter-toggle" class="floating-control" aria-label="ميزة سرية" title="ميزة سرية"><i class="fas fa-key"></i></button>
     </div>
+    <div id="project-warp" aria-hidden="true"><div class="warp-core"><i class="warp-icon fas fa-globe"></i><div class="warp-label">ENTERING WORLD</div></div></div>
     <div id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-card"><div class="flex items-center justify-between gap-3"><h3 id="modal-title" class="text-2xl font-bold text-white">تفاصيل المشروع</h3><button id="modal-close" class="text-2xl text-slate-400" aria-label="إغلاق">×</button></div><p id="modal-body" class="text-slate-300 leading-8 mt-4"></p><button id="modal-ok" class="pill-btn mt-5">تمام</button></div></div>
 
     <!-- Contact Section -->
@@ -721,16 +741,17 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
             projectGrid.innerHTML=visible.map((p,i)=>{
               const name=escapeHTML(p.name),desc=escapeHTML(p.description),category=String(p.category||'other');
               const url=safeWebURL(p.url),image=safeImageURL(p.image);
+              const planet='<span class="project-planet-glow" aria-hidden="true"></span><span class="project-orbit" aria-hidden="true"></span>';
               const tech=Array.isArray(p.technologies)?p.technologies:[];
               const icon=categoryIcons[category]||categoryIcons.other;
               const cover=image
                 ? '<img src="'+escapeHTML(image)+'" alt="'+name+'" loading="lazy" class="absolute inset-0 w-full h-full object-cover">'
                 : '<i class="fas '+icon+' text-7xl text-neonCyan group-hover:scale-110 group-hover:text-neonPurple transition-all duration-700 z-0"></i>';
               const link=url?'<a href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-neonCyan text-sm font-bold mt-auto w-max" data-project-link><span>عرض المشروع</span><i class="fas fa-arrow-up-left-from-square text-xs"></i></a>':'<span class="inline-flex items-center gap-2 text-slate-400 text-sm font-bold mt-auto w-max"><span>تفاصيل المشروع</span><span class="text-xs border border-white/10 rounded-full px-2 py-1">الرابط غير مضاف</span></span>';
-              return '<article class="project-card interactive-el glass-panel rounded-3xl overflow-hidden group hover:-translate-y-3 hover:shadow-[0_15px_30px_rgba(0,242,254,0.1)] hover:border-neonCyan/40 transition-all duration-500 flex flex-col" data-project-id="'+escapeHTML(p.id)+'" data-category="'+escapeHTML(category)+'" data-aos="fade-up" data-aos-delay="'+(Math.min(i,5)*100)+'" tabindex="0" role="button" aria-label="عرض تفاصيل '+name+'"><div class="h-56 bg-slate-900 relative overflow-hidden flex items-center justify-center">'+cover+'<div class="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-10 opacity-70 pointer-events-none"></div><div class="absolute top-4 end-4 z-20 glass-panel px-3 py-1 rounded-full text-xs font-bold text-neonCyan">'+escapeHTML(categoryNames[category]||'مشروع')+'</div></div><div class="p-6 flex flex-col flex-grow relative z-20"><h3 class="text-2xl font-bold text-white mb-2">'+name+'</h3><p class="text-slate-400 text-sm mb-6 flex-grow">'+desc+'</p><div class="flex gap-2 mb-4 flex-wrap">'+tech.map(t=>'<span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">'+escapeHTML(t)+'</span>').join('')+'</div>'+link+'</div></article>';
+              return '<article class="project-card interactive-el glass-panel rounded-3xl overflow-hidden group hover:-translate-y-3 hover:shadow-[0_15px_30px_rgba(0,242,254,0.1)] hover:border-neonCyan/40 transition-all duration-500 flex flex-col" data-project-id="'+escapeHTML(p.id)+'" data-category="'+escapeHTML(category)+'" data-aos="fade-up" data-aos-delay="'+(Math.min(i,5)*100)+'" tabindex="0" role="button" aria-label="عرض تفاصيل '+name+'"><div class="h-56 bg-slate-900 relative overflow-hidden flex items-center justify-center">'+cover+planet+'<div class="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-10 opacity-70 pointer-events-none"></div><div class="absolute top-4 end-4 z-20 glass-panel px-3 py-1 rounded-full text-xs font-bold text-neonCyan">'+escapeHTML(categoryNames[category]||'مشروع')+'</div></div><div class="p-6 flex flex-col flex-grow relative z-20"><h3 class="text-2xl font-bold text-white mb-2">'+name+'</h3><p class="text-slate-400 text-sm mb-6 flex-grow">'+desc+'</p><div class="flex gap-2 mb-4 flex-wrap">'+tech.map(t=>'<span class="text-xs px-2 py-1 bg-white/10 rounded text-slate-300">'+escapeHTML(t)+'</span>').join('')+'</div>'+link+'</div></article>';
             }).join('');
             projectGrid.querySelectorAll('.project-card').forEach(card=>{
-              const open=()=>{const p=portfolioProjects.find(x=>String(x.id)===card.dataset.projectId);if(!p)return;modalTitle.textContent=p.name||'تفاصيل المشروع';modalBody.textContent=[p.description||'',p.details||'',(p.technologies||[]).length?'التقنيات: '+p.technologies.join('، '):''].filter(Boolean).join('\n\n');modal?.classList.add('open');};
+              const open=()=>{const p=portfolioProjects.find(x=>String(x.id)===card.dataset.projectId);if(!p)return;modalTitle.textContent=p.name||'تفاصيل المشروع';modalBody.textContent=[p.description||'',p.details||'',(p.technologies||[]).length?'التقنيات: '+p.technologies.join('، '):''].filter(Boolean).join('\n\n');const warp=document.getElementById('project-warp');if(warp){const icon=categoryIcons[String(p.category||'other')]||categoryIcons.other;warp.querySelector('.warp-icon').className='warp-icon fas '+icon;warp.querySelector('.warp-label').textContent='ENTERING WORLD // '+(p.name||'PROJECT');warp.classList.add('active');warp.setAttribute('aria-hidden','false');if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){window.setTimeout(()=>{warp.classList.remove('active');warp.setAttribute('aria-hidden','true');modal?.classList.add('open');},520);}else{warp.classList.remove('active');warp.setAttribute('aria-hidden','true');modal?.classList.add('open');}}else modal?.classList.add('open');};
               card.addEventListener('click',e=>{if(e.target.closest('[data-project-link]'))return;open();});
               card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('[data-project-link]')){e.preventDefault();open();}});
             });
