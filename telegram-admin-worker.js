@@ -80,7 +80,7 @@ export default {
       } else if (update.message) {
         const msg = update.message;
         if (String(msg.from?.id) !== String(env.ADMIN_TELEGRAM_ID)) {
-          if (msg.chat?.id) await sendText(env, msg.chat.id, "⛔ البوت خاص بصاحبه فقط.");
+          if (msg.chat?.id) await sendText(env, msg.chat.id, "⛔ البوت خاص بصاحبه فقط.\n\n🆔 Telegram ID بتاع حسابك: " + String(msg.from?.id || "غير متاح") + "\n\nابعتلي الرقم ده عشان نضبط صلاحية الأدمن.");
           return new Response("ok");
         }
         await handleMessage(env, msg);
