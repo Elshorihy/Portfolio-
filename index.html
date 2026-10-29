@@ -387,9 +387,9 @@ body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!im
 /* CYBER OPS — rebuilt visual identity */
 :root{--cy-black:#050807;--cy-panel:rgba(8,17,13,.88);--cy-green:#a7ff4f;--cy-green2:#39ff88;--cy-dim:#8aa194;--cy-line:rgba(167,255,79,.22);--cy-amber:#ffbf69}
 html{background:var(--cy-black)!important;scroll-behavior:smooth;scroll-padding-top:88px}
-body{background:var(--cy-black)!important;color:#e8f4eb!important;overflow-x:hidden;cursor:auto!important;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace!important}
-body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(112,255,153,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(112,255,153,.06) 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(to bottom,#000,transparent 88%)}
-body::after{content:"";position:fixed;inset:0;z-index:99;pointer-events:none;opacity:.075;background:repeating-linear-gradient(to bottom,transparent 0px,transparent 3px,#a7ff4f 4px)}
+body{background:radial-gradient(ellipse at 50% -18%,rgba(35,73,53,.24),transparent 48%),linear-gradient(180deg,#080d0b 0%,#060908 42%,#080b0a 100%)!important;color:#e8f4eb!important;overflow-x:hidden;cursor:auto!important;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace!important}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.72;background:radial-gradient(ellipse at 12% 14%,rgba(38,95,63,.12),transparent 34%),radial-gradient(ellipse at 88% 52%,rgba(28,70,49,.10),transparent 38%),linear-gradient(180deg,transparent 0%,rgba(0,0,0,.18) 100%)}
+body::after{content:"";position:fixed;inset:0;z-index:99;pointer-events:none;opacity:.025;background:linear-gradient(180deg,transparent 0%,rgba(167,255,79,.16) 50%,transparent 100%)}
 nav,header{background:rgba(3,8,5,.9)!important;backdrop-filter:blur(18px)!important;border-bottom:1px solid var(--cy-line)!important}
 a,button{transition:all .22s ease!important}
 .text-gradient{background:linear-gradient(100deg,#f2ffe8 0%,var(--cy-green) 45%,var(--cy-green2) 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important}
@@ -398,9 +398,9 @@ a,button{transition:all .22s ease!important}
 .glass-panel,.project-card,#project-grid .project-card{background:linear-gradient(145deg,rgba(10,21,15,.96),rgba(4,9,7,.96))!important;border:1px solid var(--cy-line)!important;box-shadow:inset 0 1px rgba(255,255,255,.025),0 16px 55px rgba(0,0,0,.22)!important;border-radius:5px!important;backdrop-filter:blur(14px)}
 section{position:relative}
 section:not(#home){isolation:isolate}
-section:not(#home)::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(92,255,128,.025),transparent)}
+section:not(#home)::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(63,115,79,.045),transparent 60%)}
 section:not(#home) h2{font-family:ui-monospace,SFMono-Regular,Menlo,monospace!important;letter-spacing:-.055em!important}
-#home{min-height:100vh!important;padding-top:118px!important;padding-bottom:70px!important;background:radial-gradient(ellipse at 75% 45%,rgba(42,255,119,.075),transparent 38%),linear-gradient(180deg,#050907,#030504)!important}
+#home{min-height:100vh!important;padding-top:118px!important;padding-bottom:70px!important;background:radial-gradient(ellipse at 74% 42%,rgba(47,111,70,.12),transparent 38%),linear-gradient(180deg,rgba(8,14,10,.55),rgba(5,8,6,.12))!important}
 #home>.max-w-7xl{position:relative;z-index:2;gap:clamp(2rem,6vw,6rem)!important}
 #home .order-2.md\:order-1{text-align:left!important;direction:rtl}
 #home [data-i18n="heroGreeting"]{display:inline-flex;align-items:center;gap:10px;font-size:11px!important;letter-spacing:.17em!important;text-transform:uppercase;color:var(--cy-green)!important}
@@ -615,7 +615,7 @@ footer{border-top:1px solid var(--cy-line)!important}
                 <div class="w-20 h-1 bg-gradient-to-r from-neonCyan to-neonPurple mx-auto rounded-full mt-4"></div>
             </div>
 
-            <div id="project-filters" class="flex flex-wrap justify-center gap-2 mb-8"><button class="pill-btn active" data-filter="all">الكل</button><button class="pill-btn" data-filter="3d">3D</button><button class="pill-btn" data-filter="store">متجر</button><button class="pill-btn" data-filter="game">ألعاب</button><button class="pill-btn" data-filter="web">مواقع</button><button class="pill-btn" data-filter="other">متنوع</button></div>
+            <div id="project-filters" class="flex flex-wrap justify-center gap-2 mb-8"><button class="pill-btn active" data-filter="all" data-i18n="filterAll">الكل</button><button class="pill-btn" data-filter="3d">3D</button><button class="pill-btn" data-filter="store" data-i18n="filterStore">متجر</button><button class="pill-btn" data-filter="game" data-i18n="filterGames">ألعاب</button><button class="pill-btn" data-filter="web" data-i18n="filterWeb">مواقع</button><button class="pill-btn" data-filter="other" data-i18n="filterOther">متنوع</button></div>
             <div id="project-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" aria-live="polite"><p class="text-slate-400 text-center col-span-full">جاري تحميل المشاريع...</p></div>
         </div>
     </section>
@@ -624,11 +624,11 @@ footer{border-top:1px solid var(--cy-line)!important}
     <!-- Achievements / Timeline -->
     <section id="journey" class="feature-section">
       <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-12"><h2 class="text-3xl md:text-5xl font-bold text-white">رحلتي <span class="text-gradient">وإنجازاتي</span></h2><p class="text-slate-400 mt-4">محطات أضيفها مع كل مشروع وتجربة جديدة.</p></div>
+        <div class="text-center mb-12"><h2 class="text-3xl md:text-5xl font-bold text-white" data-i18n="journeyTitle">رحلتي <span class="text-gradient">وإنجازاتي</span></h2><p class="text-slate-400 mt-4" data-i18n="journeyDesc">محطات أضيفها مع كل مشروع وتجربة جديدة.</p></div>
         <div class="grid md:grid-cols-3 gap-5">
-          <article class="feature-card"><div class="text-neonCyan text-2xl mb-3"><i class="fas fa-code"></i></div><h3 class="text-xl font-bold text-white mb-2">بناء مشاريع ويب</h3><p class="text-slate-400 text-sm leading-7">تجربة أفكار وتحويلها لواجهات قابلة للاستخدام، مع الاهتمام بالتفاصيل.</p></article>
-          <article class="feature-card"><div class="text-neonCyan text-2xl mb-3"><i class="fas fa-wand-magic-sparkles"></i></div><h3 class="text-xl font-bold text-white mb-2">تصميم وتجربة مستخدم</h3><p class="text-slate-400 text-sm leading-7">تجربة أساليب بصرية تفاعلية مع الحفاظ على وضوح المحتوى وسهولة التصفح.</p></article>
-          <article class="feature-card"><div class="text-neonCyan text-2xl mb-3"><i class="fas fa-rocket"></i></div><h3 class="text-xl font-bold text-white mb-2">التعلّم المستمر</h3><p class="text-slate-400 text-sm leading-7">تطوير المهارات عبر التجربة العملية وإضافة تحسينات مستمرة للمشاريع.</p></article>
+          <article class="feature-card"><div class="text-neonCyan text-2xl mb-3"><i class="fas fa-code"></i></div><h3 class="text-xl font-bold text-white mb-2" data-i18n="journey1Title">بناء مشاريع ويب</h3><p class="text-slate-400 text-sm leading-7" data-i18n="journey1Desc">تجربة أفكار وتحويلها لواجهات قابلة للاستخدام، مع الاهتمام بالتفاصيل.</p></article>
+          <article class="feature-card"><div class="text-neonCyan text-2xl mb-3"><i class="fas fa-wand-magic-sparkles"></i></div><h3 class="text-xl font-bold text-white mb-2" data-i18n="journey2Title">تصميم وتجربة مستخدم</h3><p class="text-slate-400 text-sm leading-7" data-i18n="journey2Desc">تجربة أساليب بصرية تفاعلية مع الحفاظ على وضوح المحتوى وسهولة التصفح.</p></article>
+          <article class="feature-card"><div class="text-neonCyan text-2xl mb-3"><i class="fas fa-rocket"></i></div><h3 class="text-xl font-bold text-white mb-2" data-i18n="journey3Title">التعلّم المستمر</h3><p class="text-slate-400 text-sm leading-7" data-i18n="journey3Desc">تطوير المهارات عبر التجربة العملية وإضافة تحسينات مستمرة للمشاريع.</p></article>
         </div>
       </div>
     </section>
@@ -636,37 +636,37 @@ footer{border-top:1px solid var(--cy-line)!important}
     <!-- Developer mode -->
     <section class="feature-section pt-0">
       <div class="max-w-6xl mx-auto feature-card flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-        <div><h2 class="text-2xl font-bold text-white mb-2"><i class="fas fa-terminal text-neonCyan ms-2"></i>وضع المطوّر</h2><p class="text-slate-400">افتح نافذة أوامر صغيرة لاستكشاف أجزاء الموقع.</p></div>
-        <button id="dev-inline" class="pill-btn">فتح Terminal <i class="fas fa-arrow-up-left-from-square me-1"></i></button>
+        <div><h2 class="text-2xl font-bold text-white mb-2"><i class="fas fa-terminal text-neonCyan ms-2"></i><span data-i18n="devModeTitle">وضع المطوّر</span></h2><p class="text-slate-400" data-i18n="devModeDesc">افتح نافذة أوامر صغيرة لاستكشاف أجزاء الموقع.</p></div>
+        <button id="dev-inline" class="pill-btn"><span data-i18n="devOpen">فتح Terminal</span> <i class="fas fa-arrow-up-left-from-square me-1"></i></button>
       </div>
     </section>
 
     <!-- Contact form -->
     <section id="message-me" class="feature-section pt-0">
       <div class="max-w-3xl mx-auto">
-        <div class="text-center mb-8"><h2 class="text-3xl md:text-4xl font-bold text-white">خلّينا <span class="text-gradient">نتواصل</span></h2><p class="text-slate-400 mt-3">اكتب رسالتك، وهيتجهّز لك إرسالها من تطبيق البريد على جهازك.</p></div>
+        <div class="text-center mb-8"><h2 class="text-3xl md:text-4xl font-bold text-white" data-i18n="messageTitle">خلّينا <span class="text-gradient">نتواصل</span></h2><p class="text-slate-400 mt-3" data-i18n="messageDesc">اكتب رسالتك، وهيتجهّز لك إرسالها من تطبيق البريد على جهازك.</p></div>
         <form id="contactForm" class="feature-card">
-          <div class="field"><label for="senderName">اسمك</label><input id="senderName" name="name" required maxlength="80" placeholder="اكتب اسمك"></div>
-          <div class="field"><label for="senderEmail">بريدك الإلكتروني</label><input id="senderEmail" name="email" type="email" required maxlength="120" placeholder="name@example.com"></div>
-          <div class="field"><label for="senderMessage">الرسالة</label><textarea id="senderMessage" name="message" required maxlength="2000" rows="4" placeholder="حابب تتكلم عن إيه؟"></textarea></div>
+          <div class="field"><label for="senderName" data-i18n="senderName">اسمك</label><input id="senderName" name="name" required maxlength="80" data-i18n-placeholder="senderNamePlaceholder" placeholder="اكتب اسمك"></div>
+          <div class="field"><label for="senderEmail" data-i18n="senderEmail">بريدك الإلكتروني</label><input id="senderEmail" name="email" type="email" required maxlength="120" placeholder="name@example.com"></div>
+          <div class="field"><label for="senderMessage" data-i18n="senderMessage">الرسالة</label><textarea id="senderMessage" name="message" required maxlength="2000" rows="4" data-i18n-placeholder="senderMessagePlaceholder" placeholder="حابب تتكلم عن إيه؟"></textarea></div>
           <button type="submit" class="w-full rounded-xl py-3 font-bold text-black bg-gradient-to-r from-neonCyan to-neonPurple">تجهيز الرسالة <i class="fas fa-paper-plane me-2"></i></button>
-          <p id="contactHint" class="text-xs text-slate-500 mt-3">لن تُرسل الرسالة تلقائيًا من الموقع؛ سيتم فتح تطبيق البريد لديك.</p>
+          <p id="contactHint" class="text-xs text-slate-500 mt-3" data-i18n="emailHint">لن تُرسل الرسالة تلقائيًا من الموقع؛ سيتم فتح تطبيق البريد لديك.</p>
         </form>
       </div>
     </section>
 
     <!-- Fixed-question assistant -->
     <div id="assistant-panel" hidden>
-      <div class="flex items-center justify-between gap-3 mb-2"><div><h3 class="font-bold text-lg">مساعد حمزة</h3><p class="text-xs text-slate-400">اختار سؤال من الأسئلة الجاهزة</p></div><button id="assistant-close" aria-label="إغلاق" class="text-slate-400 text-xl">×</button></div>
+      <div class="flex items-center justify-between gap-3 mb-2"><div><h3 class="font-bold text-lg" data-i18n="assistantTitle">مساعد حمزة</h3><p class="text-xs text-slate-400" data-i18n="assistantDesc">اختار سؤال من الأسئلة الجاهزة</p></div><button id="assistant-close" aria-label="إغلاق" class="text-slate-400 text-xl">×</button></div>
       <div id="assistant-questions">
-        <button class="assistant-question" data-q="who">مين صاحب البورتفوليو؟</button>
-        <button class="assistant-question" data-q="skills">إيه المهارات والتقنيات المعروضة؟</button>
-        <button class="assistant-question" data-q="projects">إيه المشاريع الموجودة؟</button>
-        <button class="assistant-question" data-q="contact">أتواصل مع حمزة إزاي؟</button>
-        <button class="assistant-question" data-q="availability">هل كل المشاريع متاحة للتجربة؟</button>
-        <button class="assistant-question" data-q="languages">الموقع بيدعم لغات إيه؟</button>
+        <button class="assistant-question" data-q="who" data-i18n="qWho">مين صاحب البورتفوليو؟</button>
+        <button class="assistant-question" data-q="skills" data-i18n="qSkills">إيه المهارات والتقنيات المعروضة؟</button>
+        <button class="assistant-question" data-q="projects" data-i18n="qProjects">إيه المشاريع الموجودة؟</button>
+        <button class="assistant-question" data-q="contact" data-i18n="qContact">أتواصل مع حمزة إزاي؟</button>
+        <button class="assistant-question" data-q="availability" data-i18n="qAvailability">هل كل المشاريع متاحة للتجربة؟</button>
+        <button class="assistant-question" data-q="languages" data-i18n="qLanguages">الموقع بيدعم لغات إيه؟</button>
       </div>
-      <div id="assistant-answer" aria-live="polite">أهلًا! أنا مساعد ثابت، وبجاوب على الأسئلة الموجودة فوق فقط.</div>
+      <div id="assistant-answer" aria-live="polite" data-i18n="assistantWelcome">أهلًا! أنا مساعد ثابت، وبجاوب على الأسئلة الموجودة فوق فقط.</div>
     </div>
 
     <div id="dev-panel" hidden>
@@ -676,27 +676,27 @@ footer{border-top:1px solid var(--cy-line)!important}
       <form id="terminal-form" class="flex gap-2 mt-3"><span class="text-neonCyan self-center">$</span><input id="terminal-input" autocomplete="off" aria-label="أمر" class="min-w-0 flex-1 bg-black/30 border border-slate-700 rounded-lg px-3 py-2 text-white" placeholder="اكتب help"><button class="pill-btn" type="submit">تنفيذ</button></form>
     </div>
     <div id="ambient-controls">
-      <button id="assistant-toggle" class="floating-control" aria-label="فتح المساعد"><i class="fas fa-comment-dots text-neonCyan ms-1"></i> المساعد</button>
+      <button id="assistant-toggle" class="floating-control" aria-label="فتح المساعد"><i class="fas fa-comment-dots text-neonCyan ms-1"></i> <span data-i18n="assistantButton">المساعد</span></button>
       <button id="accent-toggle" class="floating-control" aria-label="تغيير لون النيون" title="تغيير لون النيون"><i class="fas fa-palette"></i></button>
       <button id="cv-print" class="floating-control" aria-label="طباعة السيرة الذاتية"><i class="fas fa-file-pdf text-neonCyan ms-1"></i> CV</button>
       <button id="easter-toggle" class="floating-control" aria-label="ميزة سرية" title="ميزة سرية"><i class="fas fa-key"></i></button>
     </div>
-    <div id="project-warp" aria-hidden="true"><div class="warp-core"><i class="warp-icon fas fa-globe"></i><div class="warp-label">ENTERING WORLD</div></div></div>
-    <div id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-card"><div class="flex items-center justify-between gap-3"><h3 id="modal-title" class="text-2xl font-bold text-white">تفاصيل المشروع</h3><button id="modal-close" class="text-2xl text-slate-400" aria-label="إغلاق">×</button></div><p id="modal-body" class="text-slate-300 leading-8 mt-4"></p><button id="modal-ok" class="pill-btn mt-5">تمام</button></div></div>
+    <div id="project-warp" aria-hidden="true"><div class="warp-core"><i class="warp-icon fas fa-globe"></i><div class="warp-label" data-i18n="enterWorld">ENTERING WORLD</div></div></div>
+    <div id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-card"><div class="flex items-center justify-between gap-3"><h3 id="modal-title" class="text-2xl font-bold text-white" data-i18n="projectDetails">تفاصيل المشروع</h3><button id="modal-close" class="text-2xl text-slate-400" aria-label="إغلاق">×</button></div><p id="modal-body" class="text-slate-300 leading-8 mt-4"></p><button id="modal-ok" class="pill-btn mt-5" data-i18n="okay">تمام</button></div></div>
 
     <!-- Contact Section -->
     
 <section id="reviews" class="py-20 px-4 relative">
  <div class="max-w-5xl mx-auto">
-  <div class="text-center mb-10" data-aos="fade-up"><p class="text-cyan-400 font-bold tracking-widest text-sm mb-3">YOUR FEEDBACK</p><h2 class="text-3xl md:text-4xl font-extrabold mb-4">رأيك <span class="text-gradient">يفرق معايا</span> ⭐</h2><p class="text-slate-400 max-w-xl mx-auto">قيّم تجربتك مع الموقع واكتب اقتراحك. كل التقييمات بتتراجع قبل ما تظهر للناس.</p></div>
+  <div class="text-center mb-10" data-aos="fade-up"><p class="text-cyan-400 font-bold tracking-widest text-sm mb-3">YOUR FEEDBACK</p><h2 class="text-3xl md:text-4xl font-extrabold mb-4" data-i18n="reviewTitle">رأيك <span class="text-gradient">يفرق معايا</span> ⭐</h2><p class="text-slate-400 max-w-xl mx-auto" data-i18n="reviewDesc">قيّم تجربتك مع الموقع واكتب اقتراحك. كل التقييمات بتتراجع قبل ما تظهر للناس.</p></div>
   <div class="grid md:grid-cols-2 gap-6">
    <form id="public-review-form" class="glass-panel rounded-3xl p-6 md:p-7">
-    <label for="review-name" class="block text-sm text-slate-300 mb-2">اسمك</label><input id="review-name" required minlength="2" maxlength="60" autocomplete="name" class="w-full rounded-xl bg-slate-950/70 border border-slate-700 p-3 mb-4 text-white outline-none focus:border-cyan-400" placeholder="اكتب اسمك">
-    <label for="review-rating" class="block text-sm text-slate-300 mb-2">تقييمك للموقع</label><select id="review-rating" required class="w-full rounded-xl bg-slate-950/70 border border-slate-700 p-3 mb-4 text-white"><option value="5">⭐⭐⭐⭐⭐ — ممتاز جدًا</option><option value="4">⭐⭐⭐⭐ — ممتاز</option><option value="3">⭐⭐⭐ — كويس</option><option value="2">⭐⭐ — محتاج تحسين</option><option value="1">⭐ — مش عاجبني</option></select>
-    <label for="review-comment" class="block text-sm text-slate-300 mb-2">رأيك أو اقتراحك</label><textarea id="review-comment" required minlength="5" maxlength="700" rows="4" class="w-full rounded-xl bg-slate-950/70 border border-slate-700 p-3 mb-4 text-white outline-none focus:border-cyan-400" placeholder="إيه اللي عجبك أو تحب يتطور؟"></textarea>
+    <label for="review-name" class="block text-sm text-slate-300 mb-2" data-i18n="reviewName">اسمك</label><input id="review-name" required minlength="2" maxlength="60" autocomplete="name" class="w-full rounded-xl bg-slate-950/70 border border-slate-700 p-3 mb-4 text-white outline-none focus:border-cyan-400" placeholder="اكتب اسمك">
+    <label for="review-rating" class="block text-sm text-slate-300 mb-2" data-i18n="reviewRating">تقييمك للموقع</label><select id="review-rating" required class="w-full rounded-xl bg-slate-950/70 border border-slate-700 p-3 mb-4 text-white"><option value="5">⭐⭐⭐⭐⭐ — ممتاز جدًا</option><option value="4">⭐⭐⭐⭐ — ممتاز</option><option value="3">⭐⭐⭐ — كويس</option><option value="2">⭐⭐ — محتاج تحسين</option><option value="1">⭐ — مش عاجبني</option></select>
+    <label for="review-comment" class="block text-sm text-slate-300 mb-2" data-i18n="reviewComment">رأيك أو اقتراحك</label><textarea id="review-comment" required minlength="5" maxlength="700" rows="4" class="w-full rounded-xl bg-slate-950/70 border border-slate-700 p-3 mb-4 text-white outline-none focus:border-cyan-400" data-i18n-placeholder="reviewCommentPlaceholder" placeholder="إيه اللي عجبك أو تحب يتطور؟"></textarea>
     <button id="review-submit" class="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-extrabold p-3 hover:opacity-90" type="submit">إرسال التقييم</button><p id="review-feedback-status" class="text-sm mt-3 text-center text-cyan-300" aria-live="polite"></p>
    </form>
-   <div class="glass-panel rounded-3xl p-6 md:p-7"><div class="flex items-center justify-between gap-3 mb-5"><h3 class="text-xl font-extrabold">آراء الزوار</h3><span id="reviews-count" class="text-xs text-slate-400">التقييمات المنشورة</span></div><div id="public-reviews-list" class="space-y-4"><p class="text-slate-400 text-sm">جاري تحميل التقييمات…</p></div></div>
+   <div class="glass-panel rounded-3xl p-6 md:p-7"><div class="flex items-center justify-between gap-3 mb-5"><h3 class="text-xl font-extrabold" data-i18n="reviewsTitle">آراء الزوار</h3><span id="reviews-count" class="text-xs text-slate-400" data-i18n="reviewsCount">التقييمات المنشورة</span></div><div id="public-reviews-list" class="space-y-4"><p class="text-slate-400 text-sm" data-i18n="loadingReviews">جاري تحميل التقييمات…</p></div></div>
   </div>
  </div>
 </section>
@@ -830,7 +830,8 @@ footer{border-top:1px solid var(--cy-line)!important}
                 viewProject: "عرض المشروع",
                 contactTitle: "لنتحدث عن <span class='text-gradient'>مشروعك القادم</span>",
                 contactDesc: "جاهز لتحويل فكرتك إلى واقع برمجي؟ لا تتردد في التواصل معي عبر المنصات التالية.",
-                footerText: "صُنع بحب بواسطة"
+                footerText: "صُنع بحب بواسطة",
+                journeyTitle:"رحلتي <span class='text-gradient'>وإنجازاتي</span>",journeyDesc:"محطات أضيفها مع كل مشروع وتجربة جديدة.",journey1Title:"بناء مشاريع ويب",journey1Desc:"تجربة أفكار وتحويلها لواجهات قابلة للاستخدام، مع الاهتمام بالتفاصيل.",journey2Title:"تصميم وتجربة مستخدم",journey2Desc:"تجربة أساليب بصرية تفاعلية مع الحفاظ على وضوح المحتوى وسهولة التصفح.",journey3Title:"التعلّم المستمر",journey3Desc:"تطوير المهارات عبر التجربة العملية وإضافة تحسينات مستمرة للمشاريع.",devModeTitle:"وضع المطوّر",devModeDesc:"افتح نافذة أوامر صغيرة لاستكشاف أجزاء الموقع.",devOpen:"فتح Terminal",messageTitle:"خلّينا <span class='text-gradient'>نتواصل</span>",messageDesc:"اكتب رسالتك، وهيتجهّز لك إرسالها من تطبيق البريد على جهازك.",senderName:"اسمك",senderNamePlaceholder:"اكتب اسمك",senderEmail:"بريدك الإلكتروني",senderMessage:"الرسالة",senderMessagePlaceholder:"حابب تتكلم عن إيه؟",prepareMessage:"تجهيز الرسالة",emailHint:"لن تُرسل الرسالة تلقائيًا من الموقع؛ سيتم فتح تطبيق البريد لديك.",assistantTitle:"مساعد حمزة",assistantDesc:"اختار سؤال من الأسئلة الجاهزة",qWho:"مين صاحب البورتفوليو؟",qSkills:"إيه المهارات والتقنيات المعروضة؟",qProjects:"إيه المشاريع الموجودة؟",qContact:"أتواصل مع حمزة إزاي؟",qAvailability:"هل كل المشاريع متاحة للتجربة؟",qLanguages:"الموقع بيدعم لغات إيه؟",assistantWelcome:"أهلًا! أنا مساعد ثابت، وبجاوب على الأسئلة الموجودة فوق فقط.",reviewTitle:"رأيك <span class='text-gradient'>يفرق معايا</span> ⭐",reviewDesc:"قيّم تجربتك مع الموقع واكتب اقتراحك. كل التقييمات بتتراجع قبل ما تظهر للناس.",reviewName:"اسمك",reviewRating:"تقييمك للموقع",reviewComment:"رأيك أو اقتراحك",reviewCommentPlaceholder:"إيه اللي عجبك أو تحب يتطور؟",reviewSubmit:"إرسال التقييم",reviewsTitle:"آراء الزوار",reviewsCount:"التقييمات المنشورة",filterAll:"الكل",filterStore:"متجر",filterGames:"ألعاب",filterWeb:"مواقع",filterOther:"متنوع",loadingReviews:"جاري تحميل التقييمات…",enterWorld:"جاري دخول العالم",projectDetails:"تفاصيل المشروع",okay:"تمام",assistantButton:"المساعد",rating5:"⭐⭐⭐⭐⭐ — ممتاز جدًا",rating4:"⭐⭐⭐⭐ — ممتاز",rating3:"⭐⭐⭐ — كويس",rating2:"⭐⭐ — محتاج تحسين",rating1:"⭐ — مش عاجبني"
             },
             en: {
                 loading: "LOADING...",
@@ -847,16 +848,16 @@ footer{border-top:1px solid var(--cy-line)!important}
                 viewProject: "View Project",
                 contactTitle: "Let's Talk About <span class='text-gradient'>Your Next Project</span>",
                 contactDesc: "Ready to turn your idea into reality? Feel free to reach out to me via the following platforms.",
-                footerText: "Crafted with love by"
+                footerText: "Crafted with love by",
+                journeyTitle:"My <span class='text-gradient'>Journey & Achievements</span>",journeyDesc:"Milestones added with every project and new experience.",journey1Title:"Building Web Projects",journey1Desc:"Testing ideas and turning them into usable interfaces with attention to detail.",journey2Title:"Design & User Experience",journey2Desc:"Exploring interactive visual styles while keeping content clear and easy to navigate.",journey3Title:"Continuous Learning",journey3Desc:"Growing skills through hands-on practice and continuous improvements.",devModeTitle:"Developer Mode",devModeDesc:"Open a small command window to explore parts of the site.",devOpen:"Open Terminal",messageTitle:"Let's <span class='text-gradient'>Connect</span>",messageDesc:"Write your message and your device's email app will prepare it for sending.",senderName:"Your name",senderNamePlaceholder:"Enter your name",senderEmail:"Your email",senderMessage:"Message",senderMessagePlaceholder:"What would you like to discuss?",prepareMessage:"Prepare Message",emailHint:"The site will not send your message automatically; your email app will open.",assistantTitle:"Hamza's Assistant",assistantDesc:"Choose one of the preset questions",qWho:"Who owns this portfolio?",qSkills:"Which skills and technologies are shown?",qProjects:"Which projects are available?",qContact:"How can I contact Hamza?",qAvailability:"Can all projects be tried?",qLanguages:"Which languages does the site support?",assistantWelcome:"Hello! I'm a simple assistant that answers only the questions listed above.",reviewTitle:"Your <span class='text-gradient'>feedback matters</span> ⭐",reviewDesc:"Rate your experience and share a suggestion. Reviews are checked before being published.",reviewName:"Your name",reviewRating:"Rate the site",reviewComment:"Your feedback or suggestion",reviewCommentPlaceholder:"What did you like or what should improve?",reviewSubmit:"Submit Review",reviewsTitle:"Visitor Reviews",reviewsCount:"Published reviews",filterAll:"All",filterStore:"Store",filterGames:"Games",filterWeb:"Websites",filterOther:"Other",loadingReviews:"Loading reviews…",enterWorld:"ENTERING WORLD",projectDetails:"Project Details",okay:"OK",assistantButton:"Assistant",rating5:"⭐⭐⭐⭐⭐ — Excellent",rating4:"⭐⭐⭐⭐ — Great",rating3:"⭐⭐⭐ — Good",rating2:"⭐⭐ — Needs improvement",rating1:"⭐ — Not for me"
             }
         };
 
-        let currentLang = 'ar';
+        let currentLang = (()=>{try{return localStorage.getItem('portfolioLanguage')==='en'?'en':'ar'}catch(e){return 'ar'}})();
         const langToggle = document.getElementById('langToggle');
         const root = document.documentElement;
-
-        langToggle.addEventListener('click', () => {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        const applyLanguage=()=>{root.lang=currentLang;root.dir=currentLang==='ar'?'rtl':'ltr';try{localStorage.setItem('portfolioLanguage',currentLang)}catch(e){}if(langToggle)langToggle.textContent=currentLang==='ar'?'EN':'AR';document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(dict[currentLang][k]!==undefined)el.innerHTML=dict[currentLang][k]});document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{const k=el.getAttribute('data-i18n-placeholder');if(dict[currentLang][k]!==undefined)el.placeholder=dict[currentLang][k]});document.querySelectorAll('.rtl-icon').forEach(el=>{el.classList.toggle('fa-arrow-left',currentLang==='ar');el.classList.toggle('fa-arrow-right',currentLang==='en')})};
+        if(langToggle)langToggle.addEventListener('click',()=>{currentLang=currentLang==='ar'?'en':'ar';applyLanguage()});applyLanguage();
             
             // Update direction and lang attribute
             root.lang = currentLang;
