@@ -246,9 +246,41 @@ body.light-mode nav,body.light-mode .glass-panel{background:rgba(255,255,255,.78
 body.light-mode h1,body.light-mode h2,body.light-mode h3,body.light-mode nav a,body.light-mode .text-white{color:#172033!important}
 body.light-mode .text-slate-400,body.light-mode .text-slate-500{color:#526078!important}
 #ambient-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.5}
-#intro-screen{position:fixed;inset:0;z-index:10001;background:#050505;display:flex;align-items:center;justify-content:center;text-align:center;transition:opacity .65s ease,visibility .65s ease}
+#intro-screen{position:fixed;inset:0;z-index:10001;overflow:hidden;background:radial-gradient(ellipse at center,rgba(24,64,32,.25),transparent 42%),#030604;display:flex;align-items:center;justify-content:center;text-align:center;transition:opacity .75s ease,visibility .75s ease;color:#eaffdf;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 #intro-screen.hide{opacity:0;visibility:hidden;pointer-events:none}
-.intro-name{font-size:clamp(2rem,8vw,5rem);font-weight:900;background:linear-gradient(90deg,#00f2fe,#4facfe,#a855f7);background-clip:text;-webkit-background-clip:text;color:transparent}
+#intro-screen::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(167,255,79,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(167,255,79,.055) 1px,transparent 1px);background-size:36px 36px;mask-image:radial-gradient(ellipse at center,#000,transparent 85%)}
+#intro-screen::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(167,255,79,.055) 4px);opacity:.55}
+.intro-codefield{position:absolute;inset:-10% -3%;display:flex;justify-content:space-around;gap:5vw;overflow:hidden;opacity:.25;filter:blur(.25px);transform:rotate(-7deg);mask-image:linear-gradient(transparent,#000 14%,#000 80%,transparent)}
+.intro-code-column{width:28%;flex-shrink:0;text-align:left;direction:ltr;color:#8dff70;font:clamp(9px,1.15vw,14px)/2.15 ui-monospace,monospace;overflow-wrap:anywhere;white-space:normal;animation:introCodeDrift 17s linear infinite;text-shadow:0 0 9px rgba(167,255,79,.25)}
+.intro-code-column:nth-child(2){animation-duration:23s;animation-delay:-8s;color:#c6ffa7;opacity:.75}
+.intro-code-column:nth-child(3){animation-duration:20s;animation-delay:-13s}
+.intro-core{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:min(92vw,760px);padding:24px 15px;animation:introCoreIn 1s cubic-bezier(.2,.8,.2,1) both}
+.intro-logo-aura{position:absolute;z-index:1;width:clamp(260px,42vw,510px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(128,255,87,.14),rgba(60,255,130,.055) 36%,transparent 69%);filter:blur(10px);animation:introAuraPulse 3s ease-in-out infinite}
+.intro-logo-frame{width:clamp(86px,11vw,126px);aspect-ratio:1;padding:5px;border:1px solid rgba(167,255,79,.65);background:rgba(4,13,7,.88);box-shadow:0 0 0 8px rgba(167,255,79,.035),0 0 45px rgba(102,255,85,.24);margin-bottom:25px;position:relative;transform:rotate(-3deg)}
+.intro-logo-frame::after{content:"";position:absolute;inset:-9px;border:1px dashed rgba(167,255,79,.4);animation:introLogoSpin 18s linear infinite}
+.intro-logo{display:block;width:100%;height:100%;object-fit:cover;filter:saturate(.8) contrast(1.08);opacity:.95}
+.intro-overline{display:flex;align-items:center;gap:9px;color:#8eb69a;font-size:clamp(8px,1vw,11px);letter-spacing:.18em;margin-bottom:12px}
+.intro-live-dot{width:7px;height:7px;background:#a7ff4f;border-radius:50%;box-shadow:0 0 12px #a7ff4f;animation:introDotPulse 1.2s infinite}
+.intro-version{padding:3px 6px;border:1px solid rgba(167,255,79,.28);color:#a7ff4f}
+.intro-name{font-size:clamp(2.2rem,9.5vw,7rem);font-weight:900;letter-spacing:-.09em;line-height:1.05;color:#efffe9;text-shadow:0 0 36px rgba(167,255,79,.14);direction:ltr}
+.intro-caret{color:#a7ff4f;animation:introBlink .8s steps(2) infinite}
+.intro-command{margin-top:17px;font-size:clamp(10px,1.4vw,13px);color:#91aa98;direction:ltr}
+.intro-command span{color:#a7ff4f}.intro-command b{color:#e6ffdc;font-weight:500}
+.intro-progress{margin-top:24px;width:min(65vw,310px);height:2px;background:rgba(167,255,79,.15);overflow:hidden}
+.intro-progress span{display:block;width:40%;height:100%;background:#a7ff4f;box-shadow:0 0 14px #a7ff4f;animation:introProgress 2.7s cubic-bezier(.5,0,.4,1) forwards}
+.intro-subline{margin-top:14px;color:#66816e;font-size:clamp(7px,1vw,10px);letter-spacing:.14em;direction:ltr}
+.intro-subline i{font-style:normal;color:#a7ff4f;padding:0 5px}
+#intro-skip{position:absolute;z-index:4;bottom:25px;left:50%;transform:translateX(-50%);border:1px solid rgba(167,255,79,.35);border-radius:3px;padding:9px 17px;color:#a7ff4f;background:rgba(3,8,5,.75);font:10px ui-monospace,monospace;white-space:nowrap}
+#intro-skip:hover{background:#a7ff4f;color:#071006}
+@keyframes introCodeDrift{from{transform:translateY(0)}to{transform:translateY(-12%)}}
+@keyframes introCoreIn{from{opacity:0;transform:translateY(18px) scale(.98);filter:blur(8px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes introAuraPulse{0%,100%{transform:scale(.92);opacity:.55}50%{transform:scale(1.06);opacity:1}}
+@keyframes introLogoSpin{to{transform:rotate(360deg)}}
+@keyframes introDotPulse{50%{opacity:.35;box-shadow:0 0 2px #a7ff4f}}
+@keyframes introBlink{50%{opacity:0}}
+@keyframes introProgress{from{transform:translateX(-110%)}to{transform:translateX(260%)}}
+@media(max-width:600px){.intro-code-column{width:44%;font-size:9px;opacity:.7}.intro-code-column:nth-child(3){display:none}.intro-overline{letter-spacing:.08em}.intro-subline{letter-spacing:.04em}}
+@media(prefers-reduced-motion:reduce){#intro-screen *,#intro-screen::before,#intro-screen::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 #intro-skip{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);border:1px solid #334155;border-radius:999px;padding:9px 20px;color:#cbd5e1}
 .feature-section{padding:5rem 1.5rem;position:relative}
 .feature-card{background:rgba(25,25,35,.48);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.09);border-radius:1.25rem;padding:1.4rem;transition:transform .25s,border-color .25s}
@@ -418,7 +450,20 @@ footer{border-top:1px solid var(--cy-line)!important}
 <body class="antialiased selection:bg-neonCyan selection:text-black font-sans">
     <canvas id="ambient-canvas" aria-hidden="true"></canvas>
     <div id="intro-screen" aria-label="مقدمة الموقع">
-      <div><p class="text-slate-400 mb-3 tracking-widest">WELCOME TO MY DIGITAL SPACE</p><div class="intro-name">HAMZA<span style="color:#00f2fe">.</span></div><p class="text-slate-400 mt-3">Web • Design • Creative Builds</p></div>
+      <div class="intro-codefield" aria-hidden="true">
+        <div class="intro-code-column">const identity = "ELSHORIHY";<br/>function buildFuture(){<br/>&nbsp; return ideas.map(create);<br/>}<br/>$ npm run secure<br/>[ OK ] modules loaded<br/>import { creativity }<br/>await system.initialize()<br/>01001000 01000001<br/>git commit -m "build"</div>
+        <div class="intro-code-column">class Developer {<br/>&nbsp; constructor(){<br/>&nbsp;&nbsp; this.learn = true;<br/>&nbsp; }<br/>}<br/>$ whoami<br/>web developer<br/>$ scan --local<br/>checking dependencies...<br/>[ PASS ] integrity<br/>0x7A 0x31 0xFF</div>
+        <div class="intro-code-column">if (challenge) {<br/>&nbsp; solve(challenge);<br/>}<br/>$ systemctl status<br/>● creative-engine active<br/>fetch('/api/projects')<br/>response: 200 OK<br/>while(learning){build()}<br/>ACCESS: AUTHORIZED</div>
+      </div>
+      <div class="intro-logo-aura" aria-hidden="true"></div>
+      <div class="intro-core">
+        <div class="intro-logo-frame"><img src="https://avatars.githubusercontent.com/u/208288672?v=4" alt="" class="intro-logo"/></div>
+        <div class="intro-overline"><span class="intro-live-dot"></span> INITIALIZING SECURE SESSION <span class="intro-version">v.01</span></div>
+        <div class="intro-name">ELSHORIHY<span class="intro-caret">_</span></div>
+        <div class="intro-command"><span>$</span> loading_identity.sh <b>--portfolio</b></div>
+        <div class="intro-progress"><span></span></div>
+        <p class="intro-subline">WEB DEVELOPMENT <i> / </i> CYBER SECURITY <i> / </i> DIGITAL BUILDS</p>
+      </div>
       <button id="intro-skip">تخطي المقدمة <i class="fas fa-arrow-left ms-2"></i></button>
     </div>
 
