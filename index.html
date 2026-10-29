@@ -445,6 +445,47 @@ footer{border-top:1px solid var(--cy-line)!important}
  section:not(#home){padding-left:18px!important;padding-right:18px!important}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* FINAL BACKGROUND FIX — match the intro screen across every page section */
+html, body {
+  background-color: #080b0a !important;
+  background-image:
+    radial-gradient(ellipse at 50% -18%, rgba(35,73,53,.24), transparent 48%),
+    linear-gradient(180deg, #080d0b 0%, #060908 42%, #080b0a 100%) !important;
+  background-attachment: fixed !important;
+}
+body::before {
+  content: "" !important;
+  display: block !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  opacity: .72 !important;
+  background:
+    radial-gradient(ellipse at 12% 14%, rgba(38,95,63,.12), transparent 34%),
+    radial-gradient(ellipse at 88% 52%, rgba(28,70,49,.10), transparent 38%),
+    linear-gradient(180deg, transparent 0%, rgba(0,0,0,.18) 100%) !important;
+}
+body::after {
+  content: "" !important;
+  display: block !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99 !important;
+  pointer-events: none !important;
+  opacity: .025 !important;
+  background: linear-gradient(180deg, transparent 0%, rgba(167,255,79,.16) 50%, transparent 100%) !important;
+}
+#home {
+  background:
+    radial-gradient(ellipse at 50% -18%, rgba(35,73,53,.24), transparent 48%),
+    linear-gradient(180deg, #080d0b 0%, #060908 42%, #080b0a 100%) !important;
+}
+@media (hover: none) {
+  body::before { display: block !important; }
+}
+
 </style>
 </head>
 <body class="antialiased selection:bg-neonCyan selection:text-black font-sans">
